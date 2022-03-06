@@ -14,7 +14,7 @@ Future<void> main() async {
 }
 
 Future<MapResponse> listTodos(CrucoRequest req) async => {#body: todos};
-Map getTodo(CrucoRequest req) => todos[(req.body['id'] ?? 1) - 1];
+Future<Map> getTodo(CrucoRequest req) async => todos[(req.body['id'] ?? 1) - 1];
 
 MapResponse createTodo(CrucoRequest req) {
   Map newTodo = {"id": todos.length + 1};
