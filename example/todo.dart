@@ -10,12 +10,10 @@ Future<void> main() async {
   cruco.path('/').get(getTodo);
   cruco.path('/').post(createTodo);
   cruco.path('/list').get(listTodos);
-  // cruco.path('/').getAsync(getTodoAsync);
-  // cruco.path('/').postAsync(createTodoAsync);
   await cruco.serve();
 }
 
-MapResponse listTodos(CrucoRequest req) => {#body: todos};
+Future<MapResponse> listTodos(CrucoRequest req) async => {#body: todos};
 Map getTodo(CrucoRequest req) => todos[(req.body['id'] ?? 1) - 1];
 
 MapResponse createTodo(CrucoRequest req) {

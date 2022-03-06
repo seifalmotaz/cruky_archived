@@ -16,38 +16,36 @@ class Router {
     return this;
   }
 
-  void get(Map Function(CrucoRequest req) on) => _linkees.add(LinkeeMethod(
+  bool _checkMethodType(Function(CrucoRequest req) f) {
+    ClosureMirror mi = reflect(f) as ClosureMirror;
+    MethodMirror fm = mi.function;
+    Type type = fm.returnType.reflectedType;
+    if (type == Future<Map>) {
+      return true;
+    } else if (type == Future<MapResponse>) {
+      return true;
+    } else if (type == Map || type == MapResponse) {
+      return false;
+    }
+
+    throw Exception(
+        'Path: $_currentPath -> $type\nThe method return type is not avaliable.');
+  }
+
+  void get(Function(CrucoRequest req) on) => _linkees.add(LinkeeMethod(
         method: 'GET',
         on: on,
         middlewares: _currentMiddleware,
         path: _currentPath,
-        isAsync: false,
+        isAsync: _checkMethodType(on),
       ));
 
-  void post(Map Function(CrucoRequest req) on) => _linkees.add(LinkeeMethod(
+  void post(Function(CrucoRequest req) on) => _linkees.add(LinkeeMethod(
         method: 'POST',
         on: on,
         middlewares: _currentMiddleware,
         path: _currentPath,
-        isAsync: true,
-      ));
-
-  void getAsync(Future<Map> Function(CrucoRequest req) on) =>
-      _linkees.add(LinkeeMethod(
-        method: 'GET',
-        on: on,
-        middlewares: _currentMiddleware,
-        path: _currentPath,
-        isAsync: true,
-      ));
-
-  void postAsync(Future<Map> Function(CrucoRequest req) on) =>
-      _linkees.add(LinkeeMethod(
-        method: 'POST',
-        on: on,
-        middlewares: _currentMiddleware,
-        path: _currentPath,
-        isAsync: false,
+        isAsync: _checkMethodType(on),
       ));
 
   Linkee _match(String path, String method) => _linkees.firstWhere(
