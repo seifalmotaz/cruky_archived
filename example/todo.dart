@@ -12,8 +12,8 @@ void main() => serve();
 @Route.get('/todos/list/')
 Future<List> listTodos() async => todos;
 
-@Route.get('/todos/')
-Future<Map> getTodo() async => todos[0];
+@Route.get('/todos/:id(int)/')
+Future<Map> getTodo(double id) async => {...todos[id.round()]};
 
 @Route.post('/todos/')
 List createTodo() {
@@ -23,8 +23,8 @@ List createTodo() {
   return todos;
 }
 
-@Route.delete('/todos/')
-MapResponse deleteTodo() {
-  todos.removeAt(0);
+@Route.delete('/todos/:id(int)')
+MapResponse deleteTodo(int id) {
+  todos.removeAt(id);
   return {#status: HttpStatus.ok};
 }

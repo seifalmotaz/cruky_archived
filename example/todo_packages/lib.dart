@@ -1,3 +1,0 @@
-library todo.lib;
-
-serve() => {};

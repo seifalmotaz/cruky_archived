@@ -1,5 +1,6 @@
 library cruco.server;
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:mirrors';
 
@@ -32,19 +33,18 @@ class CrucoServer extends Router {
     print('Server running on http://$host:$port');
     await for (HttpRequest request in _httpServer) {
       // var bodyHandler = request.transform(HttpBodyHandler());
-
       // get the request handler
       TypeRoute route = matchLib(request.uri.path, request.method);
-      await route.execute(request);
-      // Linkee linkee = match(request.uri.path, request.method);
-      // check the hendler type
-      // direct method handler
-      // if (linkee is LinkeeMethod) {
-      // await methodHandeler(linkee, request);
+      dynamic data = await route.execute(request);
+      if (data is Map) {
+        request.response.statusCode = data[#status] ?? 200;
+        data.removeWhere((key, value) => key is Symbol);
+        request.response.write(jsonEncode(data));
+      } else {
+        request.response.write(jsonEncode(data));
+      }
       // close response and goto next request
       request.response.close();
-      // continue;
-      // }
     }
   }
 
