@@ -1,3 +1,5 @@
+library todos;
+
 import 'package:cruco/cruco.dart';
 
 List<Map> todos = [
@@ -5,25 +7,24 @@ List<Map> todos = [
   {"id": 2, "task": "task 2"},
 ];
 
-Future<void> main() async {
-  Cruco cruco = Cruco();
-  cruco.path('/').get(getTodo);
-  cruco.path('/').post(createTodo);
-  cruco.path('/list').get(listTodos);
-  await cruco.serve();
-}
+void main() => serve();
 
-Future<MapResponse> listTodos(CrucoRequest req) async => {#body: todos};
-Future<Map> getTodo(CrucoRequest req) async => todos[(req.body['id'] ?? 1) - 1];
+@Route.get('/todos/list/')
+Future<List> listTodos() async => todos;
 
-MapResponse createTodo(CrucoRequest req) {
+@Route.get('/todos/')
+Future<Map> getTodo() async => todos[0];
+
+@Route.post('/todos/')
+List createTodo() {
   Map newTodo = {"id": todos.length + 1};
-  newTodo.addAll({"task": req.body['task']});
+  newTodo.addAll({"task": 'task ${todos.length + 1}'});
   todos.add(newTodo);
-  return {#status: HttpStatus.created};
+  return todos;
 }
 
-MapResponse deleteTodo(CrucoRequest req) {
-  todos.removeAt((req.body['id'] ?? 1) - 1);
+@Route.delete('/todos/')
+MapResponse deleteTodo() {
+  todos.removeAt(0);
   return {#status: HttpStatus.ok};
 }
