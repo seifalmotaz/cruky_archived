@@ -9,4 +9,6 @@ export './src/interfaces/request.dart';
 export './src/helpers/status_code.dart';
 export './src/helpers/typedef.dart';
 
-export './src/router/router.dart' show Route;
+export './src/router/router.dart' show Route, ERoute, CRoute;
+
+export './src/handlers/class.dart';

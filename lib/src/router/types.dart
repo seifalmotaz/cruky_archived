@@ -1,31 +1,32 @@
 part of cruco.router;
 
-class PathRegEx {
-  String regExp;
-  Map<String, int> parms;
-  PathRegEx(this.regExp, this.parms);
-
-  match(String path) => RegExp(regExp).hasMatch(path);
-
-  String? getKey(Symbol key, String path) {
-    List<String> split = path.split('/');
-    split.removeWhere((e) => e.isEmpty);
-    List<String> keys = parms.keys.toList();
-    List<int> values = parms.values.toList();
-    for (var i = 0; i < parms.length; i++) {
-      if (Symbol(keys[i]) != key) continue;
-      return split[values[i]];
-    }
-    return null;
-  }
-}
-
 abstract class TypeRoute {
   PathRegEx path;
   TypeRoute(this.path);
 
-  dynamic execute(HttpRequest req);
+  dynamic handle(HttpRequest req);
   bool match(String reqPath, String reqMethod);
+}
+
+class StatefulRoute extends TypeRoute {
+  Symbol symbol;
+  String method;
+  StatefulHandler handler;
+  StatefulRoute({
+    required PathRegEx path,
+    required this.symbol,
+    required this.method,
+    required this.handler,
+  }) : super(path);
+
+  @override
+  dynamic handle(HttpRequest req) async => handler.handle(req);
+
+  @override
+  bool match(String reqPath, String reqMethod) {
+    if (reqMethod != method && method != "ALL") return false;
+    return path.match(reqPath);
+  }
 }
 
 class MethodRoute extends TypeRoute {
@@ -44,19 +45,11 @@ class MethodRoute extends TypeRoute {
   @override
   bool match(String reqPath, String reqMethod) {
     if (reqMethod != method) return false;
-    // List<String> pathS = path.pathSegments;
-    // List<String> reqPathS = Uri(path: reqPath).pathSegments;
-    // if (pathS.length != reqPathS.length) return false;
-    // for (var i = 0; i < reqPathS.length; i++) {
-    //   String reqSegmant = reqPathS[i];
-    //   String pathSegmant = pathS[i];
-    //   if (reqSegmant != pathSegmant) return false;
-    // }
     return path.match(reqPath);
   }
 
   @override
-  dynamic execute(HttpRequest req) async {
+  dynamic handle(HttpRequest req) async {
     LibraryMirror libraryMirror = currentMirrorSystem().findLibrary(lib);
     List positionalArguments = [];
     List<Symbol> keys = parms.keys.toList();
@@ -78,11 +71,12 @@ class MethodRoute extends TypeRoute {
       }
     }
     InstanceMirror result = libraryMirror.invoke(symbol, positionalArguments);
-    if (result.reflectee is Future) {
+    var reflectee = result.reflectee;
+    if (reflectee is Future) {
       dynamic data = await result.reflectee;
       return data;
     }
-    return result.reflectee;
+    return reflectee;
   }
 }
 
@@ -100,7 +94,7 @@ class ErrorRoute extends TypeRoute {
   bool match(String reqPath, String reqMethod) => true;
 
   @override
-  dynamic execute(HttpRequest req) {
+  dynamic handle(HttpRequest req) {
     LibraryMirror libraryMirror = currentMirrorSystem().findLibrary(lib);
     InstanceMirror result = libraryMirror.invoke(symbol, []);
     req.response.statusCode = statusCode;

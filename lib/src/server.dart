@@ -34,8 +34,10 @@ class CrucoServer extends Router {
     await for (HttpRequest request in _httpServer) {
       // var bodyHandler = request.transform(HttpBodyHandler());
       // get the request handler
-      TypeRoute route = matchLib(request.uri.path, request.method);
-      dynamic data = await route.execute(request);
+      TypeRoute? route = matchPath(request.uri.path, request.method);
+      route ??= errs.firstWhere((e) => e.statusCode == 404);
+      dynamic data = await route.handle(request);
+      data ??= errs.firstWhere((e) => e.statusCode == 404).handle(request);
       if (data is Map) {
         request.response.statusCode = data[#status] ?? 200;
         data.removeWhere((key, value) => key is Symbol);

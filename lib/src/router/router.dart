@@ -3,6 +3,9 @@ library cruco.router;
 import 'dart:io';
 import 'dart:mirrors';
 
+import 'package:cruco/src/handlers/class.dart';
+import 'package:cruco/src/interfaces/path_regex.dart';
+
 part './types.dart';
 part './methods.dart';
 part './errors.dart';
@@ -12,61 +15,62 @@ class RouterOptions {
 }
 
 class Router {
-  final List<ErrorRoute> _errs = [];
+  final List<ErrorRoute> errs = [];
   final List<TypeRoute> _routes = [];
 
-  TypeRoute matchLib(String path, String method) {
+  TypeRoute? matchPath(String path, String method) {
     List<TypeRoute> routes =
         _routes.where((e) => e.match(path, method)).toList();
+    if (routes.isEmpty) return null;
     if (routes.length == 1) {
       return routes.first;
     } else {
       for (TypeRoute item in routes) {
-        print(item.path.regExp);
-        if (_pathRegEx(path).regExp == item.path.regExp) return item;
+        if (pathRegEx(path).regExp == item.path.regExp) return item;
       }
     }
-
-    return _errs.firstWhere((e) => e.statusCode == 404);
+    return null;
   }
 
   void passLib(RouterOptions options) {}
 
   void addLib(Symbol symbol, [RouterOptions? options, LibraryMirror? mirror]) {
     LibraryMirror libMI = mirror ?? currentMirrorSystem().findLibrary(symbol);
-    List<MethodMirror> methods =
-        libMI.declarations.values.whereType<MethodMirror>().toList();
-    for (var m in methods) {
-      _addMethod(m, libMI);
+    List<DeclarationMirror> declarations = libMI.declarations.values.toList();
+    for (var declaration in declarations) {
+      if (declaration.metadata
+          .takeWhile((value) => value.reflectee is Route)
+          .isEmpty) continue;
+      if (declaration is MethodMirror) _addMethod(declaration, libMI);
+      if (declaration is ClassMirror) _addClass(declaration, libMI);
     }
   }
 
-  PathRegEx _pathRegEx(String path) {
-    PathRegEx regex = PathRegEx("^", {});
-    List<String> split = path.split('/');
-    split.removeWhere((e) => e.isEmpty);
-    RegExp parmRegExp = RegExp(r":[a-zA-Z]+\(?([^)]+)?\)?:?");
-    RegExp parmTypeRegExp = RegExp(r"\(([^)]*)\)");
-    for (var i = 0; i < split.length; i++) {
-      String segmant = split[i];
-      if (!parmRegExp.hasMatch(segmant)) {
-        if (!segmant.startsWith('/')) regex.regExp += '/';
-        regex.regExp += segmant;
-      } else {
-        String parm = parmRegExp.firstMatch(segmant)!.group(0)!;
-        String? type = parmTypeRegExp.firstMatch(parm)?.group(0);
-        String name = segmant.replaceFirst(type ?? '', '').replaceAll(':', '');
-
-        if (!parm.startsWith('/')) regex.regExp += '/';
-        if (type == null) regex.regExp += r"[a-zA-Z0-9_-]+";
-        if (type == '(int)') regex.regExp += r"[0-9]+";
-        if (type == '(string)') regex.regExp += r"[^0-9]+";
-        if (type == '(double)') regex.regExp += r"[0-9]*.[0-9]+";
-        regex.parms.addAll({name: i});
+  void _addClass(ClassMirror class_, LibraryMirror libMI) {
+    PathRegEx path = PathRegEx(".", {});
+    String _path = '';
+    String reqMethod = 'GET';
+    // get some data
+    List<InstanceMirror> metasMI = class_.metadata;
+    if (metasMI.isEmpty) return;
+    for (InstanceMirror meta in metasMI) {
+      dynamic reflectee = meta.reflectee;
+      if (reflectee is CRoute) {
+        _path = reflectee.path;
+        path = pathRegEx(reflectee.path, endWith: '/?');
+        reqMethod = reflectee.method;
+        continue;
       }
     }
-    regex.regExp += r'/?$';
-    return regex;
+
+    InstanceMirror mirror = class_.newInstance(Symbol(''), []);
+    mirror.invoke(#cache, [_path]);
+    _routes.add(StatefulRoute(
+      method: reqMethod,
+      symbol: class_.simpleName,
+      path: path,
+      handler: mirror.reflectee,
+    ));
   }
 
   void _addMethod(MethodMirror method, LibraryMirror libMI) {
@@ -78,7 +82,7 @@ class Router {
     for (InstanceMirror meta in metasMI) {
       dynamic reflectee = meta.reflectee;
       if (reflectee is ERoute) {
-        _errs.add(ErrorRoute(
+        errs.add(ErrorRoute(
           symbol: method.simpleName,
           lib: libMI.simpleName,
           statusCode: reflectee.status,
@@ -86,7 +90,7 @@ class Router {
         return;
       }
       if (reflectee is Route) {
-        path = _pathRegEx(reflectee.path);
+        path = pathRegEx(reflectee.path);
         reqMethod = reflectee.method;
         continue;
       }

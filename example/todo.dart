@@ -28,3 +28,17 @@ MapResponse deleteTodo(int id) {
   todos.removeAt(id);
   return {#status: HttpStatus.ok};
 }
+
+@CRoute('/class/todos/')
+class TodosClass extends StatefulHandler {
+  final List<Map> _todos = [
+    {"id": 1, "task": "class 1"},
+    {"id": 2, "task": "class 2"},
+  ];
+  List createTodo() {
+    Map newTodo = {"id": _todos.length + 1};
+    newTodo.addAll({"task": 'class ${_todos.length + 1}'});
+    _todos.add(newTodo);
+    return _todos;
+  }
+}

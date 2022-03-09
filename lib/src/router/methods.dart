@@ -1,5 +1,3 @@
-// ignore_for_file: camel_case_types
-
 part of cruco.router;
 
 class Route {
@@ -15,4 +13,8 @@ class Route {
 class ERoute extends Route {
   final int status;
   const ERoute(this.status) : super('/*/**');
+}
+
+class CRoute extends Route {
+  const CRoute(path, [method = "ALL"]) : super(path, method);
 }
