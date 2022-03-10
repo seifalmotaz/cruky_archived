@@ -59,8 +59,8 @@ class Cruky {
         req.response.statusCode = 404;
       }
       // close and print response and goto next request
-      printReq(req, req.response.headers.contentType?.mimeType ?? 'Null');
       req.response.close();
+      printReq(req);
     }
   }
 
@@ -90,10 +90,10 @@ class Cruky {
       }
     }
     List<ParameterMirror> paramsMI = declaration.parameters.toList();
-    Map<Symbol, Type> params = {};
+    Map<String, Type> params = {};
     for (ParameterMirror parm in paramsMI) {
       params.addAll({
-        parm.simpleName: parm.type.reflectedType,
+        MirrorSystem.getName(parm.simpleName): parm.type.reflectedType,
       });
     }
     _routes.add(MethodRoute(

@@ -14,11 +14,11 @@ class PathRegex {
   bool match(String path) => regExp.hasMatch(path);
 
   /// get path parameters
-  Map<Symbol, dynamic> parseParams(String path) {
-    Map<Symbol, dynamic> _params = {};
+  Map<String, dynamic> parseParams(String path) {
+    Map<String, dynamic> _params = {};
     RegExpMatch paramsMatch = regExp.firstMatch(path)!;
     for (ParamMap param in params) {
-      Symbol symbol = Symbol(param.name);
+      String symbol = param.name;
       String data = Uri.decodeQueryComponent(paramsMatch.group(param.index)!);
       if (param.type == String) _params.addAll({symbol: data});
       if (param.type == int) _params.addAll({symbol: int.parse(data)});
