@@ -12,7 +12,7 @@ List<Map> todos = [
 void main() => serve();
 
 @Route.get('/todos/list/')
-Future<List> listTodos() async => todos;
+Future<List> listTodos(int i) async => todos;
 
 @Route.get('/todos/:id(int)/')
 Future<Map> getTodo(int id) async => {...todos[id]};

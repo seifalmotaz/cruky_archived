@@ -1,4 +1,4 @@
 enum HandlerCodes {
-  notFound,
-  serverError,
+  notFound_404,
+  serverError_500,
 }

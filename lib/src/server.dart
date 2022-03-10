@@ -3,6 +3,7 @@ import "dart:io";
 
 import 'dart:mirrors';
 
+import 'constants/header.dart';
 import 'handlers/handlers.dart';
 import 'helper/path_regex.dart';
 import 'helper/print_req.dart';
@@ -46,7 +47,8 @@ class Cruky {
       // get the request handler
       RouteMatch? route = match(req.uri.path, req.method);
       if (route != null) {
-        dynamic res = await route.handle(req);
+        dynamic res = route.validate(req);
+        res ??= await route.handle(req);
         req.response.headers.contentType = ContentType.json;
         if (res is Map) {
           req.response.statusCode = res[#status] ?? 200;
@@ -82,23 +84,35 @@ class Cruky {
   void _addMethod(MethodMirror declaration) {
     late String method;
     late PathRegex path;
+    ReqHeader contentType = ReqHeader.json;
+    // get metadata
     for (InstanceMirror item in declaration.metadata) {
       var reflectee = item.reflectee;
       if (reflectee is Route) {
         method = reflectee.method;
         path = pathRegEx(reflectee.path);
+      } else if (reflectee is ReqHeader) {
+        contentType = reflectee;
       }
     }
+    // get method required params
     List<ParameterMirror> paramsMI = declaration.parameters.toList();
-    Map<String, Type> params = {};
+    List<MethodParam> params = [];
     for (ParameterMirror parm in paramsMI) {
-      params.addAll({
-        MirrorSystem.getName(parm.simpleName): parm.type.reflectedType,
-      });
+      // params.addAll({
+      //   MirrorSystem.getName(parm.simpleName): parm.type.reflectedType,
+      // });
+      params.add(MethodParam(
+        name: MirrorSystem.getName(parm.simpleName),
+        type: parm.type.reflectedType,
+        isOptional: parm.isOptional,
+      ));
     }
+    // add method route to _routes
     _routes.add(MethodRoute(
       path: path,
       method: method,
+      contentType: contentType,
       methodHandler: MethodHandler(
         declaration.owner!.simpleName,
         declaration.simpleName,
