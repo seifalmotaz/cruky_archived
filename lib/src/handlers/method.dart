@@ -24,7 +24,6 @@ class MethodHandler extends RequestHandler {
         if (data != null) positionalArguments.add(data);
       }
     }
-
     // calling method
     var res = libraryMirror.invoke(method, positionalArguments);
     if (res.reflectee is Future) return await res.reflectee;
