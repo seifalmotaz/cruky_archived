@@ -1,0 +1,4 @@
+enum HandlerCodes {
+  notFound,
+  serverError,
+}
