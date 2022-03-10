@@ -1,4 +1,4 @@
-library todos;
+library todos; // library must be added and unique to add all routes in it
 
 import 'dart:io';
 
@@ -9,14 +9,17 @@ List<Map> todos = [
   {"id": 2, "task": "task 2"},
 ];
 
+// serving the routes to http server
 void main() => serve();
 
 @Route.get('/todos/list/')
-Future<List> listTodos(int i) async => todos;
+Future<List> listTodos() async => todos;
 
+// get the id fro path parameters
 @Route.get('/todos/:id(int)/')
 Future<Map> getTodo(int id) async => {...todos[id]};
 
+// get the task from json body or path query
 @Route.post('/todos/')
 List createTodo(String task) {
   Map newTodo = {"id": todos.length + 1};
@@ -25,6 +28,7 @@ List createTodo(String task) {
   return todos;
 }
 
+// get the id fro path parameters
 @Route.delete('/todos/:id(int)')
 Map deleteTodo(int id) {
   todos.removeAt(id);
