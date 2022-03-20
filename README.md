@@ -1,5 +1,5 @@
 <center>
-  <p>
+  <p align="center">
     <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" width="420" height="420" \>
   </p>
 </center>
