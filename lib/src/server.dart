@@ -8,19 +8,12 @@ import 'handler/handlers.dart';
 import 'helper/path_regex.dart';
 import 'helper/print_req.dart';
 
-Future<void> serve({String host = '127.0.0.1', int port = 5000}) async {
-  Cruky server = Cruky(host, port);
-  LibraryMirror mirror = currentMirrorSystem().isolate.rootLibrary;
-  server.addLib(mirror);
-  await server.serve();
-}
-
 class Cruky {
   String host;
   int port;
   Cruky([this.host = '127.0.0.1', this.port = 5000]);
 
-  late HttpServer httpServer;
+  HttpServer? httpServer;
   final List<MethodHandler> routes = [];
 
   MethodHandler? match(String path, String method) {
@@ -37,16 +30,26 @@ class Cruky {
     return null;
   }
 
-  Future<void> serve({String? host_, int? port_}) async {
+  bool get isListening => httpServer != null;
+
+  Future<void> close() async {
+    await httpServer?.close(force: true);
+    httpServer = null;
+    print('Server closed');
+  }
+
+  bind({String? host_, int? port_}) async {
     httpServer = await HttpServer.bind(
       host_ ?? host,
       port_ ?? port,
       shared: true,
     );
+  }
 
+  Future<void> serve() async {
     /// start server listen
     print('Server running on http://$host:$port');
-    await for (HttpRequest req in httpServer) {
+    await for (HttpRequest req in httpServer!) {
       MethodHandler? route = match(req.uri.path, req.method);
       if (route == null) {
         req.response.statusCode = 404;
