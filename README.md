@@ -1,3 +1,7 @@
+<p>
+    <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" \>
+</p>
+
 ## Info
 
 Cruky is a server-side library for the dart ecosystem.
