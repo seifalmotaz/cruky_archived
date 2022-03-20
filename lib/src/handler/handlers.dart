@@ -11,3 +11,7 @@ import 'package:cruky/src/interfaces/request/request.dart';
 import 'package:mime/mime.dart';
 
 part './method.dart';
+
+/// get the fields from multi form fields
+RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
+RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');

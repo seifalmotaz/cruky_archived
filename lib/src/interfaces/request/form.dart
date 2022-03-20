@@ -9,10 +9,12 @@ class FormRequest extends SimpleRequest {
     required Map parameters,
     required Map query,
     required this.form,
+    parsers = const {},
   }) : super(
           parameters: parameters,
           path: path,
           query: query,
+          parsers: parsers,
         );
 
   @override
@@ -33,10 +35,12 @@ class iFormRequest extends SimpleRequest {
     required Map query,
     required this.form,
     required this.files,
+    parsers = const {},
   }) : super(
           parameters: parameters,
           path: path,
           query: query,
+          parsers: parsers,
         );
 
   @override

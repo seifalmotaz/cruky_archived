@@ -1,9 +1,5 @@
 part of cruky.handlers;
 
-/// get the fields from multi form fields
-RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
-RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
-
 class MethodHandler {
   final String method;
   final PathRegex path;

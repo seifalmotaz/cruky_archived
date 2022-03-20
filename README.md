@@ -116,7 +116,7 @@ Map deleteTodo(SimpleRequest request) {
 we can serve a simple app with this code
 
 ```dart
-void main() => serve(host = '127.0.0.1', port = 5000);
+void main() => serve(host: '127.0.0.1', port: 5000);
 ```
 
 and now run the dart file with `dart run filename.dart`.
@@ -124,5 +124,5 @@ and now run the dart file with `dart run filename.dart`.
 You can use hotreload option with:
 
 ```dart
-void main() => serveWithHotReload(host = '127.0.0.1', port = 5000);
+void main() => serveWithHotReload(host: '127.0.0.1', port: 5000);
 ```

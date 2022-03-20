@@ -15,13 +15,16 @@ class SimpleRequest {
   /// path parameters
   final Map parameters;
 
+  final Map<String, dynamic> parsers;
+
   /// init
   SimpleRequest({
     required this.path,
     required this.parameters,
     required this.query,
+    this.parsers = const {},
   });
 
   /// operator
-  dynamic operator [](String i) => query[i] ?? parameters[i];
+  dynamic operator [](String i) => query[i] ?? parameters[i] ?? parsers[i];
 }
