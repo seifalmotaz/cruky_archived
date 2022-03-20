@@ -9,7 +9,7 @@ class FormRequest extends SimpleRequest {
     required Map parameters,
     required Map query,
     required this.form,
-    parsers = const {},
+    parsers = const <String, dynamic>{},
   }) : super(
           parameters: parameters,
           path: path,
@@ -18,7 +18,8 @@ class FormRequest extends SimpleRequest {
         );
 
   @override
-  dynamic operator [](String i) => query[i] ?? parameters[i] ?? form[i];
+  dynamic operator [](String i) =>
+      query[i] ?? parameters[i] ?? form[i] ?? parsers[i];
 }
 
 // ignore: camel_case_types
@@ -35,7 +36,7 @@ class iFormRequest extends SimpleRequest {
     required Map query,
     required this.form,
     required this.files,
-    parsers = const {},
+    parsers = const <String, dynamic>{},
   }) : super(
           parameters: parameters,
           path: path,
@@ -45,5 +46,5 @@ class iFormRequest extends SimpleRequest {
 
   @override
   dynamic operator [](String i) =>
-      query[i] ?? parameters[i] ?? form[i] ?? files[i];
+      query[i] ?? parameters[i] ?? form[i] ?? files[i] ?? parsers[i];
 }

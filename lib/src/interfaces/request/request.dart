@@ -22,7 +22,7 @@ class SimpleRequest {
     required this.path,
     required this.parameters,
     required this.query,
-    this.parsers = const {},
+    this.parsers = const <String, dynamic>{},
   });
 
   /// operator

@@ -8,14 +8,19 @@ class Route {
   const Route.delete(this.path, {this.method = "DELETE"});
 }
 
+/// Parser from field
+///
+/// This helps you to spacify from where to get the fields of parser model
+enum Bind {
+  any,
+  body,
+  query,
+  pathParameters,
+}
+
 /// request body parser annotiation
 class Parser {
   final String name;
-  const Parser(this.name);
-}
-
-/// annotiation for adding parsers to method
-class ModelParser {
-  final List<Type> parsers;
-  const ModelParser(this.parsers);
+  final Bind from;
+  const Parser(this.name, [this.from = Bind.any]);
 }

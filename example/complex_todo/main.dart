@@ -6,7 +6,6 @@ import 'parsers.dart';
 
 void main(List<String> args) {}
 
-@ModelParser([TodoParser])
-createTodo(SimpleRequest request) {
+createTodo(SimpleRequest request, TodoParser todo) {
   return {};
 }

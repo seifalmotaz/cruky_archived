@@ -8,7 +8,7 @@ class JsonRequest extends SimpleRequest {
     required path,
     required parameters,
     required query,
-    parsers = const {},
+    parsers = const <String, dynamic>{},
     required this.body,
   }) : super(
           parameters: parameters,

@@ -11,7 +11,7 @@ void serveWithHotReload() => HotReload(serve)..run();
 Future<Cruky> serve({String host = '127.0.0.1', int port = 5000}) async {
   Cruky server = Cruky(host, port);
   LibraryMirror mirror = currentMirrorSystem().isolate.rootLibrary;
-  server.addLib(mirror);
+  server.passLib(mirror.simpleName);
   await server.bind(host_: host, port_: port);
   server.serve();
   return server;
@@ -31,14 +31,14 @@ class HotReload {
     DirectoryWatcher('./lib', pollingDelay: Duration(seconds: 5))
         .events
         .listen((event) async {
-      if (inProcess) return;
+      // if (inProcess) return;
       print('Restarting');
-      inProcess = true;
+      // inProcess = true;
       await server?.close();
       server = null;
       server = await function();
       if (!server!.isListening) server!.serve();
-      inProcess = false;
+      // inProcess = false;
     });
   }
 }
