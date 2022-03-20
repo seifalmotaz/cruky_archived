@@ -1,5 +1,5 @@
 <p>
-    <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" \>
+    <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" width="720" hight="720" \>
 </p>
 
 ## Info
