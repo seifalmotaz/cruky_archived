@@ -1,12 +1,10 @@
-<center>
-  <p align="center">
-    <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" width="420" height="420" \>
-  </p>
-</center>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" width="420" height="420" \>
+</p>
 
 ## Info
 
-Cruky is a server-side library for the dart ecosystem.
+Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible.
 We want to make server-side apps with modern style and fast `high performance`
 We designed it to be easy to use and learn. Less time reading docs.
 This package is still in development but you can use it's pretty much stable and there is any bug or future you want tell us in Github issues.
@@ -97,9 +95,9 @@ We have support for the most popular requests content-type:
 
 You can return List or map for now and the response content type is just JSON for now but I will update it soon.
 
-## Return spacific status code
+## Return specific status code
 
-you can return spacific status code with the map like that:
+you can return the specific status code with the map like that:
 
 ```dart
 @Route.delete('/todos/:id(int)')
