@@ -1,39 +1,83 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## Info
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+Cruky is a server side library for dart ecosystem. We focus in simplicity and speed of developement to make dart enter the server side programming.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+This package still in development but you can use it's pretty much stable and there is any bug or future you want tell us in github issues.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Get started
 
-## Features
+1. Install Dart from [Dart.dev](https://dart.dev/)
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+2. Install the Cruky package with pubspec and github for now
 
-## Getting started
+3. Create dart project with  `dart create nameOfProject`
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+4. open the project with your favorite ide like  `vscode`
 
-## Usage
+5. And let's get started
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+First we must add `library` name for the file to import all routes in it and it must be uniqe import the package in the file
 
 ```dart
-const like = 'sample';
+library todos;
+import 'package:cruky/cruky.dart';
 ```
 
-## Additional information
+Now let's add our first route method:
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+@Route.get('/todos/list/')
+Future<List> listTodos(SimpleRequest request) async {
+    return [];
+}
+```
+
+Add the `Route` annotiaton to specify the route path, and add the method under it we can use  `Future` method or regular method (async or sync).
+
+And add request parameter to the method to get the request data.
+
+## Request types
+
+We have support for the most popular requests content type:
+
+- `SimpleRequest` for reuest the does not has a content type
+  
+  path: for the request path `Uri`
+  
+  parameters: for the path parameters return `Map`
+  
+  query: for the request path query
+
+- `FormRequest` for form content type request and contains 
+  
+  path: for the request path `Uri`
+  
+  form: for the request form body return `Map`
+  
+  parameters: for the path parameters return  `Map`
+  
+  query: for the request path query 
+
+- `iFormRequest` for multipart form content type request and contains
+  
+  path: for the request path `Uri`
+  
+  form: for the request form body return `Map`
+  
+  files: for the reuest body return `Map<String, FilePart>`
+  
+  parameters: for the path parameters return `Map`
+  
+  query: for the request path query
+
+- `JsonRequest` for multipart form content type request and contains
+  
+  path: for the request path `Uri`
+  
+  body: for the request json body return `Map`
+  
+  files: for the reuest body return `Map<String, FilePart>`
+  
+  parameters: for the path parameters return `Map`
+  
+  query: for the request path query

@@ -7,7 +7,6 @@ import 'annotiation.dart';
 import 'handler/handlers.dart';
 import 'helper/path_regex.dart';
 import 'helper/print_req.dart';
-import 'interfaces/request/request.dart';
 
 Future<void> serve({String host = '127.0.0.1', int port = 5000}) async {
   Cruky server = Cruky(host, port);
