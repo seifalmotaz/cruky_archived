@@ -38,5 +38,8 @@ Map deleteTodo(SimpleRequest request) {
   todos.removeAt(request['id']);
 
   /// return custom status code
-  return {#status: HttpStatus.ok};
+  return {
+    #status: HttpStatus.ok,
+    #body: {"msg": "the todo is deleted"}
+  };
 }

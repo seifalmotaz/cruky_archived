@@ -70,7 +70,7 @@ We have support for the most popular requests content type:
   
   query: for the request path query
 
-- `JsonRequest` for multipart form content type request and contains
+- `JsonRequest` for json content type request and contains
   
   path: for the request path `Uri`
   
@@ -81,3 +81,25 @@ We have support for the most popular requests content type:
   parameters: for the path parameters return `Map`
   
   query: for the request path query
+
+## Return data from method
+
+You can return List or map for now and the response content type is just json for now but I will update it soon.
+
+
+
+## Return spacific status code
+
+you can return spacific status code with the map like that:
+
+```dart
+@Route.delete('/todos/:id(int)')
+Map deleteTodo(SimpleRequest request) {
+  todos.removeAt(request['id']);
+  /// return custom status code
+  return {
+    #status: HttpStatus.ok,
+    #body: {"msg": "the todo is deleted"}
+  };
+}
+```

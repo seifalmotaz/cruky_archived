@@ -55,8 +55,13 @@ class Cruky {
         req.response.headers.contentType = ContentType.json;
         if (res is Map) {
           req.response.statusCode = res[#status] ?? 200;
-          res.removeWhere((key, value) => key is Symbol);
-          req.response.write(jsonEncode(res));
+          dynamic body = res[#body];
+          if (body != null) {
+            req.response.write(jsonEncode(body));
+          } else {
+            res.removeWhere((key, value) => key is Symbol);
+            req.response.write(jsonEncode(res));
+          }
         } else {
           req.response.write(jsonEncode(res));
         }
