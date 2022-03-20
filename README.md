@@ -1,6 +1,8 @@
-<p>
-    <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" width="720" hight="720" \>
-</p>
+<center>
+  <p>
+    <img src="https://raw.githubusercontent.com/seifalmotaz/cruky/main/assets/logo/logo_transparent.png" alt="cruky library logo" width="420" height="420" \>
+  </p>
+</center>
 
 ## Info
 
