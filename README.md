@@ -1,12 +1,9 @@
 ## Info
 
-Cruky is a server side library for dart ecosystem.
-
-We want to make server side apps with modern style and fast `high performance`.
-
-We designed to be easy to use and learn. Less time reading docs.
-
-This package still in development but you can use it's pretty much stable and there is any bug or future you want tell us in github issues.
+Cruky is a server-side library for the dart ecosystem.
+We want to make server-side apps with modern style and fast `high performance`
+We designed it to be easy to use and learn. Less time reading docs.
+This package is still in development but you can use it's pretty much stable and there is any bug or future you want tell us in Github issues.
 
 ## Get started
 
@@ -14,15 +11,15 @@ You can see the todo example in the examples file it's very clear to understand.
 
 1. Install Dart from [Dart.dev](https://dart.dev/)
 
-2. Install the Cruky package with pubspec and github for now
+2. Install the Cruky package with pubspec and GitHub for now
 
 3. Create dart project with  `dart create nameOfProject`
 
-4. open the project with your favorite ide like  `vscode`
+4. open the project with your favorite idea like  `vscode`
 
 5. And let's get started
 
-First we must add `library` name for the file to import all routes in it and it must be uniqe import the package in the file
+First we must add a `library` name for the file to import all routes in it and it must be unique to import the package in the file
 
 ```dart
 library todos;
@@ -38,15 +35,15 @@ Future<List> listTodos(SimpleRequest request) async {
 }
 ```
 
-Add the `Route` annotiaton to specify the route path, and add the method under it we can use  `Future` method or regular method (async or sync).
+Add the `Route` annotation to specify the route path, and add the method under it we can use the `Future` method or regular method (async or sync).
 
 And add request parameter to the method to get the request data.
 
 ## Request types
 
-We have support for the most popular requests content type:
+We have support for the most popular requests content-type:
 
-- `SimpleRequest` for reuest the does not has a content type
+- `SimpleRequest` for the request does not have a content type
   
   path: for the request path `Uri`
   
@@ -70,27 +67,27 @@ We have support for the most popular requests content type:
   
   form: for the request form body return `Map`
   
-  files: for the reuest body return `Map<String, FilePart>`
+  files: for the request body return `Map<String, FilePart>`
   
   parameters: for the path parameters return `Map`
   
   query: for the request path query
 
-- `JsonRequest` for json content type request and contains
+- `JsonRequest` for JSON content type request and contains
   
   path: for the request path `Uri`
   
-  body: for the request json body return `Map`
+  body: for the request JSON body return `Map`
   
-  files: for the reuest body return `Map<String, FilePart>`
+  files: for the request body return `Map<String, FilePart>`
   
   parameters: for the path parameters return `Map`
   
   query: for the request path query
 
-## Return data from method
+## Return data from the method
 
-You can return List or map for now and the response content type is just json for now but I will update it soon.
+You can return List or map for now and the response content type is just JSON for now but I will update it soon.
 
 
 
