@@ -5,16 +5,20 @@ import 'dart:io';
 
 import 'dart:mirrors';
 
-import 'package:cruky/src/constants/header.dart';
+import 'package:cruky/sr/constants/header.dart';
+import 'package:cruky/sr/interfaces/request/request.dart';
+import 'package:cruky/sr/middleware.dart';
 
 part './method.dart';
+part './fast.dart';
 
 abstract class RequestHandler {
+  List<MiddlewareMap> middlewares;
+  RequestHandler(this.middlewares);
   dynamic handler({
     required HttpRequest req,
     required Map<String, dynamic> pathParams,
     required Map<String, dynamic> pathQuery,
-    required ReqHeader contentType,
   });
 }
 

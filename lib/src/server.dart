@@ -1,16 +1,15 @@
 import 'dart:convert';
-import "dart:io";
+import 'dart:io';
 
 import 'dart:mirrors';
 
-import 'constants/header.dart';
-import 'handlers/handlers.dart';
+import 'annotiation.dart';
+import 'handler/handlers.dart';
 import 'helper/path_regex.dart';
 import 'helper/print_req.dart';
-import 'router/annotiation.dart';
-import 'router/routes.dart';
+import 'interfaces/request/request.dart';
 
-Future<void> serve([String host = '127.0.0.1', int port = 5000]) async {
+Future<void> serve({String host = '127.0.0.1', int port = 5000}) async {
   Cruky server = Cruky(host, port);
   LibraryMirror mirror = currentMirrorSystem().isolate.rootLibrary;
   server.addLib(mirror);
@@ -22,17 +21,17 @@ class Cruky {
   int port;
   Cruky([this.host = '127.0.0.1', this.port = 5000]);
 
-  late HttpServer _httpServer;
-  final List<RouteMatch> _routes = [];
+  late HttpServer httpServer;
+  final List<MethodHandler> routes = [];
 
-  RouteMatch? match(String path, String method) {
-    List<RouteMatch> routes =
-        _routes.where((e) => e.match(path, method)).toList();
-    if (routes.isEmpty) return null;
-    if (routes.length == 1) {
-      return routes.first;
+  MethodHandler? match(String path, String method) {
+    List<MethodHandler> _routes =
+        routes.where((e) => e.match(path, method)).toList();
+    if (_routes.isEmpty) return null;
+    if (_routes.length == 1) {
+      return _routes.first;
     } else {
-      for (RouteMatch item in routes) {
+      for (MethodHandler item in routes) {
         if (pathRegEx(path).regExp == item.path.regExp) return item;
       }
     }
@@ -40,15 +39,20 @@ class Cruky {
   }
 
   Future<void> serve({String? host_, int? port_}) async {
-    _httpServer = await HttpServer.bind(host_ ?? host, port_ ?? port);
-    // start server listen
+    httpServer = await HttpServer.bind(
+      host_ ?? host,
+      port_ ?? port,
+      shared: true,
+    );
+
+    /// start server listen
     print('Server running on http://$host:$port');
-    await for (HttpRequest req in _httpServer) {
-      // get the request handler
-      RouteMatch? route = match(req.uri.path, req.method);
-      if (route != null) {
-        dynamic res = route.validate(req);
-        res ??= await route.handle(req);
+    await for (HttpRequest req in httpServer) {
+      MethodHandler? route = match(req.uri.path, req.method);
+      if (route == null) {
+        req.response.statusCode = 404;
+      } else {
+        dynamic res = await route.handle(req);
         req.response.headers.contentType = ContentType.json;
         if (res is Map) {
           req.response.statusCode = res[#status] ?? 200;
@@ -57,8 +61,6 @@ class Cruky {
         } else {
           req.response.write(jsonEncode(res));
         }
-      } else {
-        req.response.statusCode = 404;
       }
       // close and print response and goto next request
       req.response.close();
@@ -66,58 +68,46 @@ class Cruky {
     }
   }
 
-  void passLib({Symbol? symbol}) {
+  void passLib({Symbol? symbol, Uri? uri}) {
     if (symbol != null) addLib(currentMirrorSystem().findLibrary(symbol));
+    if (uri != null) addLib(currentMirrorSystem().libraries[uri]!);
   }
 
+  /// add library routes to routes
   void addLib(LibraryMirror lib) {
+    /// get all declarations in library
     List<DeclarationMirror> declarations = lib.declarations.values.toList();
     for (var declaration in declarations) {
+      /// check if it's a route handler method
       if (declaration.metadata
           .where((value) => value.reflectee is Route)
           .isEmpty) continue;
-      if (declaration is MethodMirror) _addMethod(declaration);
-      // if (declaration is ClassMirror) _addClass(declaration);
+      if (declaration is MethodMirror) _addMethod(declaration, lib);
     }
   }
 
-  void _addMethod(MethodMirror declaration) {
+  void _addMethod(MethodMirror methodMirror, LibraryMirror lib) {
     late String method;
     late PathRegex path;
-    ReqHeader contentType = ReqHeader.json;
-    // get metadata
-    for (InstanceMirror item in declaration.metadata) {
+
+    /// get the required data to add the route to listener
+    for (InstanceMirror item in methodMirror.metadata) {
       var reflectee = item.reflectee;
       if (reflectee is Route) {
         method = reflectee.method;
         path = pathRegEx(reflectee.path);
-      } else if (reflectee is ReqHeader) {
-        contentType = reflectee;
       }
     }
-    // get method required params
-    List<ParameterMirror> paramsMI = declaration.parameters.toList();
-    List<MethodParam> params = [];
-    for (ParameterMirror parm in paramsMI) {
-      // params.addAll({
-      //   MirrorSystem.getName(parm.simpleName): parm.type.reflectedType,
-      // });
-      params.add(MethodParam(
-        name: MirrorSystem.getName(parm.simpleName),
-        type: parm.type.reflectedType,
-        isOptional: parm.isOptional,
-      ));
-    }
-    // add method route to _routes
-    _routes.add(MethodRoute(
-      path: path,
+
+    /// get method required params
+    List<ParameterMirror> paramsMI = methodMirror.parameters;
+
+    ParameterMirror firstParam = paramsMI.first;
+    routes.add(MethodHandler(
       method: method,
-      contentType: contentType,
-      methodHandler: MethodHandler(
-        declaration.owner!.simpleName,
-        declaration.simpleName,
-        params,
-      ),
+      path: path,
+      requestType: firstParam.type.reflectedType,
+      handler: lib.getField(methodMirror.simpleName).reflectee,
     ));
   }
 }
