@@ -6,6 +6,8 @@ This package still in development but you can use it's pretty much stable and th
 
 ## Get started
 
+You can see the todo example in the examples file it's very clear to understand.
+
 1. Install Dart from [Dart.dev](https://dart.dev/)
 
 2. Install the Cruky package with pubspec and github for now
