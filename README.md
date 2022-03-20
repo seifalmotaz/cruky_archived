@@ -1,6 +1,10 @@
 ## Info
 
-Cruky is a server side library for dart ecosystem. We focus in simplicity and speed of developement to make dart enter the server side programming.
+Cruky is a server side library for dart ecosystem.
+
+We want to make server side apps with modern style and fast `high performance`.
+
+We designed to be easy to use and learn. Less time reading docs.
 
 This package still in development but you can use it's pretty much stable and there is any bug or future you want tell us in github issues.
 
@@ -105,3 +109,13 @@ Map deleteTodo(SimpleRequest request) {
   };
 }
 ```
+
+## Now serve the app
+
+we can serve a simple app with this code
+
+```dart
+void main() => serve(host = '127.0.0.1', port = 5000);
+```
+
+and now run the dart file with `dart run filename.dart`.
