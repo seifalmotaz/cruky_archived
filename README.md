@@ -5,6 +5,8 @@ We want to make server-side apps with modern style and fast `high performance`
 We designed it to be easy to use and learn. Less time reading docs.
 This package is still in development but you can use it's pretty much stable and there is any bug or future you want tell us in Github issues.
 
+> Inspired by FastApi
+
 ## Get started
 
 You can see the todo example in the examples file it's very clear to understand.
@@ -15,7 +17,7 @@ You can see the todo example in the examples file it's very clear to understand.
 
 3. Create dart project with  `dart create nameOfProject`
 
-4. open the project with your favorite idea like  `vscode`
+4. open the project with your favorite IDE like  `vscode`
 
 5. And let's get started
 
@@ -88,8 +90,6 @@ We have support for the most popular requests content-type:
 ## Return data from the method
 
 You can return List or map for now and the response content type is just JSON for now but I will update it soon.
-
-
 
 ## Return spacific status code
 
