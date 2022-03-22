@@ -49,12 +49,19 @@ class InDirectHandler extends MethodHandler {
           "msg": "missing field ${param.name}",
         };
       } else {
-        parameters.add(data);
+        parameters.add(checkType(data, param.type));
       }
     }
     InstanceMirror result = handler(name, parameters);
     var reflecte = result.reflectee;
     if (reflecte is Future) reflecte = await reflecte;
     return reflecte;
+  }
+
+  dynamic checkType(data, Type type) {
+    if (data.runtimeType != String) return data;
+    if (type == int) return int.parse(data);
+    if (type == double) return double.parse(data);
+    if (type == List || type == Map) return json.decode(data);
   }
 }

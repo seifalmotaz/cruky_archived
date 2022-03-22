@@ -17,7 +17,9 @@ Future<List> listTodos() async => [...todos];
 /// get the id from path parameters you can define `:id(int)` or `:id(string)` or `:id(double)`
 /// , the parameter formate is `:nameOfField(type)` and the type is optional the default is string
 @Route.get('/:id(int)/')
-Future<Map> getTodo(int id) async => {...todos[id]};
+Future<Map> getTodo(int id) async {
+  return todos[id];
+}
 
 /// get the task from form, there is two ways two to define request form type.
 ///
