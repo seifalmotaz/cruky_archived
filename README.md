@@ -17,13 +17,15 @@ You can see the todo example in the examples file it's very clear to understand.
 
 1. Install Dart from [Dart.dev](https://dart.dev/)
 
-2. Install the Cruky package with pubspec and GitHub for now
+2. Install the Cruky package with [pub.dev](https://pub.dev/packages/cruky)
+  
+3. You must enable cruky with `dart pub global activate cruky`
 
-3. Create dart project with  `dart create nameOfProject`
+4. Create dart project with  `dart create nameOfProject`
 
-4. open the project with your favorite IDE like  `vscode`
+5. open the project with your favorite IDE like  `vscode`
 
-5. And let's get started
+6. And let's get started
 
 First we must add a `library` name for the file to import all routes in it and it must be unique to import the package in the file
 
@@ -119,10 +121,4 @@ we can serve a simple app with this code
 void main() => serve(host: '127.0.0.1', port: 5000);
 ```
 
-and now run the dart file with `dart run filename.dart`.
-
-You can use hotreload option with:
-
-```dart
-void main() => serveWithHotReload(host: '127.0.0.1', port: 5000);
-```
+and now run the dart file with `cruky run filename.dart`.

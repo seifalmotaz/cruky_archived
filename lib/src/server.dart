@@ -7,6 +7,7 @@ import 'package:cruky/src/interfaces/request/request.dart';
 
 import 'annotiation.dart';
 import 'handler/handlers.dart';
+import 'helper/method_param.dart';
 import 'helper/path_regex.dart';
 import 'helper/print_req.dart';
 
@@ -67,6 +68,7 @@ class Cruky {
     print('Server running on http://$host:$port');
     await for (HttpRequest req in httpServer!) {
       MethodHandler? route = _match(req.uri.path, req.method);
+
       if (route == null) {
         req.response.statusCode = 404;
       } else {
@@ -112,33 +114,54 @@ class Cruky {
   }
 
   void _addMethod(MethodMirror methodMirror, LibraryMirror lib) {
+    bool isDirect = false;
     late String method;
     late PathRegex path;
-    late Type requestType;
+    Type? requestType;
 
     /// get the required data to add the route to listener
     for (InstanceMirror item in methodMirror.metadata) {
       var reflectee = item.reflectee;
       if (reflectee is Route) {
         method = reflectee.method;
-        path = pathRegEx(reflectee.path);
+        path = pathRegEx(reflectee.path, endWith: true);
+        requestType = reflectee.contentType;
       }
     }
 
     /// get method required params
+    MethodParams methodParams = MethodParams();
     List<ParameterMirror> paramsMI = methodMirror.parameters;
 
+    final simpleRequestReflect = reflectType(SimpleRequest);
     for (ParameterMirror param in paramsMI) {
-      if (param.type.isSubtypeOf(reflectType(SimpleRequest))) {
-        requestType = param.type.reflectedType;
+      if (requestType == null) {
+        TypeMirror paramType = param.type;
+        if (paramType.isSubtypeOf(simpleRequestReflect)) {
+          requestType = param.type.reflectedType;
+          if (paramsMI.length == 1) isDirect = true;
+          continue;
+        }
       }
+      methodParams.add(param);
     }
 
-    routes.add(MethodHandler(
-      method: method,
-      path: path,
-      requestType: requestType,
-      handler: lib.getField(methodMirror.simpleName).reflectee,
-    ));
+    if (isDirect) {
+      routes.add(DirectHandler(
+        path: path,
+        method: method,
+        requestType: requestType,
+        handler: lib.getField(methodMirror.simpleName).reflectee,
+      ));
+    } else {
+      routes.add(InDirectHandler(
+        path: path,
+        method: method,
+        params: methodParams.list,
+        name: methodMirror.simpleName,
+        handler: lib.invoke,
+        requestType: requestType ?? methodParams.requestContentType,
+      ));
+    }
   }
 }

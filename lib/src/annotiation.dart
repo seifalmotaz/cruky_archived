@@ -1,11 +1,25 @@
 /// annotiation for adding route to method
 class Route {
+  /// route method (GET, POST, ..etc)
   final String method;
+
+  /// route path
   final String path;
-  const Route.get(this.path, {this.method = "GET"});
-  const Route.put(this.path, {this.method = "PUT"});
-  const Route.post(this.path, {this.method = "POST"});
-  const Route.delete(this.path, {this.method = "DELETE"});
+
+  /// valide request handler
+  final Type? contentType;
+
+  /// GET route
+  const Route.get(this.path, {this.method = "GET", this.contentType});
+
+  /// PUT route
+  const Route.put(this.path, {this.method = "PUT", this.contentType});
+
+  /// POST route
+  const Route.post(this.path, {this.method = "POST", this.contentType});
+
+  /// Delete route
+  const Route.delete(this.path, {this.method = "DELETE", this.contentType});
 }
 
 /// Parser from field

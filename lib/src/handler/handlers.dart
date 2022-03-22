@@ -1,17 +1,31 @@
 library cruky.handlers;
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+import 'dart:mirrors';
 
+import 'package:cruky/src/handler/helpers/body_compiler.dart';
+import 'package:cruky/src/helper/method_param.dart';
 import 'package:cruky/src/helper/path_regex.dart';
-import 'package:cruky/src/interfaces/file_part.dart';
 import 'package:cruky/src/interfaces/request/request.dart';
-import 'package:mime/mime.dart';
 
-part './method.dart';
+part 'direct.dart';
+part 'indirect.dart';
 
-/// get the fields from multi form fields
-RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
-RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
+abstract class MethodHandler {
+  final String method;
+  final PathRegex path;
+  final Type requestType;
+  MethodHandler({
+    required this.path,
+    required this.method,
+    required this.requestType,
+  });
+
+  Future handle(HttpRequest request);
+
+  bool match(String _path, String _method) {
+    if (_method != method) return false;
+    return path.match(_path);
+  }
+}

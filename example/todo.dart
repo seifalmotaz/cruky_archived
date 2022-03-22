@@ -9,12 +9,7 @@ List<Map> todos = [
 
 /// serving the routes to http server
 /// with hot reloading.
-///
-/// without hotreload:
-/// ```dart
-/// void main() => serve();
-/// ```
-void main() => serveWithHotReload();
+void main() => serve();
 
 @Route.get('/todos/list/')
 Future<List> listTodos(SimpleRequest request) async => [...todos];

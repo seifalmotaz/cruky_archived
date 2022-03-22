@@ -1,87 +1,55 @@
-part of cruky.handlers;
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
-class MethodHandler {
-  final String method;
-  final PathRegex path;
-  final Type requestType;
-  final Function handler;
+import 'package:cruky/cruky.dart';
+import 'package:cruky/src/helper/path_regex.dart';
+import 'package:mime/mime.dart';
 
-  MethodHandler({
-    required this.path,
-    required this.method,
-    required this.handler,
-    required this.requestType,
-  });
+/// get the fields from multi form fields
+RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
+RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
 
-  bool match(String _path, String _method) {
-    if (_method != method) return false;
-    return path.match(_path);
-  }
-
-  /// handle request
-  handle(HttpRequest request) async {
-    try {
-      if (requestType == JsonRequest) {
-        return await jsonRequestHandler(request);
-      } else if (requestType == FormRequest) {
-        return await formRequestHandler(request);
-      } else if (requestType == iFormRequest) {
-        return await iFormRequestHandler(request);
-      }
-      return await simpleRequestHandler(request);
-    } catch (e) {
-      return {
-        #status: 500,
-        "msg": e.toString(),
-      };
-    }
-  }
-
-  simpleRequestHandler(HttpRequest request) async =>
-      await handler(SimpleRequest(
+class BodyCompiler {
+  static SimpleRequest simple(HttpRequest request, PathRegex path) =>
+      SimpleRequest(
         path: request.uri,
         query: request.uri.queryParametersAll,
         parameters: path.parseParams(request.uri.path),
-      ));
+      );
 
-  /// handle request if it's json body
-  jsonRequestHandler(HttpRequest request) async {
+  static Future<JsonRequest> json(HttpRequest request, PathRegex path) async {
     String string = await utf8.decodeStream(request);
     Map body = string.isEmpty ? {} : jsonDecode(string);
-    JsonRequest req = JsonRequest(
+    return JsonRequest(
       body: body,
       path: request.uri,
       query: request.uri.queryParametersAll,
       parameters: path.parseParams(request.uri.path),
     );
-    return await handler(req);
   }
 
-  /// get request bytes
-  Future<Uint8List> _getBytes(HttpRequest request) {
+  static Future<Uint8List> _getBytes(HttpRequest request) {
     return request
         .fold<BytesBuilder>(BytesBuilder(copy: false), (a, b) => a..add(b))
         .then((b) => b.takeBytes());
   }
 
-  /// handle form request
-  formRequestHandler(HttpRequest request) async {
+  static Future<FormRequest> form(HttpRequest request, PathRegex path) async {
     var bytes = await _getBytes(request);
 
     Map<String, String> body =
         Uri.splitQueryString(String.fromCharCodes(bytes));
-    FormRequest req = FormRequest(
+    return FormRequest(
       parameters: path.parseParams(request.uri.path),
       path: request.uri,
       query: request.uri.queryParametersAll,
       form: body,
     );
-
-    return await handler(req);
   }
 
-  /// handle multipart form request
-  iFormRequestHandler(HttpRequest request) async {
+  static Future<List> iForm(HttpRequest request, PathRegex path) async {
     final Map<String, String> formFields = {};
     final Map<String, FilePart> formFiles = {};
     Stream<Uint8List> stream;
@@ -109,18 +77,24 @@ class MethodHandler {
       /// check if the field name exist
       {
         if (fieldNameMatch == null) {
-          return {
-            #status: 500,
-            "msg": "Cannot find the header name field for the request",
-          };
+          return [
+            {
+              #status: 500,
+              "msg": "Cannot find the header name field for the request",
+            },
+            null
+          ];
         }
 
         if (fieldNameMatch[1] == null) {
-          return {
-            #status: 500,
-            "msg": "the form field name is empty please "
-                "try to put a name for the field",
-          };
+          return [
+            {
+              #status: 500,
+              "msg": "the form field name is empty please "
+                  "try to put a name for the field",
+            },
+            null
+          ];
         }
       }
 
@@ -141,18 +115,24 @@ class MethodHandler {
       /// check if the file name exist
       {
         if (fileNameMatch == null) {
-          return {
-            #status: 500,
-            "msg": "Cannot find the header name field for the request",
-          };
+          return [
+            {
+              #status: 500,
+              "msg": "Cannot find the header name field for the request",
+            },
+            null
+          ];
         }
 
         if (fileNameMatch[1] == null) {
-          return {
-            #status: 500,
-            "msg": "the form field name is empty please "
-                "try to put a name for the field",
-          };
+          return [
+            {
+              #status: 500,
+              "msg": "the form field name is empty please "
+                  "try to put a name for the field",
+            },
+            null
+          ];
         }
       }
 
@@ -163,15 +143,15 @@ class MethodHandler {
       formFiles[name] = FilePart(name, filename, streamBytes);
     }
 
-    /// call the method handler
-    iFormRequest req = iFormRequest(
-      form: formFields,
-      files: formFiles,
-      path: request.uri,
-      query: request.uri.queryParametersAll,
-      parameters: path.parseParams(request.uri.path),
-    );
-
-    return await handler(req);
+    return [
+      null,
+      iFormRequest(
+        form: formFields,
+        files: formFiles,
+        path: request.uri,
+        query: request.uri.queryParametersAll,
+        parameters: path.parseParams(request.uri.path),
+      ),
+    ];
   }
 }
