@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'dart:mirrors';
 
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/interfaces/request/request.dart';
+import 'package:logging/logging.dart';
 
 import 'annotiation.dart';
 import 'handler/handlers.dart';
@@ -53,19 +55,41 @@ class Cruky {
     print('Server closed');
   }
 
-  /// binding HttpServer
+  /// binding HttpServer and start logger listening
   bind({String? host_, int? port_}) async {
     httpServer = await HttpServer.bind(
       host_ ?? host,
       port_ ?? port,
       shared: true,
     );
+    Logger.root.level = Level.ALL;
+    await Directory('./log').create();
+    File fileLogging = File('./log/main.log');
+    IOSink sink = fileLogging.openWrite();
+    if (!(await fileLogging.exists())) await fileLogging.create();
+    Logger.root.onRecord.listen((record) {
+      late String string = '';
+      if (record.level == Level.INFO) {
+        string = '\x1B[34m${record.level.name}\x1B[0m: ${record.message}';
+      } else if (record.level == Level.WARNING) {
+        string = '\x1B[33m${record.level.name}\x1B[0m: ${record.message}';
+      } else if (record.level == Level.SHOUT) {
+        string = '\x1B[31m${record.level.name}\x1B[0m: ${record.message}';
+      } else if (record.level == Level.FINE) {
+        string = '\x1B[36m${record.level.name}\x1B[0m: ${record.message}';
+      } else if (record.level == Level.CONFIG) {
+        string = '\x1B[37m${record.level.name}\x1B[0m: ${record.message}';
+      }
+      print(string);
+      sink.writeln(string);
+    });
   }
 
   /// start server listening
   Future<void> serve() async {
     /// start server listen
-    print('Server running on http://$host:$port');
+    // print('Server running on http://$host:$port');
+    crukyLogger.info('Server running on http://$host:$port');
     await for (HttpRequest req in httpServer!) {
       MethodHandler? route = _match(req.uri.path, req.method);
 
