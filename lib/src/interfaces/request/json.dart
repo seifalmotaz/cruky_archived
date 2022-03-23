@@ -8,15 +8,25 @@ class JsonRequest extends SimpleRequest {
     required path,
     required parameters,
     required query,
-    parsers = const <String, dynamic>{},
     required this.body,
   }) : super(
           parameters: parameters,
           path: path,
           query: query,
-          parsers: parsers,
         );
   @override
-  dynamic operator [](String i) =>
-      query[i] ?? parameters[i] ?? body[i] ?? parsers[i];
+  dynamic operator [](String i) => super[i] ?? body[i];
+
+  @override
+  Set call(String i) {
+    Set call = super.call(i);
+    if (call.first != null) return call;
+    dynamic data;
+    FieldParser? parser;
+    if (body[i] != null) {
+      data = body[i];
+      parser = FieldParser.json;
+    }
+    return {data, parser};
+  }
 }

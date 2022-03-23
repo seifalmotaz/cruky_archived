@@ -9,17 +9,27 @@ class FormRequest extends SimpleRequest {
     required Map parameters,
     required Map query,
     required this.form,
-    parsers = const <String, dynamic>{},
   }) : super(
           parameters: parameters,
           path: path,
           query: query,
-          parsers: parsers,
         );
 
   @override
-  dynamic operator [](String i) =>
-      query[i] ?? parameters[i] ?? form[i] ?? parsers[i];
+  dynamic operator [](String i) => super[i] ?? form[i];
+
+  @override
+  Set call(String i) {
+    Set call = super.call(i);
+    if (call.first != null) return call;
+    dynamic data;
+    FieldParser? parser;
+    if (form[i] != null) {
+      data = form[i];
+      parser = FieldParser.form;
+    }
+    return {data, parser};
+  }
 }
 
 // ignore: camel_case_types
@@ -36,15 +46,29 @@ class iFormRequest extends SimpleRequest {
     required Map query,
     required this.form,
     required this.files,
-    parsers = const <String, dynamic>{},
   }) : super(
           parameters: parameters,
           path: path,
           query: query,
-          parsers: parsers,
         );
 
   @override
-  dynamic operator [](String i) =>
-      query[i] ?? parameters[i] ?? form[i] ?? files[i] ?? parsers[i];
+  dynamic operator [](String i) => super[i] ?? form[i] ?? files[i];
+
+  @override
+  Set call(String i) {
+    Set call = super.call(i);
+    if (call.first != null) return call;
+    dynamic data;
+    FieldParser? parser;
+    if (form[i] != null) {
+      data = form[i];
+      parser = FieldParser.form;
+    }
+    if (files[i] != null) {
+      data = files[i];
+      parser = FieldParser.files;
+    }
+    return {data, parser};
+  }
 }

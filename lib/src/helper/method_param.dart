@@ -29,6 +29,10 @@ class ParserParam extends InParam {
         });
       }
       if (data != null) {
+        if (request is JsonRequest && request[item.name] != null) {
+          paramMap[Symbol(item.name)] = data;
+          continue;
+        }
         paramMap[Symbol(item.name)] = checkType(data, item.type);
       }
     }

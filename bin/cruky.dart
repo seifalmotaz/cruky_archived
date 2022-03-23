@@ -39,8 +39,7 @@ Future<void> runApp(ArgResults results) async {
   bool inProcess = false;
   String filePath = '$dir/$file.dart';
   if (!(await File(filePath).exists())) {
-    print('There is no file with this path: $filePath');
-    return;
+    throw 'There is no file with this path: $filePath';
   }
 
   late Process process;
@@ -55,8 +54,7 @@ Future<void> runApp(ArgResults results) async {
 
     process.stderr.transform(utf8.decoder).forEach((e) {
       print(red('\nError with you code:'));
-      print(ls.convert(e).join('\n'));
-      exit(0);
+      throw ls.convert(e).join('\n');
     });
   }
 
@@ -75,6 +73,9 @@ Future<void> runApp(ArgResults results) async {
 
 Future<void> readLogging(String fileName) async {
   File logFile = File('./log/$fileName.log');
+  if (!(await logFile.exists())) {
+    throw 'There is no file with this path: ./log/$fileName.log';
+  }
   List<String> data = await logFile.readAsLines();
 
   for (var item in data) {

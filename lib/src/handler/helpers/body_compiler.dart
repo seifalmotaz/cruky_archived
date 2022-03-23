@@ -49,7 +49,7 @@ class BodyCompiler {
     );
   }
 
-  static Future<List> iForm(HttpRequest request, PathRegex path) async {
+  static Future<iFormRequest> iForm(HttpRequest request, PathRegex path) async {
     final Map<String, String> formFields = {};
     final Map<String, FilePart> formFiles = {};
     Stream<Uint8List> stream;
@@ -77,24 +77,18 @@ class BodyCompiler {
       /// check if the field name exist
       {
         if (fieldNameMatch == null) {
-          return [
-            {
-              #status: 500,
-              "msg": "Cannot find the header name field for the request",
-            },
-            null
-          ];
+          throw {
+            #status: 500,
+            "msg": "Cannot find the header name field for the request",
+          };
         }
 
         if (fieldNameMatch[1] == null) {
-          return [
-            {
-              #status: 500,
-              "msg": "the form field name is empty please "
-                  "try to put a name for the field",
-            },
-            null
-          ];
+          throw {
+            #status: 500,
+            "msg": "the form field name is empty please "
+                "try to put a name for the field",
+          };
         }
       }
 
@@ -115,24 +109,18 @@ class BodyCompiler {
       /// check if the file name exist
       {
         if (fileNameMatch == null) {
-          return [
-            {
-              #status: 500,
-              "msg": "Cannot find the header name field for the request",
-            },
-            null
-          ];
+          throw {
+            #status: 500,
+            "msg": "Cannot find the header name field for the request",
+          };
         }
 
         if (fileNameMatch[1] == null) {
-          return [
-            {
-              #status: 500,
-              "msg": "the form field name is empty please "
-                  "try to put a name for the field",
-            },
-            null
-          ];
+          throw {
+            #status: 500,
+            "msg": "the form field name is empty please "
+                "try to put a name for the field",
+          };
         }
       }
 
@@ -143,15 +131,12 @@ class BodyCompiler {
       formFiles[name] = FilePart(name, filename, streamBytes);
     }
 
-    return [
-      null,
-      iFormRequest(
-        form: formFields,
-        files: formFiles,
-        path: request.uri,
-        query: request.uri.queryParametersAll,
-        parameters: path.parseParams(request.uri.path),
-      ),
-    ];
+    return iFormRequest(
+      form: formFields,
+      files: formFiles,
+      path: request.uri,
+      query: request.uri.queryParametersAll,
+      parameters: path.parseParams(request.uri.path),
+    );
   }
 }

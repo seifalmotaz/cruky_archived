@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:mirrors';
 
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/interfaces/error_handler.dart';
 import 'package:logging/logging.dart';
 
 import 'handler/handlers.dart';
@@ -86,33 +87,49 @@ class Cruky {
   /// start server listening
   Future<void> serve() async {
     /// start server listen
-    // print('Server running on http://$host:$port');
-
     crukyLogger.info('Server running on http://$host:$port');
-    await for (HttpRequest req in httpServer!) {
-      MethodHandler? route = _match(req.uri.path, req.method);
 
-      if (route == null) {
-        req.response.statusCode = 404;
-      } else {
-        dynamic res = await route.handle(req);
-        req.response.headers.contentType = ContentType.json;
-        if (res is Map) {
-          req.response.statusCode = res[#status] ?? 200;
-          dynamic body = res[#body];
-          if (body != null) {
-            req.response.write(jsonEncode(body));
-          } else {
-            res.removeWhere((key, value) => key is Symbol);
-            req.response.write(jsonEncode(res));
-          }
+    /// async listen
+    await for (HttpRequest req in httpServer!) {
+      try {
+        MethodHandler? route = _match(req.uri.path, req.method);
+        if (route == null) {
+          req.response.statusCode = 404;
         } else {
-          req.response.write(jsonEncode(res));
+          dynamic res = await route.handle(req);
+          writeResponse(req, res);
+        }
+      } catch (e) {
+        print(e);
+        if (e is ErrorHandler) {
+          writeResponse(req, e.json);
+        } else {
+          writeResponse(req, {
+            "Unhandled error": e.toString(),
+          });
         }
       }
-      // close and print response and goto next request
+
+      /// close and print response and goto next request
       req.response.close();
       printReq(req);
+    }
+  }
+
+  /// handling response
+  void writeResponse(HttpRequest req, res) {
+    req.response.headers.contentType = ContentType.json;
+    if (res is Map) {
+      req.response.statusCode = res[#status] ?? 200;
+      dynamic body = res[#body];
+      if (body != null) {
+        req.response.write(jsonEncode(body));
+      } else {
+        res.removeWhere((key, value) => key is Symbol);
+        req.response.write(jsonEncode(res));
+      }
+    } else {
+      req.response.write(jsonEncode(res));
     }
   }
 

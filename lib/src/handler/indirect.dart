@@ -27,50 +27,47 @@ class InDirectHandler extends MethodHandler {
 
   @override
   Future handle(HttpRequest request) async {
-    try {
-      late SimpleRequest req;
-      if (requestType == JsonRequest) {
-        req = await BodyCompiler.json(request, path);
-      } else if (requestType == FormRequest) {
-        req = await BodyCompiler.form(request, path);
-      } else if (requestType == iFormRequest) {
-        List result = await BodyCompiler.iForm(request, path);
-        if (result[0] != null) return result[0];
-        req = result[1];
-      } else {
-        req = BodyCompiler.simple(request, path);
+    SimpleRequest req = await _getReq(request);
+
+    final List parameters = [];
+    for (InParam param in params) {
+      if (param is ParserParam) {
+        DataParser results = param.parseBody(req);
+        if (results.error != null) return results.error;
+        var ref = param.newInstance(Symbol.empty, [], results.data);
+        parameters.add(ref.reflectee);
+        continue;
       }
 
-      final List parameters = [];
-      for (InParam param in params) {
-        if (param is ParserParam) {
-          DataParser results = param.parseBody(req);
-          if (results.error != null) return results.error;
-          var ref = param.newInstance(Symbol.empty, [], results.data);
-          parameters.add(ref.reflectee);
+      final data = req[param.name];
+      if (data == null && !param.isOptional) {
+        throw {
+          #status: 400,
+          "msg": "missing field ${param.name}",
+        };
+      } else {
+        if (req is JsonRequest && req[param.name] != null) {
+          parameters.add(data);
           continue;
         }
-
-        final data = req[param.name];
-        if (data == null && !param.isOptional) {
-          return {
-            #status: 400,
-            "msg": "missing field ${param.name}",
-          };
-        } else {
-          parameters.add(checkType(data, param.type));
-        }
+        parameters.add(checkType(data, param.type));
       }
-      InstanceMirror result = handler(name, parameters);
-      var reflecte = result.reflectee;
-      if (reflecte is Future) reflecte = await reflecte;
-      return reflecte;
-    } catch (e) {
-      print(e);
-      return {
-        #status: 500,
-        'error': e.toString(),
-      };
+    }
+    InstanceMirror result = handler(name, []);
+    var reflecte = result.reflectee;
+    if (reflecte is Future) reflecte = await reflecte;
+    return reflecte;
+  }
+
+  Future<SimpleRequest> _getReq(HttpRequest request) async {
+    if (requestType == JsonRequest) {
+      return await BodyCompiler.json(request, path);
+    } else if (requestType == FormRequest) {
+      return await BodyCompiler.form(request, path);
+    } else if (requestType == iFormRequest) {
+      return await BodyCompiler.iForm(request, path);
+    } else {
+      return BodyCompiler.simple(request, path);
     }
   }
 }
