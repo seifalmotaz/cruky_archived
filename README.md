@@ -8,13 +8,15 @@ Cruky is a server-side library for the dart ecosystem to help you create your AP
 
 > Inspired by FastApi
 
+> (Cruky cli)[https://pub.dev/packages/cruky_cli]
+
 ## Get started
 
 You can see the todo example in the examples file it's very clear to understand.
 
 1. Install Dart from [Dart.dev](https://dart.dev/)
 
-2. Install the Cruky package with `dart pub global activate cruky`
+2. Install the Cruky package with `dart pub global activate cruky_cli`
 
 3. Create dart project with  `dart create nameOfProject`
 
