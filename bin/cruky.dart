@@ -19,7 +19,12 @@ Future<void> main(List<String> args) async {
   parser.addCommand(_run);
   parser.addCommand(_log);
 
-  parser.addOption('dir', abbr: 'd');
+  parser.addOption(
+    'dir',
+    abbr: 'd',
+    defaultsTo: './bin',
+    help: 'Run the file in another folder',
+  );
 
   ArgResults results = parser.parse(args);
   ArgResults command = results.command!;
@@ -31,10 +36,8 @@ Future<void> main(List<String> args) async {
 }
 
 Future<void> runApp(ArgResults results) async {
-  late String dir;
+  String dir = results['dir'];
   String file = results.command!.arguments.first;
-  if (results.options.contains('dir')) dir = results['dir'];
-  if (!results.options.contains('dir')) dir = './bin';
 
   bool inProcess = false;
   String filePath = '$dir/$file.dart';

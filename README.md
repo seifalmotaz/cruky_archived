@@ -40,7 +40,6 @@ Now let's add our first route method:
 ```dart
 @Route.get('/todos/list/')
 Future<List> listTodos() async => [];
-
 ```
 
 Add the `Route` annotation to specify the route path, and add the method under it we can use the `Future` method or regular method (async or sync).
