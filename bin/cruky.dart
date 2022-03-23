@@ -52,13 +52,19 @@ Future<void> runApp(ArgResults results) async {
     process.stdout
         .transform(utf8.decoder)
         .forEach((e) => print(ls.convert(e).join('\n')));
+
+    process.stderr.transform(utf8.decoder).forEach((e) {
+      print(red('\nError with you code:'));
+      print(ls.convert(e).join('\n'));
+      exit(0);
+    });
   }
 
   await start();
 
   DirectoryWatcher('./lib').events.listen((event) async {
     if (inProcess) return;
-    print('\n${gray("Change:")} in:${event.path.replaceAll(r'\', '/')}');
+    print('\n${gray("Change in:")} ${event.path.replaceAll(r'\', '/')}');
     print(green('===== Restarting =====\n'));
     inProcess = true;
     process.kill();

@@ -120,8 +120,7 @@ class Cruky {
   /// ```dart
   /// Cruky().passLib(#todoLibrary)
   /// ```
-  void passLib(Symbol symbol) =>
-      _addLib(currentMirrorSystem().findLibrary(symbol));
+  void lib(Symbol symbol) => _addLib(currentMirrorSystem().findLibrary(symbol));
 
   /// add library routes to routes
   void _addLib(LibraryMirror lib) {
