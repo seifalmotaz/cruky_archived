@@ -12,17 +12,18 @@ RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
 RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
 
 class BodyCompiler {
-  static SimpleRequest simple(HttpRequest request, PathRegex path) =>
-      SimpleRequest(
+  static SimpleReq simple(HttpRequest request, PathRegex path) => SimpleReq(
+        headers: request.headers,
         path: request.uri,
         query: request.uri.queryParametersAll,
         parameters: path.parseParams(request.uri.path),
       );
 
-  static Future<JsonRequest> json(HttpRequest request, PathRegex path) async {
+  static Future<JsonReq> json(HttpRequest request, PathRegex path) async {
     String string = await utf8.decodeStream(request);
     Map body = string.isEmpty ? {} : jsonDecode(string);
-    return JsonRequest(
+    return JsonReq(
+      headers: request.headers,
       body: body,
       path: request.uri,
       query: request.uri.queryParametersAll,
@@ -36,12 +37,13 @@ class BodyCompiler {
         .then((b) => b.takeBytes());
   }
 
-  static Future<FormRequest> form(HttpRequest request, PathRegex path) async {
+  static Future<FormReq> form(HttpRequest request, PathRegex path) async {
     var bytes = await _getBytes(request);
 
     Map<String, String> body =
         Uri.splitQueryString(String.fromCharCodes(bytes));
-    return FormRequest(
+    return FormReq(
+      headers: request.headers,
       parameters: path.parseParams(request.uri.path),
       path: request.uri,
       query: request.uri.queryParametersAll,
@@ -49,7 +51,7 @@ class BodyCompiler {
     );
   }
 
-  static Future<iFormRequest> iForm(HttpRequest request, PathRegex path) async {
+  static Future<iFormReq> iForm(HttpRequest request, PathRegex path) async {
     final Map<String, String> formFields = {};
     final Map<String, FilePart> formFiles = {};
     Stream<Uint8List> stream;
@@ -131,9 +133,10 @@ class BodyCompiler {
       formFiles[name] = FilePart(name, filename, streamBytes);
     }
 
-    return iFormRequest(
+    return iFormReq(
       form: formFields,
       files: formFiles,
+      headers: request.headers,
       path: request.uri,
       query: request.uri.queryParametersAll,
       parameters: path.parseParams(request.uri.path),

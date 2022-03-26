@@ -1,17 +1,19 @@
 part of cruky.request;
 
-class JsonRequest extends SimpleRequest {
+class JsonReq extends SimpleReq {
   /// json body
   Map body = {};
 
-  JsonRequest({
+  JsonReq({
     required path,
     required parameters,
     required query,
     required this.body,
+    required HttpHeaders headers,
   }) : super(
           parameters: parameters,
           path: path,
+          headers: headers,
           query: query,
         );
   @override

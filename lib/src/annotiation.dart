@@ -33,8 +33,6 @@ enum Bind {
 }
 
 /// request body parser annotiation
-class Parser {
-  final String name;
-  final Bind from;
-  const Parser(this.name, [this.from = Bind.any]);
+class Schema {
+  const Schema();
 }

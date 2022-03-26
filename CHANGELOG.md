@@ -1,3 +1,6 @@
+## 0.5.0+1
+    - Add cruky_cli package to pub.dev
+
 ## 0.5.0
     - Better error handling 
     - indirect methods with dynamic params

@@ -1,17 +1,19 @@
 part of cruky.request;
 
-class FormRequest extends SimpleRequest {
+class FormReq extends SimpleReq {
   /// form fields
   Map form = {};
 
-  FormRequest({
+  FormReq({
     required Uri path,
     required Map parameters,
     required Map query,
     required this.form,
+    required HttpHeaders headers,
   }) : super(
           parameters: parameters,
           path: path,
+          headers: headers,
           query: query,
         );
 
@@ -33,22 +35,24 @@ class FormRequest extends SimpleRequest {
 }
 
 // ignore: camel_case_types
-class iFormRequest extends SimpleRequest {
+class iFormReq extends SimpleReq {
   /// form fields
   Map<String, String> form = {};
 
   /// form files
   Map<String, FilePart> files = {};
 
-  iFormRequest({
+  iFormReq({
     required Uri path,
     required Map parameters,
     required Map query,
     required this.form,
     required this.files,
+    required HttpHeaders headers,
   }) : super(
           parameters: parameters,
           path: path,
+          headers: headers,
           query: query,
         );
 

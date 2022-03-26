@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:mirrors';
 
 import 'package:cruky/cruky.dart';
@@ -18,7 +17,7 @@ class ParserParam extends InParam {
   ]) newInstance;
   final List<InParam> params = [];
 
-  DataParser parseBody(SimpleRequest request) {
+  DataParser parseBody(SimpleReq request) {
     final Map<Symbol, dynamic> paramMap = {};
     for (InParam item in params) {
       final data = request[item.name];
@@ -29,7 +28,7 @@ class ParserParam extends InParam {
         });
       }
       if (data != null) {
-        if (request is JsonRequest && request[item.name] != null) {
+        if (request is JsonReq && request[item.name] != null) {
           paramMap[Symbol(item.name)] = data;
           continue;
         }
@@ -44,7 +43,7 @@ class MethodParams {
   Type? _requestContentType;
   final List<InParam> list = [];
 
-  Type get requestContentType => _requestContentType ?? JsonRequest;
+  Type get requestContentType => _requestContentType ?? JsonReq;
 
   bool isRegularType(Type type) =>
       type == String ||
@@ -62,7 +61,7 @@ class MethodParams {
       list.add(_param);
       return;
     } else if (param.type.reflectedType == FilePart) {
-      _requestContentType = iFormRequest;
+      _requestContentType = iFormReq;
       InParam _param = InParam();
       _param.name = MirrorSystem.getName(param.simpleName);
       _param.type = param.type.reflectedType;

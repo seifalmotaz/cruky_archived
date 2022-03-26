@@ -17,29 +17,13 @@ class DirectHandler extends MethodHandler {
   /// handle request
   @override
   handle(HttpRequest request) async {
-    if (requestType == JsonRequest) {
-      return await jsonRequestHandler(request);
-    } else if (requestType == FormRequest) {
-      return await formRequestHandler(request);
-    } else if (requestType == iFormRequest) {
-      return await iFormRequestHandler(request);
+    if (requestType == JsonReq) {
+      return await handler(await BodyCompiler.json(request, path));
+    } else if (requestType == FormReq) {
+      return await handler(await BodyCompiler.form(request, path));
+    } else if (requestType == iFormReq) {
+      return await BodyCompiler.iForm(request, path);
     }
-    return await simpleRequestHandler(request);
+    return await handler(BodyCompiler.simple(request, path));
   }
-
-  /// handle any body
-  simpleRequestHandler(HttpRequest request) async =>
-      await handler(BodyCompiler.simple(request, path));
-
-  /// handle request if it's json body
-  jsonRequestHandler(HttpRequest request) async =>
-      await handler(await BodyCompiler.json(request, path));
-
-  /// handle form request
-  formRequestHandler(HttpRequest request) async =>
-      await handler(await BodyCompiler.form(request, path));
-
-  /// handle multipart form request
-  iFormRequestHandler(HttpRequest request) async =>
-      await BodyCompiler.iForm(request, path);
 }

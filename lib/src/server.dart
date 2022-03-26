@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:mirrors';
 
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/constants.dart';
 import 'package:cruky/src/interfaces/error_handler.dart';
 import 'package:logging/logging.dart';
 
@@ -96,13 +97,14 @@ class Cruky {
         if (route == null) {
           req.response.statusCode = 404;
         } else {
-          dynamic res = await route.handle(req);
-          writeResponse(req, res);
+          dynamic ress = await route.handle(req);
+          writeResponse(req, ress);
         }
       } catch (e) {
-        print(e);
         if (e is ErrorHandler) {
           writeResponse(req, e.json);
+        } else if (e is Map) {
+          writeResponse(req, e);
         } else {
           writeResponse(req, {
             "Unhandled error": e.toString(),
@@ -141,16 +143,19 @@ class Cruky {
 
   /// add library routes to routes
   void _addLib(LibraryMirror lib) {
-    /// get all declarations in library
-    List<DeclarationMirror> declarations = lib.declarations.values.toList();
-    for (var declaration in declarations) {
+    libsInvocation.addAll({lib.simpleName: lib.invoke});
+    for (final declaration in lib.declarations.entries) {
+      final value = declaration.value;
+
       /// check if it's a route handler method
-      if (declaration.metadata
-          .where((value) => value.reflectee is Route)
-          .isEmpty) continue;
-      if (declaration is MethodMirror) _addMethod(declaration, lib);
+      if (value.metadata.where((value) => value.reflectee is Route).isEmpty) {
+        continue;
+      }
+      if (value is MethodMirror) _addMethod(value, lib);
     }
   }
+
+  void use(Type middleware) {}
 
   void _addMethod(MethodMirror methodMirror, LibraryMirror lib) {
     bool isDirect = false;
@@ -172,7 +177,7 @@ class Cruky {
     MethodParams methodParams = MethodParams();
     List<ParameterMirror> paramsMI = methodMirror.parameters;
 
-    final simpleRequestReflect = reflectType(SimpleRequest);
+    final simpleRequestReflect = reflectType(SimpleReq);
     for (ParameterMirror param in paramsMI) {
       if (requestType == null) {
         TypeMirror paramType = param.type;
@@ -198,7 +203,7 @@ class Cruky {
         method: method,
         params: methodParams.list,
         name: methodMirror.simpleName,
-        handler: lib.invoke,
+        libHandler: lib.simpleName,
         requestType: requestType ?? methodParams.requestContentType,
       ));
     }

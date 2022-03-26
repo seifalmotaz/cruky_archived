@@ -1,12 +1,15 @@
 library cruky.request;
 
-import 'package:cruky/src/interfaces/file_part.dart';
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/interfaces/request/enum.dart';
 
 part './json.dart';
 part './form.dart';
 
-class SimpleRequest {
+class SimpleReq {
+  /// http request headers
+  final HttpHeaders headers;
+
   /// the request uri
   final Uri path;
 
@@ -16,15 +19,23 @@ class SimpleRequest {
   /// path parameters
   final Map parameters;
 
+  /// middlewares returned data
+  final Map<String, dynamic> middlewares;
+
+  void middleware(String key, value) => middlewares.addAll({key: value});
+
   /// init
-  SimpleRequest({
+  SimpleReq({
+    required this.headers,
     required this.path,
     required this.parameters,
     required this.query,
+    this.middlewares = const {},
   });
 
   /// operator
-  dynamic operator [](String i) => query[i] ?? parameters[i];
+  dynamic operator [](String i) =>
+      middlewares[i] ?? query[i] ?? parameters[i] ?? headers.value(i);
 
   Set call(String i) {
     dynamic data;

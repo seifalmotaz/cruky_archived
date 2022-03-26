@@ -7,6 +7,7 @@ List<Map> todos = [
   {"id": 2, "task": "task 2"},
 ];
 
+@Schema()
 class Todo {
   String task;
   bool isCompleted;

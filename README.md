@@ -16,7 +16,7 @@ You can see the todo example in the examples file it's very clear to understand.
 
 1. Install Dart from [Dart.dev](https://dart.dev/)
 
-2. Install the Cruky package with `dart pub global activate cruky_cli`
+2. Install the Cruky package with `dart pub global activate cruky`
 
 3. Create dart project with  `dart create nameOfProject`
 
