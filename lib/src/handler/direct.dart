@@ -1,7 +1,7 @@
 part of cruky.handlers;
 
 class DirectHandler extends MethodHandler {
-  final dynamic Function(dynamic req) handler;
+  final Function handler;
 
   DirectHandler({
     required path,
@@ -16,14 +16,23 @@ class DirectHandler extends MethodHandler {
 
   /// handle request
   @override
-  handle(HttpRequest request) async {
-    if (requestType == JsonReq) {
-      return await handler(await BodyCompiler.json(request, path));
-    } else if (requestType == FormReq) {
-      return await handler(await BodyCompiler.form(request, path));
-    } else if (requestType == iFormReq) {
-      return await BodyCompiler.iForm(request, path);
+  handle(HttpRequest request, ResCTX resCTX) async {
+    late SimpleReq req;
+
+    switch (requestType) {
+      case JsonReq:
+        req = await BodyCompiler.json(request, path);
+        break;
+      case FormReq:
+        req = await BodyCompiler.form(request, path);
+        break;
+      case iFormReq:
+        req = await BodyCompiler.iForm(request, path);
+        break;
+      default:
+        req = BodyCompiler.simple(request, path);
     }
-    return await handler(BodyCompiler.simple(request, path));
+
+    return await handler(req, resCTX);
   }
 }

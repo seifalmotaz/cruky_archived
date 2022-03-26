@@ -69,6 +69,7 @@ Future<void> runApp(ArgResults results) async {
 
     process.stderr.transform(utf8.decoder).forEach((e) {
       print(red('\nError with you code:'));
+      process.kill();
       throw ls.convert(e).join('\n');
     });
   }

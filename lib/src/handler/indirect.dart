@@ -24,7 +24,7 @@ class InDirectHandler extends MethodHandler {
         );
 
   @override
-  Future handle(HttpRequest request) async {
+  Future handle(HttpRequest request, ResCTX res) async {
     SimpleReq req = await _getReq(request);
     return await _callMethod(req);
   }

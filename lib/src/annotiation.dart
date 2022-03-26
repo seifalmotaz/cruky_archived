@@ -6,33 +6,39 @@ class Route {
   /// route path
   final String path;
 
-  /// valide request handler
-  final Type? contentType;
+  final List<Type> middlewares;
 
   /// GET route
-  const Route.get(this.path, {this.method = "GET", this.contentType});
+  const Route.get(
+    this.path, {
+    this.method = "GET",
+    this.middlewares = const [],
+  });
 
   /// PUT route
-  const Route.put(this.path, {this.method = "PUT", this.contentType});
+  const Route.put(
+    this.path, {
+    this.method = "PUT",
+    this.middlewares = const [],
+  });
 
   /// POST route
-  const Route.post(this.path, {this.method = "POST", this.contentType});
+  const Route.post(
+    this.path, {
+    this.method = "POST",
+    this.middlewares = const [],
+  });
 
   /// Delete route
-  const Route.delete(this.path, {this.method = "DELETE", this.contentType});
-}
-
-/// Parser from field
-///
-/// This helps you to spacify from where to get the fields of parser model
-enum Bind {
-  any,
-  body,
-  query,
-  pathParameters,
+  const Route.delete(
+    this.path, {
+    this.method = "DELETE",
+    this.middlewares = const [],
+  });
 }
 
 /// request body parser annotiation
 class Schema {
+  /// init
   const Schema();
 }
