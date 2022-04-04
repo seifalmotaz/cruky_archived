@@ -6,9 +6,7 @@
 
 Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`
 
-> Inspired by FastApi
-
-> (Cruky cli)[https://pub.dev/packages/cruky_cli]
+> Inspired by FastApi, Jaguar, Angel
 
 ## Get started
 

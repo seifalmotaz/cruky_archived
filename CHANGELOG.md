@@ -1,23 +1,3 @@
-## 0.5.0+1
-    - Add cruky_cli package to pub.dev
+## 1.0.0
 
-## 0.5.0
-    - Better error handling 
-    - indirect methods with dynamic params
-    - better path paramaters extractor
-
-## 0.1.1
-    - Fix Hot reload bug
-    You can now use hot reload by running `cruky run bin/main.dart`
-
-## 0.1.0
-    - Adding hotreload option
-  
-## 0.0.2+2
-    - remove unused files
-
-## 0.0.2+1
-    - remove unused files
-## 0.0.1
-    - Initial version.
-
+- Initial version.

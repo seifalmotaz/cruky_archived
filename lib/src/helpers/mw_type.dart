@@ -1,0 +1,4 @@
+enum MWtype {
+  before,
+  after,
+}
