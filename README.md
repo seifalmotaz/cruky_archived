@@ -4,9 +4,13 @@
 
 ## Info
 
-Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`
+Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
 
-> Inspired by Django
+The main reason why I built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
+and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, Express, ..etc)
+So I decided that I will make a new library that focuses on Dart and get the maximum performance using dart:mirrors and code generators together to get the best usage of the dart.
+
+> Inspired by Pythod server-side frameworks (Django, Flask, FastAPI)
 
 ## Get started
 
@@ -32,9 +36,6 @@ class MyApp extends AppMaterial {
   List get routes => [
         exampleWithGETRequest,
       ];
-
-  @override
-  List get middlewares => [middlewareExample];
 }
 ```
 
@@ -58,7 +59,7 @@ You can return a List or map for now and the response content type is just JSON 
 you can return the specific status code with the map like that:
 
 ```dart
-@Route.post('/')
+@Route.get('/')
 exampleWithGetRequest(ReqCTX req) {
   return Json({}, 201);
 }
@@ -101,3 +102,26 @@ The `MW` is the short of MiddleWare.
 The annotiation defines the type of middleware, There is two types `BeforeMW` amd `AfterMW`.
 
 If you want to not execute the next function you can (The main route method) you can return a response like in the example.
+
+Now we will add this middleware to global middlewares in the app and any route under it well have the same middleware.
+
+```dart
+class MyApp extends AppMaterial {
+  @override
+  List get routes => [
+        exampleWithGETRequest,
+      ];
+
+  @override
+  List get middlewares => [middlewareExample]; /// add this
+}
+```
+
+Or you can add the middleware scoped for a route like this:
+
+```dart
+@Route.get('/', [middlewareExample])
+exampleWithGetRequest(ReqCTX req) {
+  return Json({}, 201);
+}
+```
