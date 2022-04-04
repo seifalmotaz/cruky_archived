@@ -38,7 +38,7 @@ class ReqCTX {
 
   void add(String key, value) => extra.addAll({key: value});
 
-  headerValue(String name) => native.headers.value(name);
+  String? headerValue(String name) => native.headers.value(name);
 
   /// operator
   dynamic operator [](String i) =>

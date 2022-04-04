@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:cruky/cruky.dart';
 import 'package:cruky/src/handlers/direct.dart';
-import 'package:cruky/src/helpers/mw_type.dart';
 import 'package:cruky/src/response/response.dart';
 
 part './handlers.dart';
