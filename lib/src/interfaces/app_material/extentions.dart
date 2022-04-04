@@ -12,9 +12,9 @@ Set filterMW(List middlewares) {
     bool isBefore = true;
     ClosureMirror mirror = reflect(item) as ClosureMirror;
     for (var meta in mirror.function.metadata) {
-      if (meta.reflectee is MiddlewareAfter) {
+      if (meta.reflectee is AfterMW) {
         isBefore = false;
-      } else if (meta.reflectee is MiddlewareBefore) {
+      } else if (meta.reflectee is BeforeMW) {
         isBefore = true;
       }
     }

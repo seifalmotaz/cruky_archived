@@ -17,7 +17,7 @@ exampleWithGETRequest(ReqCTX req) {
   return Json({});
 }
 
-@Route.get('/')
+@BeforeMW()
 middlewareExample(ReqCTX req) {
   if (req.headerValue('Token') == null) {
     return Text('Not Auth', 401);

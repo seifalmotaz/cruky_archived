@@ -32,13 +32,13 @@ class Route {
 }
 
 /// this defines that the method called before the main handler method
-class MiddlewareBefore {
+class BeforeMW {
   /// this defines that the method called before the main handler method
-  const MiddlewareBefore();
+  const BeforeMW();
 }
 
 /// this defines that the method called after the main handler method
-class MiddlewareAfter {
+class AfterMW {
   /// this defines that the method called after the main handler method
-  const MiddlewareAfter();
+  const AfterMW();
 }
