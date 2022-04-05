@@ -1,15 +1,22 @@
 library cruky.core;
 
 import 'dart:mirrors';
+import 'dart:isolate';
 
 import 'package:cruky/src/common/annotiations.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/handlers/direct.dart';
 import 'package:cruky/src/interfaces/app_material/app_material.dart';
 import 'package:cruky/src/interfaces/app_material/extentions.dart';
+import 'package:cruky/src/interfaces/app_material/server_app.dart';
 import 'package:cruky/src/server/server.dart';
+import 'package:vm_service/vm_service.dart' hide Isolate;
+import 'package:vm_service/vm_service_io.dart';
+import 'package:watcher/watcher.dart';
 
 part 'parser.dart';
+
+bool debugMode = true;
 
 /// This helps you to to add all app to the routes tree in the server.
 ///
@@ -31,16 +38,56 @@ part 'parser.dart';
 ///   return JsonRes({'example': 'route'});
 /// }
 /// ```
-void run<T extends AppMaterial>(
-  T app, {
-  String address = '127.0.0.1',
-  int port = 5000,
-  int threads = 5,
-}) {
+Future<void> run<T extends ServerApp>({bool debug = false}) async {
+  debugMode = debug;
+
+  ClassMirror mirror = reflectClass(T);
+  ServerApp app = mirror.newInstance(Symbol.empty, []).reflectee;
+
   List<DirectRoute> routes = [];
   _addRoutes(app, routes);
+
+  if (!debugMode) {
+    for (var i = 0; i < app.isolates; i++) {
+      Isolate.spawn(runServer, [routes, app]);
+    }
+    while (true) {}
+  }
+
   CrukyServer server = CrukyServer(routes);
-  server.serve(address: address, port: port, threads: threads);
+  server.serve(
+    address: app.address,
+    port: app.port,
+    threads: app.cores,
+  );
+  VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
+  var vm = await serviceClient.getVM();
+
+  DirectoryWatcher('./').events.listen((event) async {
+    print('\nChange in: ${event.path.replaceAll(r'\', '/')}');
+    await server.close();
+    for (var item in vm.isolates!) {
+      await serviceClient.reloadSources(item.id!);
+    }
+    app = mirror.newInstance(Symbol.empty, []).reflectee;
+    routes.clear();
+    _addRoutes(app, routes);
+    server = CrukyServer(routes);
+    server.serve(
+      address: app.address,
+      port: app.port,
+      threads: app.cores,
+    );
+  });
+}
+
+void runServer(List data) {
+  CrukyServer server = CrukyServer(data.first);
+  server.serve(
+    address: data.last.address,
+    port: data.last.port,
+    threads: data.last.cores,
+  );
 }
 
 void _addRoutes(app, List<DirectRoute> routes, [List<AppMaterial>? parents]) {

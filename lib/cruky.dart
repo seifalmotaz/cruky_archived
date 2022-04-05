@@ -12,3 +12,4 @@ export './src/common/annotiations.dart';
 
 /// interfaces
 export 'src/interfaces/app_material/app_material.dart';
+export 'src/interfaces/app_material/server_app.dart';

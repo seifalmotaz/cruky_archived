@@ -1,8 +1,8 @@
 import 'package:cruky/cruky.dart';
 
-void main() => run(MyApp());
+void main() => run<MyApp>();
 
-class MyApp extends AppMaterial {
+class MyApp extends ServerApp {
   @override
   List get routes => [
         exampleWithGETRequest,

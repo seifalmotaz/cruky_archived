@@ -15,22 +15,21 @@ class CrukyServer {
   CrukyServer(this.routes);
 
   /// Internal http server
-  late List<HttpServer> _servers;
+  List<HttpServer> _servers = <HttpServer>[];
 
   /// get http servers list
   Iterable<HttpServer> get servers => List.unmodifiable(_servers);
 
-  serve({
+  void serve({
     String address = '127.0.0.1',
     int port = 5000,
     int threads = 5,
   }) async {
-    _servers = <HttpServer>[];
-
     try {
       for (var i = 0; i < threads; i++) {
         final server = await HttpServer.bind(address, port, shared: true);
         server.listen(_handle);
+        _servers.add(server);
       }
       print('Servers opened on http://$address:$port with $threads threads');
     } catch (e) {
@@ -67,5 +66,6 @@ class CrukyServer {
     if (err != null) {
       throw err;
     }
+    _servers = [];
   }
 }
