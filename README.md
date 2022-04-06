@@ -7,10 +7,10 @@
 Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
 
 The main reason why I built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
-and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, Express, ..etc)
+and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, ROR, ..etc)
 So I decided that I will make a new library that focuses on Dart and get the maximum performance using dart:mirrors and code generators together to get the best usage of the dart.
 
-> Inspired by Pythod server-side frameworks (Django, Flask, FastAPI)
+> Inspired by server-side frameworks like (Django, Flask, FastAPI, ROR)
 
 ## Get started
 
@@ -18,7 +18,7 @@ You can see the todo example in the examples file it's very clear to understand.
 
 1. Install Dart from [Dart.dev](https://dart.dev/)
 
-2. Install the Cruky package with `dart pub global activate cruky_cli`
+2. Install the Cruky package with `dart pub global activate cruky`
 
 3. Create dart project with  `dart create nameOfProject`
 
@@ -31,7 +31,7 @@ Start adding the entrypoint app
 ```dart
 import 'package:cruky/cruky.dart';
 
-class MyApp extends AppMaterial {
+class MyApp extends ServerApp {
   @override
   List get routes => [
         exampleWithGETRequest,
@@ -70,16 +70,20 @@ exampleWithGetRequest(ReqCTX req) {
 we can serve a simple app with this code
 
 ```dart
-void main() => run(MyApp());
+void main() => run<MyApp>(debug: true);
 ```
 
-and now run the dart file with `cruky run filename`.
+> You can run with `cruky serve`,
+> This will run the file in `./lib/main.dart`
+> with `hot reload`
 
-This will run the file in `./bin/filename.dart` with hot-reload.
+> If you want to run the app without `cruky serve` you can run
+> `dart run --observe ./lib/main.dart` this well run with hot reload
 
-> You can run with another folder with `cruky run filename -d example`
-> 
-> This will run the file in `./example/filename.dart`
+### You can disable hot reload with:
+```dart
+void main() => run<MyApp>(debug: false);
+```
 
 Now Cruky will run the app with hot-reload if any thing changed in lib folder.
 
@@ -101,12 +105,14 @@ middlewareExample(ReqCTX req) {
 The `MW` is the short of MiddleWare.
 The annotiation defines the type of middleware, There is two types `BeforeMW` amd `AfterMW`.
 
+You can access the header values with the `headerValue` function, if you want the full access you can get the main `HttpRequest` data with `req.native` or the response with `req.response` as `HttpResponse`
+
 If you want to not execute the next function you can (The main route method) you can return a response like in the example.
 
 Now we will add this middleware to global middlewares in the app and any route under it well have the same middleware.
 
 ```dart
-class MyApp extends AppMaterial {
+class MyApp extends ServerApp {
   @override
   List get routes => [
         exampleWithGETRequest,

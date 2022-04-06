@@ -31,7 +31,6 @@ class CrukyServer {
         server.listen(_handle);
         _servers.add(server);
       }
-      print('Servers opened on http://$address:$port with $threads threads');
     } catch (e) {
       try {
         await close();

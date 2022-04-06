@@ -1,8 +1,10 @@
 library cruky.core;
 
+import 'dart:io';
 import 'dart:mirrors';
 import 'dart:isolate';
 
+import 'package:ansicolor/ansicolor.dart';
 import 'package:cruky/src/common/annotiations.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/handlers/direct.dart';
@@ -17,6 +19,7 @@ import 'package:watcher/watcher.dart';
 part 'parser.dart';
 
 bool debugMode = true;
+final AnsiPen greenPen = AnsiPen()..green();
 
 /// This helps you to to add all app to the routes tree in the server.
 ///
@@ -38,7 +41,7 @@ bool debugMode = true;
 ///   return JsonRes({'example': 'route'});
 /// }
 /// ```
-Future<void> run<T extends ServerApp>({bool debug = false}) async {
+Future<void> run<T extends ServerApp>({bool debug = true}) async {
   debugMode = debug;
 
   ClassMirror mirror = reflectClass(T);
@@ -51,6 +54,8 @@ Future<void> run<T extends ServerApp>({bool debug = false}) async {
     for (var i = 0; i < app.isolates; i++) {
       Isolate.spawn(runServer, [routes, app]);
     }
+    print('Server opened on http://${app.address}:${app.port} '
+        'with ${app.isolates} isolates');
     while (true) {}
   }
 
@@ -60,25 +65,38 @@ Future<void> run<T extends ServerApp>({bool debug = false}) async {
     port: app.port,
     threads: app.cores,
   );
+  print('Server opened on http://${app.address}:${app.port} '
+      'with ${app.isolates} isolates');
   VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
   var vm = await serviceClient.getVM();
 
-  DirectoryWatcher('./').events.listen((event) async {
-    print('\nChange in: ${event.path.replaceAll(r'\', '/')}');
-    await server.close();
-    for (var item in vm.isolates!) {
-      await serviceClient.reloadSources(item.id!);
-    }
-    app = mirror.newInstance(Symbol.empty, []).reflectee;
-    routes.clear();
-    _addRoutes(app, routes);
-    server = CrukyServer(routes);
-    server.serve(
-      address: app.address,
-      port: app.port,
-      threads: app.cores,
-    );
-  });
+  Future<void> watchDir(String dir) async {
+    DirectoryWatcher(
+      dir,
+      pollingDelay: Duration(milliseconds: 1500),
+    ).events.listen((event) async {
+      print(greenPen('_________________\nRestarting server'));
+      await server.close();
+      for (var item in vm.isolates!) {
+        await serviceClient.reloadSources(item.id!);
+      }
+      app = mirror.newInstance(Symbol.empty, []).reflectee;
+      routes.clear();
+      _addRoutes(app, routes);
+      server = CrukyServer(routes);
+      server.serve(
+        address: app.address,
+        port: app.port,
+        threads: app.cores,
+      );
+      print('Server opened on http://${app.address}:${app.port} '
+          'with ${app.isolates} isolates');
+    });
+  }
+
+  watchDir('./bin/');
+  watchDir('./lib/');
+  if (Directory('./test/').existsSync()) watchDir('./test/');
 }
 
 void runServer(List data) {

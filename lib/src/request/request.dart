@@ -19,6 +19,9 @@ class ReqCTX {
   /// http request headers
   final HttpRequest native;
 
+  /// http response
+  HttpResponse get response => native.response;
+
   Uri get uri => native.uri;
   X509Certificate? get certificate => native.certificate;
   List<Cookie> get cookies => native.cookies;

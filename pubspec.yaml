@@ -1,6 +1,6 @@
 name: cruky
 description: cruky is server-side library to create API with modern and fast performance.
-version: 0.7.0
+version: 0.7.1
 homepage: https://github.com/seifalmotaz/cruky
 repository: https://github.com/seifalmotaz/cruky
 documentation: https://github.com/seifalmotaz/cruky/wiki
@@ -14,6 +14,9 @@ dependencies:
   # for the hotreload
   watcher: ^1.0.1
   vm_service: ^8.2.2
+  # for cli
+  args: ^2.3.0
+  ansicolor: ^2.0.1
 
 dev_dependencies:
   lints: ^1.0.0
