@@ -1,13 +1,14 @@
 import 'dart:mirrors';
 
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/common/prototypes.dart';
 
 /// return the middleware methods seperated beforeMW and afterMW
 ///
 /// return a [Set] => {beforeMethods, afterMethods}
 Set filterMW(List middlewares) {
-  List before = [];
-  List after = [];
+  List<MethodMW> before = [];
+  List<MethodMW> after = [];
   for (final item in middlewares) {
     bool isBefore = true;
     ClosureMirror mirror = reflect(item) as ClosureMirror;

@@ -3,10 +3,11 @@ import 'dart:io';
 
 import './response.dart';
 
+/// Json response
 class Json extends Response {
   final dynamic body;
   Json(this.body, [int? _status]) : assert(body is List || body is Map) {
-    status = _status ?? 200;
+    statusCode = _status ?? 200;
   }
 
   @override
@@ -17,10 +18,11 @@ class Json extends Response {
   }
 }
 
+/// Text plain response
 class Text extends Response {
   final String body;
   Text(this.body, [int? _status]) {
-    status = _status ?? 200;
+    statusCode = _status ?? 200;
   }
 
   @override
@@ -31,16 +33,18 @@ class Text extends Response {
   }
 }
 
+/// Html response
 class Html extends Response {
-  final String body;
-  Html(this.body, [int? _status]) {
-    status = _status ?? 200;
+  final String fileName;
+  final Map? data;
+  Html(this.fileName, {int? status, this.data}) {
+    statusCode = status ?? 200;
   }
 
   @override
   void writeResponse(HttpRequest req) {
     super.writeResponse(req);
     req.response.headers.contentType = ContentType.html;
-    req.response.write(body);
+    // req.response.write(body);
   }
 }

@@ -49,37 +49,13 @@ extension Handlers on CrukyServer {
 
   _handle(HttpRequest req) async {
     DateTime date = DateTime.now();
-    DirectRoute? matched = _matchReq(req);
+    BlankRoute? matched = _matchReq(req);
     if (matched == null) {
       _writeResponse(req, Json({'msg': 'not found'}, 404), date);
       return;
     }
     try {
-      ReqCTX reqCTX = ReqCTX(
-        native: req,
-        path: req.uri,
-        parameters: matched.path.parseParams(req.uri.path),
-        query: req.uri.queryParametersAll,
-      );
-
-      for (var item in matched.beforeMW) {
-        final result = item(reqCTX);
-        if (result != null) {
-          await _writeResponse(req, result, date);
-          return;
-        }
-      }
-
-      final result = await matched.handler(reqCTX);
-
-      for (var item in matched.afterMW) {
-        final result = item(reqCTX);
-        if (result != null) {
-          await _writeResponse(req, result, date);
-          return;
-        }
-      }
-
+      final result = await matched(req);
       await _writeResponse(req, result, date);
     } catch (e, stack) {
       _writeResponse(req, e, date);

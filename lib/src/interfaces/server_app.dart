@@ -1,3 +1,4 @@
+import 'package:cruky/handlers/handlers.dart';
 import 'package:cruky/src/interfaces/app_material/app_material.dart';
 
 abstract class ServerApp extends AppMaterial {
@@ -12,4 +13,7 @@ abstract class ServerApp extends AppMaterial {
 
   /// number of isolate that will run
   int get isolates => 5;
+
+  /// types of handlers you can add custom type here
+  List<HandlerType> get handlerTypes => [];
 }
