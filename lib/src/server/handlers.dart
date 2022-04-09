@@ -16,7 +16,7 @@ extension Handlers on CrukyServer {
   Future<void> _writeResponse(HttpRequest req, data, DateTime date) async {
     if (data is Response) {
       try {
-        data.writeResponse(req);
+        await data.writeResponse(req);
       } catch (e, stack) {
         print(e);
         print(stack);

@@ -11,7 +11,7 @@ class Json extends Response {
   }
 
   @override
-  void writeResponse(HttpRequest req) {
+  Future writeResponse(HttpRequest req) async {
     super.writeResponse(req);
     req.response.headers.contentType = ContentType.json;
     req.response.write(jsonEncode(body));
@@ -26,7 +26,7 @@ class Text extends Response {
   }
 
   @override
-  void writeResponse(HttpRequest req) {
+  Future writeResponse(HttpRequest req) async {
     super.writeResponse(req);
     req.response.headers.contentType = ContentType.text;
     req.response.write(body);
@@ -42,9 +42,9 @@ class Html extends Response {
   }
 
   @override
-  void writeResponse(HttpRequest req) {
+  Future writeResponse(HttpRequest req) async {
     super.writeResponse(req);
     req.response.headers.contentType = ContentType.html;
-    // req.response.write(body);
+    req.response.write(await File(fileName).readAsString());
   }
 }
