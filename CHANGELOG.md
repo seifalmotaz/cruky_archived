@@ -1,3 +1,9 @@
+## 0.8.1
+
+- fixing cruky cli
+- rename `run` method to `runApp`
+- updating
+
 ## 0.8.0
 
 - adding content-type filtering option

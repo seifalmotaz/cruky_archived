@@ -70,19 +70,19 @@ exampleWithGetRequest(ReqCTX req) {
 we can serve a simple app with this code
 
 ```dart
-void main() => run<MyApp>(debug: true);
+void main() => runApp(MyApp(), debug: true);
 ```
 
 > You can run with `cruky serve`,
 > This will run the file in `./lib/main.dart`
-> with `hot reload`
-
-> If you want to run the app without `cruky serve` you can run
-> `dart run --observe ./lib/main.dart` this well run with hot reload
+> with `hot reload`.
+> 
+> Note: In production mode better to use the `dart run` command
+> for less ram use and better performance.
 
 ### You can disable hot reload with:
 ```dart
-void main() => run<MyApp>(debug: false);
+void main() => runApp(MyApp(), debug: false);
 ```
 
 Now Cruky will run the app with hot-reload if any thing changed in lib folder.
