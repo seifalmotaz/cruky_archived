@@ -7,6 +7,7 @@ import 'package:cruky/src/common/mimetypes.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/helpers/path_parser.dart';
+import 'package:cruky/src/interfaces/handler.dart';
 import 'package:cruky/src/request/request.dart';
 
 final jsonHandler = HandlerType<_JsonHandler>(
@@ -41,7 +42,7 @@ const json = _Json();
 const Type jsonType = _Json;
 
 /// direct route annotiation
-class _Json {
+class _Json extends HandlerInfo {
   /// direct route annotiation
   const _Json();
 }

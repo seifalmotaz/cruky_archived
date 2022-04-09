@@ -6,6 +6,7 @@ import 'package:cruky/handlers.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/helpers/path_parser.dart';
+import 'package:cruky/src/interfaces/handler.dart';
 import 'package:cruky/src/request/request.dart';
 
 final directHandler = HandlerType<DirectHandler>(
@@ -18,7 +19,7 @@ const direct = _Direct();
 const Type directType = _Direct;
 
 /// direct route annotiation
-class _Direct {
+class _Direct extends HandlerInfo {
   /// direct route annotiation
   const _Direct();
 }

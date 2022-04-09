@@ -2,7 +2,7 @@
 
 - fixing cruky cli
 - rename `run` method to `runApp`
-- updating
+- updating hotreload
 
 ## 0.8.0
 

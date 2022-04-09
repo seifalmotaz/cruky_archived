@@ -4,12 +4,17 @@ import 'dart:mirrors';
 
 import 'package:cruky/src/handlers/json.dart';
 import 'package:cruky/src/common/prototypes.dart';
+import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/helpers/path_parser.dart';
+import 'package:cruky/src/interfaces/handler.dart';
 
 import 'blank.dart';
 import 'direct.dart';
 
-final List<HandlerType> _mainTypes = [directHandler, jsonHandler];
+final Map<Type?, HandlerType> _mainTypes = {
+  directType: directHandler,
+  jsonType: jsonHandler,
+};
 
 class HandlerType<T> {
   final Type? annotiationType;
@@ -25,7 +30,7 @@ class HandlerType<T> {
 }
 
 class MethodParser {
-  final List<HandlerType> types;
+  final Map<Type?, HandlerType> types;
   MethodParser(this.types) {
     types.addAll(_mainTypes);
   }
@@ -46,15 +51,27 @@ class MethodParser {
       afterMW: afterMW,
     );
 
-    List<Type> annoTypes = (reflect(func) as ClosureMirror)
-        .function
-        .metadata
+    var reflect2 = reflect(func) as ClosureMirror;
+    List<Type> annoTypes = reflect2.function.metadata
+        .where((e) => e.reflectee is HandlerInfo)
         .map((e) => e.reflectee.runtimeType)
         .toList();
 
-    for (var item in types) {
-      if (item.match(func, annoTypes)) {
-        return await item.parser(func, route);
+    if (annoTypes.isNotEmpty) {
+      var type = types[annoTypes.first];
+      if (type == null) {
+        var sourceLocation = reflect2.function.location!;
+        throw LibError(
+          'There is no handler type like $func',
+          "${sourceLocation.sourceUri.toFilePath()}:${sourceLocation.line}:${sourceLocation.column}",
+        );
+      }
+      return await type.parser(func, route);
+    }
+
+    for (var item in types.entries) {
+      if (item.value.match(func, annoTypes)) {
+        return await item.value.parser(func, route);
       }
     }
 
