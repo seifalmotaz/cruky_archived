@@ -11,24 +11,44 @@ class Route {
   /// routes middlewares
   final List middlewares;
 
+  /// routes middlewares
+  final List<String> accepted;
+
   /// add custom route with custom methods
-  const Route(this.path, this.methods, [this.middlewares = const []]);
+  const Route(
+    this.path,
+    this.methods, [
+    this.middlewares = const [],
+    this.accepted = const [],
+  ]);
 
   /// route with GET method
-  const Route.get(this.path, [this.middlewares = const []])
-      : methods = ReqMethods.get;
+  const Route.get(
+    this.path, [
+    this.middlewares = const [],
+    this.accepted = const [],
+  ]) : methods = ReqMethods.get;
 
   /// route with POST method
-  const Route.post(this.path, [this.middlewares = const []])
-      : methods = ReqMethods.post;
+  const Route.post(
+    this.path, [
+    this.middlewares = const [],
+    this.accepted = const [],
+  ]) : methods = ReqMethods.post;
 
   /// route with PUT method
-  const Route.put(this.path, [this.middlewares = const []])
-      : methods = ReqMethods.put;
+  const Route.put(
+    this.path, [
+    this.middlewares = const [],
+    this.accepted = const [],
+  ]) : methods = ReqMethods.put;
 
   /// route with DELETE method
-  const Route.delete(this.path, [this.middlewares = const []])
-      : methods = ReqMethods.delete;
+  const Route.delete(
+    this.path, [
+    this.middlewares = const [],
+    this.accepted = const [],
+  ]) : methods = ReqMethods.delete;
 }
 
 /// this defines that the method called before the main handler method

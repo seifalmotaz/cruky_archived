@@ -1,3 +1,9 @@
+## 0.8.0
+
+- adding content-type filtering option
+- changing the handler types system and make it reuseable
+- adding `JsonCTX` for json content type request that only accept `application/json`
+
 ## 0.7.1
 
 - fix hot reload bug
