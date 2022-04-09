@@ -1,7 +1,7 @@
 import 'package:cruky/cruky.dart';
 import 'package:cruky/handlers.dart';
 
-void main() => run<MyApp>(debug: false);
+void main() => run(MyApp(), debug: true);
 
 class MyApp extends ServerApp {
   @override

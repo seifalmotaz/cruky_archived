@@ -45,12 +45,8 @@ late final List<HandlerType> _handlerTypes;
 ///   return JsonRes({'example': 'route'});
 /// }
 /// ```
-Future<void> run<T extends ServerApp>({bool debug = true}) async {
+Future<void> run<T extends ServerApp>(T app, {bool debug = true}) async {
   debugMode = debug;
-
-  ClassMirror mirror = reflectClass(T);
-  ServerApp app = mirror.newInstance(Symbol.empty, []).reflectee;
-
   _handlerTypes = app.handlerTypes;
 
   List<BlankRoute> routes = [];
@@ -83,38 +79,35 @@ Future<void> run<T extends ServerApp>({bool debug = true}) async {
   print('Server opened on http://${app.address}:${app.port} '
       'in debug mode');
 
-  if (Platform.executableArguments.contains('--enable-vm-service')) {
-    VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
-    var vm = await serviceClient.getVM();
+  VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
+  var vm = await serviceClient.getVM();
 
-    Future<void> watchDir(String dir) async {
-      DirectoryWatcher(
-        dir,
-        pollingDelay: Duration(milliseconds: 1500),
-      ).events.listen((event) async {
-        print(greenPen('_________________\nRestarting server'));
-        await server.close();
-        for (var item in vm.isolates!) {
-          await serviceClient.reloadSources(item.id!);
-        }
-        app = mirror.newInstance(Symbol.empty, []).reflectee;
-        routes.clear();
-        _addRoutes(app, routes);
-        server = CrukyServer(routes);
-        server.serve(
-          address: app.address,
-          port: app.port,
-          threads: app.cores,
-        );
-        print('Server opened on http://${app.address}:${app.port} '
-            'in debug mode');
-      });
-    }
-
-    if (Directory('./bin/').existsSync()) watchDir('./bin/');
-    if (Directory('./lib/').existsSync()) watchDir('./lib/');
-    if (Directory('./test/').existsSync()) watchDir('./test/');
+  Future<void> watchDir(String dir) async {
+    DirectoryWatcher(
+      dir,
+      pollingDelay: Duration(milliseconds: 1500),
+    ).events.listen((event) async {
+      print(greenPen('_________________\nRestarting server'));
+      await server.close();
+      for (var item in vm.isolates!) {
+        await serviceClient.reloadSources(item.id!);
+      }
+      routes.clear();
+      _addRoutes(app, routes);
+      server = CrukyServer(routes);
+      server.serve(
+        address: app.address,
+        port: app.port,
+        threads: app.cores,
+      );
+      print('Server opened on http://${app.address}:${app.port} '
+          'in debug mode');
+    });
   }
+
+  if (Directory('./bin/').existsSync()) watchDir('./bin/');
+  if (Directory('./lib/').existsSync()) watchDir('./lib/');
+  if (Directory('./test/').existsSync()) watchDir('./test/');
 }
 
 void runServer(List data) {

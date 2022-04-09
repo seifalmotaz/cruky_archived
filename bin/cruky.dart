@@ -17,9 +17,8 @@ Future<void> main(List<String> args) async {
   ArgResults results = parser.parse(args);
   ArgResults command = results.command!;
   if (command.name == _serveCMD) {
-    String dir = command.arguments.isEmpty
-        ? './example/main.dart'
-        : command.arguments.first;
+    String dir =
+        command.arguments.isEmpty ? './bin/main.dart' : command.arguments.first;
     Process process = await Process.start('dart', [
       'run',
       '--enable-vm-service',
