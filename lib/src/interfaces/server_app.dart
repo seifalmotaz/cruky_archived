@@ -1,6 +1,11 @@
-import 'package:cruky/handlers/handlers.dart';
+import 'package:cruky/handlers.dart';
 import 'package:cruky/src/interfaces/app_material/app_material.dart';
 
+/// This is the main entry point for the server.
+///
+/// Here we define the settings of server like (address, port, isolates, cores)
+///
+/// it's abstract of AppMatrial but with extra options
 abstract class ServerApp extends AppMaterial {
   /// the server listen address
   String get address => '127.0.0.1';

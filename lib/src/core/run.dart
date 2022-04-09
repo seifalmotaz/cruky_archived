@@ -5,10 +5,10 @@ import 'dart:mirrors';
 import 'dart:isolate';
 
 import 'package:ansicolor/ansicolor.dart';
-import 'package:cruky/handlers/src/blank.dart';
-import 'package:cruky/handlers/src/parser.dart';
 import 'package:cruky/src/common/annotiations.dart';
 import 'package:cruky/src/common/prototypes.dart';
+import 'package:cruky/src/handlers/blank.dart';
+import 'package:cruky/src/handlers/parser.dart';
 import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/interfaces/app_material/app_material.dart';
 import 'package:cruky/src/interfaces/app_material/extentions.dart';
@@ -134,7 +134,7 @@ Future<void> _addRoutes(app, List<BlankRoute> routes,
     //   continue;
     // }
     if (route is AppMaterial) {
-      routes.addAll(_app(route, parents ?? [app]));
+      routes.addAll(await _app(route, parents ?? [app]));
       continue;
     }
     // if (route is DirectRoute) {
@@ -166,9 +166,10 @@ Future<void> _addRoutes(app, List<BlankRoute> routes,
   }
 }
 
-List<BlankRoute> _app(AppMaterial app, List<AppMaterial> parents) {
+Future<List<BlankRoute>> _app(
+    AppMaterial app, List<AppMaterial> parents) async {
   List<BlankRoute> routes = [];
-  _addRoutes(app, routes, [app, ...parents]);
+  await _addRoutes(app, routes, [app, ...parents]);
   return routes;
 }
 

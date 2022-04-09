@@ -1,3 +1,5 @@
+library cruky.handlers.blank;
+
 import 'dart:io';
 
 import 'package:cruky/src/common/prototypes.dart';

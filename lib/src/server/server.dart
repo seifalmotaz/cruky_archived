@@ -3,7 +3,7 @@ library cruky.server;
 import 'dart:io';
 
 import 'package:cruky/cruky.dart';
-import 'package:cruky/handlers/src/blank.dart';
+import 'package:cruky/handlers.dart';
 import 'package:cruky/src/response/response.dart';
 
 part './handlers.dart';

@@ -1,16 +1,37 @@
 import 'package:cruky/cruky.dart';
+import 'package:cruky/handlers.dart';
 
-void main() => run<MyApp>();
+void main() => run<MyApp>(debug: false);
 
 class MyApp extends ServerApp {
+  @override
+  String get address => '0.0.0.0';
+
+  @override
+  int get port => 80;
+
+  @override
+  int get isolates => 5;
+
+  @override
+  int get cores => 2;
+
   @override
   List get routes => [
         exampleWithGETRequest,
         getData,
+        method,
+        ExampleApp(),
       ];
 
   @override
   List get middlewares => [middlewareExample];
+
+  @direct
+  @Route.get('/method')
+  method(ReqCTX req) {
+    return Text("It's working");
+  }
 }
 
 @Route.get('/')
@@ -29,5 +50,21 @@ middlewareExample(ReqCTX req) {
     return Text('Not Auth', 401);
   } else {
     req.data['token'] = req.headerValue('Token')!;
+  }
+}
+
+class ExampleApp extends AppMaterial {
+  @override
+  String get prefix => '/example';
+
+  @override
+  List get routes => [
+        getExample,
+      ];
+
+  // this is route method with path '/example/get/'
+  @Route.get('/get')
+  getExample(ReqCTX req) {
+    return Text('Nested apps');
   }
 }

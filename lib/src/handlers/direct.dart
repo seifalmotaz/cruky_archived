@@ -1,4 +1,5 @@
-import 'dart:io';
+library cruky.handlers.direct;
+
 import 'dart:mirrors';
 
 import 'package:cruky/src/common/prototypes.dart';
@@ -9,8 +10,13 @@ import 'package:cruky/src/request/request.dart';
 import 'blank.dart';
 
 /// direct route annotiation
-class Direct {
-  const Direct();
+const direct = _Direct();
+const Type directType = _Direct;
+
+/// direct route annotiation
+class _Direct {
+  /// direct route annotiation
+  const _Direct();
 }
 
 class DirectRoute extends BlankRoute {

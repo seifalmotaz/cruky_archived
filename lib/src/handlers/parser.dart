@@ -1,3 +1,5 @@
+library cruky.handlers.parser;
+
 import 'dart:mirrors';
 
 import 'package:cruky/src/common/prototypes.dart';
@@ -9,7 +11,7 @@ import 'direct.dart';
 final List<HandlerType> _mainTypes = [
   HandlerType<DirectHandler>(
     parser: DirectRoute.parse,
-    annotiationType: Direct,
+    annotiationType: directType,
   ),
 ];
 
