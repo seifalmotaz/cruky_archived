@@ -45,7 +45,7 @@ late final List<HandlerType> _handlerTypes;
 ///   return JsonRes({'example': 'route'});
 /// }
 /// ```
-Future<void> run<T extends ServerApp>(T app, {bool debug = true}) async {
+Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
   debugMode = debug;
   _handlerTypes = app.handlerTypes;
 
