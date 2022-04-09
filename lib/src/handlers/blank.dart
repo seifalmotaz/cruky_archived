@@ -23,10 +23,6 @@ class BlankRoute {
 
   bool match(HttpRequest req) {
     if (!methods.contains(req.method)) return false;
-    if (accepted.isNotEmpty &&
-        accepted.contains(req.headers.contentType?.mimeType)) {
-      throw Json({'msg': 'Not acceptable content-type'}, 415);
-    }
     return path.match(req.uri.path);
   }
 

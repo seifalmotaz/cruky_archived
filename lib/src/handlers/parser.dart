@@ -2,18 +2,14 @@ library cruky.handlers.parser;
 
 import 'dart:mirrors';
 
+import 'package:cruky/src/handlers/json.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/helpers/path_parser.dart';
 
 import 'blank.dart';
 import 'direct.dart';
 
-final List<HandlerType> _mainTypes = [
-  HandlerType<DirectHandler>(
-    parser: DirectRoute.parse,
-    annotiationType: directType,
-  ),
-];
+final List<HandlerType> _mainTypes = [directHandler, jsonHandler];
 
 class HandlerType<T> {
   final Type? annotiationType;

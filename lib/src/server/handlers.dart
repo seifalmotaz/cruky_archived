@@ -51,16 +51,30 @@ extension Handlers on CrukyServer {
     DateTime date = DateTime.now();
     BlankRoute? matched = _matchReq(req);
     if (matched == null) {
-      _writeResponse(req, Json({'msg': 'not found'}, 404), date);
+      await _writeResponse(req, Json({'msg': 'not found'}, 404), date);
       return;
     }
     try {
+      if ((req.headers.contentType == null && matched.accepted.isNotEmpty) ||
+          (matched.accepted.isNotEmpty &&
+              !matched.accepted.contains(req.headers.contentType!.mimeType))) {
+        final res = Json({'msg': 'Not acceptable content-type'}, 415);
+        await _writeResponse(req, res, date);
+        return;
+      }
       final result = await matched(req);
       await _writeResponse(req, result, date);
     } catch (e, stack) {
-      _writeResponse(req, e, date);
-      print(e);
-      print(stack);
+      if (e is ExceptionRes) {
+        await _writeResponse(req, e, date);
+        if (e.error != null) {
+          print(e.error!.msg);
+          print(e.error!.stackTrace);
+        }
+      } else {
+        print(e);
+        print(stack);
+      }
     }
   }
 }

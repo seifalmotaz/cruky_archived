@@ -62,9 +62,12 @@ class ExampleApp extends AppMaterial {
         getExample,
       ];
 
-  // this is route method with path '/example/get/'
+  /// this is route method with path '/example/get/',
+  ///
+  /// And it will accept just json content-type request because of
+  /// `JsonCTX` [req] type
   @Route.get('/get')
-  getExample(ReqCTX req) {
+  getExample(JsonCTX req) {
     return Text('Nested apps');
   }
 }
