@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cruky/src/helpers/path_parser.dart';
 import 'package:mime/mime.dart';
 
 import '../utils/utils.dart';

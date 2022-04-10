@@ -6,14 +6,16 @@ String getDate(DateTime date) {
   string += "${date.month}/";
   string += "${date.day}";
   string += ' ';
-  string += "${date.hour}:";
-  string += "${date.minute}:";
-  string += "${date.second}";
+  string += "${date.hour}H:";
+  string += "${date.minute}M:";
+  string += "${date.second}S";
   return string;
 }
 
 extension Handlers on CrukyServer {
   Future<void> _writeResponse(HttpRequest req, data, DateTime date) async {
+    bool closed = false;
+    req.response.done.then((value) => closed = true);
     if (data is Response) {
       try {
         await data.writeResponse(req);
@@ -22,13 +24,18 @@ extension Handlers on CrukyServer {
         print(stack);
       }
     }
-    if (data is Map || data is List) {
-      Json(data).writeResponse(req);
+    try {
+      if (data is Map || data is List) {
+        Json(data).writeResponse(req);
+      }
+      if (data is String) {
+        Text(data).writeResponse(req);
+      }
+    } catch (e, stack) {
+      print(e);
+      print(stack);
     }
-    if (data is String) {
-      Text(data).writeResponse(req);
-    }
-    await req.response.close();
+    if (!closed) await req.response.close();
     switch (req.response.statusCode) {
       case 404:
         print("\x1B[252m${getDate(date)}\x1B[0m "

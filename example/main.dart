@@ -1,20 +1,11 @@
 import 'package:cruky/cruky.dart';
 import 'package:cruky/handlers.dart';
 
-void main() => runApp(MyApp(), debug: false);
+void main() => runApp(MyApp(), debug: true);
 
 class MyApp extends ServerApp {
   @override
-  String get address => '0.0.0.0';
-
-  @override
-  int get port => 80;
-
-  @override
-  int get isolates => 5;
-
-  @override
-  int get cores => 2;
+  bool get useReqIsolator => true;
 
   @override
   List get routes => [
@@ -27,10 +18,9 @@ class MyApp extends ServerApp {
   @override
   List get middlewares => [middlewareExample];
 
-  @direct
   @Route.get('/method')
   method(ReqCTX req) {
-    return Text("It's working");
+    return Redirect('/example/get');
   }
 }
 

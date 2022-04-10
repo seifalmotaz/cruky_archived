@@ -1,3 +1,9 @@
+## 0.8.5
+
+- adding `FormCTX` for encoded form content type request that only accept `application/x-www-form-urlencoded`
+- adding `iFormCTX` for encoded form content type request that only accept `multipart/form-data`
+- adding `Redirect` response
+
 ## 0.8.1
 
 - fixing cruky cli

@@ -17,27 +17,27 @@ extension ReqConverter on ReqCTX {
         .then((b) => b.takeBytes());
   }
 
-  Future form(HttpRequest request, PathParser path) async {
-    var bytes = await _getBytes(request);
+  Future form() async {
+    var bytes = await _getBytes(native);
 
     Map<String, String> body =
         Uri.splitQueryString(String.fromCharCodes(bytes));
     return FormData(body);
   }
 
-  Future iForm(HttpRequest request, PathParser path) async {
+  Future<iFormData> iForm() async {
     final Map<String, String> formFields = {};
     final Map<String, FilePart> formFiles = {};
     Stream<Uint8List> stream;
 
-    var bytes = await _getBytes(request);
+    var bytes = await _getBytes(native);
     var ctrl = StreamController<Uint8List>()
       ..add(bytes)
       ..close();
     stream = ctrl.stream;
 
     var parts = MimeMultipartTransformer(
-            request.headers.contentType!.parameters['boundary']!)
+            native.headers.contentType!.parameters['boundary']!)
         .bind(stream);
 
     await for (MimeMultipart part in parts) {

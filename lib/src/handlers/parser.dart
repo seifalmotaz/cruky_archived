@@ -2,6 +2,8 @@ library cruky.handlers.parser;
 
 import 'dart:mirrors';
 
+import 'package:cruky/src/handlers/form.dart';
+import 'package:cruky/src/handlers/iform.dart';
 import 'package:cruky/src/handlers/json.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/helpers/liberror.dart';
@@ -14,6 +16,8 @@ import 'direct.dart';
 final Map<Type?, HandlerType> _mainTypes = {
   directType: directHandler,
   jsonType: jsonHandler,
+  formType: formHandler,
+  iFormType: iFormHandler,
 };
 
 class HandlerType<T> {

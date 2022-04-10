@@ -48,3 +48,21 @@ class Html extends Response {
     req.response.write(await File(fileName).readAsString());
   }
 }
+
+/// Html response
+class Redirect extends Response {
+  final Uri uri;
+  Redirect(url, [int? status]) : uri = Uri.parse(url) {
+    statusCode = status ?? 200;
+  }
+
+  Redirect.uri(this.uri, [int? status]) {
+    statusCode = status ?? 200;
+  }
+
+  @override
+  Future writeResponse(HttpRequest req) async {
+    super.writeResponse(req);
+    req.response.redirect(uri);
+  }
+}

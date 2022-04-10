@@ -21,4 +21,9 @@ abstract class ServerApp extends AppMaterial {
 
   /// types of handlers you can add custom type here
   List<HandlerType> get handlerTypes => [];
+
+  /// define if you want to handle every request in different isolate.
+  ///
+  /// the default is false.
+  bool get useReqIsolator => false;
 }
