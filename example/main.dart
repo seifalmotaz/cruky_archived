@@ -4,8 +4,6 @@ import 'package:cruky/handlers.dart';
 void main() => runApp(MyApp(), debug: true);
 
 class MyApp extends ServerApp {
-  @override
-  bool get useReqIsolator => true;
 
   @override
   List get routes => [

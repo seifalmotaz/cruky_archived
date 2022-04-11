@@ -58,14 +58,14 @@ extension Handlers on CrukyServer {
     DateTime date = DateTime.now();
     BlankRoute? matched = _matchReq(req);
     if (matched == null) {
-      await _writeResponse(req, Json({'msg': 'not found'}, 404), date);
+      await _writeResponse(req, Text('not found', 404), date);
       return;
     }
     try {
       if ((req.headers.contentType == null && matched.accepted.isNotEmpty) ||
           (matched.accepted.isNotEmpty &&
               !matched.accepted.contains(req.headers.contentType!.mimeType))) {
-        final res = Json({'msg': 'Not acceptable content-type'}, 415);
+        final res = Text('Not acceptable content-type', 415);
         await _writeResponse(req, res, date);
         return;
       }
@@ -81,6 +81,8 @@ extension Handlers on CrukyServer {
       } else {
         print(e);
         print(stack);
+        final res = Text('error with the server', 500);
+        await _writeResponse(req, res, date);
       }
     }
   }

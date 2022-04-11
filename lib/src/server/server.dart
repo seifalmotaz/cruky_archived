@@ -8,7 +8,6 @@ import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/response/response.dart';
 
 part './handlers.dart';
-part './constants.dart';
 
 class CrukyServer {
   final List<BlankRoute> routes;

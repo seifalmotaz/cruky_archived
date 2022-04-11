@@ -17,6 +17,9 @@ dependencies:
   # for cli
   args: ^2.3.0
   ansicolor: ^2.0.1
+  # for plugins
+  mysql1: ^0.19.2
+  postgres: ^2.4.3
 
 dev_dependencies:
   lints: ^1.0.0

@@ -1,3 +1,5 @@
+library cruky.mw_filter;
+
 import 'dart:mirrors';
 
 import 'package:cruky/cruky.dart';

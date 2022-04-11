@@ -5,14 +5,12 @@ import 'dart:mirrors';
 import 'dart:isolate';
 
 import 'package:ansicolor/ansicolor.dart';
-import 'package:cruky/src/common/annotiations.dart';
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/handlers/blank.dart';
 import 'package:cruky/src/handlers/parser.dart';
 import 'package:cruky/src/helpers/liberror.dart';
-import 'package:cruky/src/interfaces/app_material/app_material.dart';
-import 'package:cruky/src/interfaces/app_material/extentions.dart';
-import 'package:cruky/src/interfaces/server_app.dart';
+import 'package:cruky/src/helpers/mw_filter.dart';
 import 'package:cruky/src/server/server.dart';
 import 'package:vm_service/vm_service.dart' hide Isolate;
 import 'package:vm_service/vm_service_io.dart';
@@ -20,7 +18,6 @@ import 'package:watcher/watcher.dart';
 
 part 'parser.dart';
 
-bool debugMode = true;
 final AnsiPen greenPen = AnsiPen()..green();
 
 late final Map<Type?, HandlerType> _handlerTypes = {};
@@ -64,22 +61,42 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
     rethrow;
   }
 
+  final List<Function()> onlisten = [];
+  onlisten.add(app.onlisten);
+  print(onlisten.length);
+
+  for (PluginApp plugin in app.plugins) {
+    for (var item in plugin.handlerTypes) {
+      _handlerTypes.addAll({item.annotiationType: item});
+    }
+    await _addRoutes(plugin, routes);
+    onlisten.add(plugin.onlisten);
+  }
+  _DataParser _dataParser = _DataParser(app, routes, onlisten);
   if (!debugMode) {
     for (var i = 0; i < app.isolates; i++) {
-      Isolate.spawn(runServer, [routes, app]);
+      Isolate.spawn(runServer, _dataParser);
     }
     print('Server opened on http://${app.address}:${app.port} '
         'with ${app.isolates} isolates');
     while (true) {}
   }
 
-  CrukyServer server = CrukyServer(routes);
+  Isolate.spawn(runServerDebug, _dataParser);
+  while (true) {}
+}
+
+Future<void> runServerDebug(_DataParser msg) async {
+  for (var i in msg.onlisten) {
+    await i();
+  }
+  CrukyServer server = CrukyServer(msg.routes);
   server.serve(
-    address: app.address,
-    port: app.port,
-    threads: app.cores,
+    address: msg.app.address,
+    port: msg.app.port,
+    threads: msg.app.cores,
   );
-  print('Server opened on http://${app.address}:${app.port} '
+  print('Server opened on http://${msg.app.address}:${msg.app.port} '
       'in debug mode');
 
   VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
@@ -95,15 +112,15 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
       for (var item in vm.isolates!) {
         await serviceClient.reloadSources(item.id!);
       }
-      routes.clear();
-      _addRoutes(app, routes);
-      server = CrukyServer(routes);
+      msg.routes.clear();
+      _addRoutes(msg.app, msg.routes);
+      server = CrukyServer(msg.routes);
       server.serve(
-        address: app.address,
-        port: app.port,
-        threads: app.cores,
+        address: msg.app.address,
+        port: msg.app.port,
+        threads: msg.app.cores,
       );
-      print('Server opened on http://${app.address}:${app.port} '
+      print('Server opened on http://${msg.app.address}:${msg.app.port} '
           'in debug mode');
     });
   }
@@ -113,39 +130,23 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
   if (Directory('./test/').existsSync()) watchDir('./test/');
 }
 
-void runServer(List data) {
-  CrukyServer server = CrukyServer(data.first);
+Future<void> runServer(_DataParser msg) async {
+  msg.onlisten.map((e) async => await e());
+  CrukyServer server = CrukyServer(msg.routes);
   server.serve(
-    address: data.last.address,
-    port: data.last.port,
-    threads: data.last.cores,
+    address: msg.app.address,
+    port: msg.app.port,
+    threads: msg.app.cores,
   );
 }
 
 Future<void> _addRoutes(app, List<BlankRoute> routes,
     [List<AppMaterial>? parents]) async {
   for (final route in app.routes) {
-    // if (route is DirectHandler) {
-    //   routes.add(_directRoute(route, parents ?? [app]));
-    //   continue;
-    // }
     if (route is AppMaterial) {
       routes.addAll(await _app(route, parents ?? [app]));
       continue;
     }
-    // if (route is DirectRoute) {
-    //   routes.add(route);
-    //   continue;
-    // }
-    // if (route is List<Function>) {
-    //   for (var item in route) {
-    //     if (item is DirectHandler) {
-    //       routes.add(_directRoute(item, parents ?? [app]));
-    //       continue;
-    //     }
-    //   }
-    //   continue;
-    // }
 
     MethodParser parser = MethodParser(_handlerTypes);
     if (route is Function) {
@@ -158,6 +159,20 @@ Future<void> _addRoutes(app, List<BlankRoute> routes,
         afterMW: data['afterMW'],
         beforeMW: data['beforeMW'],
       ));
+    }
+    if (route is List<Function>) {
+      for (var item in route) {
+        Map data = _methodData(item, parents ?? [app]);
+        routes.add(await parser.parse(
+          item,
+          methods: data['methods'],
+          path: data['path'],
+          accepted: data['accepted'],
+          afterMW: data['afterMW'],
+          beforeMW: data['beforeMW'],
+        ));
+      }
+      continue;
     }
   }
 }
@@ -214,12 +229,9 @@ Map _methodData(Function route, List<AppMaterial> apps) {
   };
 }
 
-// return  DirectRoute.parse(
-//   path: path,
-//   method: methods,
-//   handler: mirror.reflectee,
-//   beforeMW: beforeMW,
-//   afterMW: afterMW,
-//   accepted: acceptedRequests,
-// );
-// }
+class _DataParser {
+  final ServerApp app;
+  final List<BlankRoute> routes;
+  final List<Function()> onlisten;
+  _DataParser(this.app, this.routes, this.onlisten);
+}

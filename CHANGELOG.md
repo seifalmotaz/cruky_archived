@@ -1,8 +1,15 @@
 ## 0.8.5
 
-- adding `FormCTX` for encoded form content type request that only accept `application/x-www-form-urlencoded`
-- adding `iFormCTX` for encoded form content type request that only accept `multipart/form-data`
-- adding `Redirect` response
+### Added
+- `FormCTX` for encoded form content type request that only accept `application/x-www-form-urlencoded`
+- `iFormCTX` for encoded form content type request that only accept `multipart/form-data`
+- `Redirect` response
+- Database integrations
+- Plugins app
+
+### Updates
+- Updating cruky create command
+- Better debug mode with production mode simulation
 
 ## 0.8.1
 

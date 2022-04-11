@@ -1,3 +1,5 @@
+library cruky.app_matrial;
+
 /// App interface used to define the required params for the app
 abstract class AppMaterial {
   /// route path prefex

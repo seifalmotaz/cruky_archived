@@ -39,15 +39,14 @@ Future<void> main(List<String> args) async {
   }
 
   if (command.name == _createCMD) {
-    String appName =
-        command.arguments.isEmpty ? 'main' : command.arguments.first;
+    String appName = command.arguments.first;
     print('Creating dart project');
     await Process.run('dart', ['create', appName]);
 
     print('Editing dart project');
     Directory('./$appName/lib').createSync();
 
-    File main = File('./$appName/bin/$appName.dart');
+    File main = File('./$appName/bin/main.dart');
 
     if (!main.existsSync()) {
       main = main.renameSync('./$appName/bin/main.dart');
@@ -56,16 +55,14 @@ Future<void> main(List<String> args) async {
     main.writeAsString("""
 import 'package:cruky/cruky.dart';
 
-void main() => run<MyApp>();
+void main() => runApp(MyApp());
 
 class MyApp extends ServerApp {
   @override
-  List get routes => [
-        exampleWithGETRequest,
-      ];
+  List get routes => [];
 
   @override
-  List get middlewares => [middlewareExample];
+  List get middlewares => [];
 }
 """);
     print('Done...');
