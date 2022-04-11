@@ -63,7 +63,6 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
 
   final List<Function()> onlisten = [];
   onlisten.add(app.onlisten);
-  print(onlisten.length);
 
   for (PluginApp plugin in app.plugins) {
     for (var item in plugin.handlerTypes) {
@@ -72,6 +71,7 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
     await _addRoutes(plugin, routes);
     onlisten.add(plugin.onlisten);
   }
+
   _DataParser _dataParser = _DataParser(app, routes, onlisten);
   if (!debugMode) {
     for (var i = 0; i < app.isolates; i++) {

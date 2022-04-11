@@ -17,10 +17,10 @@ abstract class ServerApp extends AppMaterial {
   int get port => 5000;
 
   /// number of server listeners in the single isolate
-  int get cores => 1;
+  int get cores => 5;
 
   /// number of isolate that will run
-  int get isolates => 5;
+  int get isolates => 1;
 
   /// types of handlers you can add custom type here
   List<HandlerType> get handlerTypes => [];

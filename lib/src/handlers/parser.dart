@@ -13,30 +13,36 @@ import 'package:cruky/src/interfaces/handler.dart';
 import 'blank.dart';
 import 'direct.dart';
 
-final Map<Type?, HandlerType> _mainTypes = {
-  directType: directHandler,
-  jsonType: jsonHandler,
-  formType: formHandler,
-  iFormType: iFormHandler,
-};
-
-class HandlerType<T> {
+class HandlerType<T extends Function> {
   final Type? annotiationType;
+  final bool isDynamic;
   final Future<BlankRoute> Function(Function handler, BlankRoute route) parser;
 
   HandlerType({
+    this.isDynamic = false,
     this.annotiationType,
     required this.parser,
   });
 
-  match(Function func, List<Type> anno) =>
-      func is T || (annotiationType != null && anno.contains(annotiationType));
+  match(Function func) => func is T;
 }
 
 class MethodParser {
-  final Map<Type?, HandlerType> types;
-  MethodParser(this.types) {
-    types.addAll(_mainTypes);
+  final Map<Type, HandlerType> dTypes = {}; // [dTypes] for dynamic types
+  final Map<Type?, HandlerType> types = {
+    directType: directHandler,
+    jsonType: jsonHandler,
+    formType: formHandler,
+    iFormType: iFormHandler,
+  };
+  MethodParser(Map<Type?, HandlerType> t) {
+    t.forEach((key, value) {
+      if (value.isDynamic) {
+        dTypes.addAll({key!: value});
+      } else {
+        types.addAll({key: value});
+      }
+    });
   }
 
   Future<BlankRoute> parse(
@@ -74,7 +80,7 @@ class MethodParser {
     }
 
     for (var item in types.entries) {
-      if (item.value.match(func, annoTypes)) {
+      if (item.value.match(func)) {
         return await item.value.parser(func, route);
       }
     }
