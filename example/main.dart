@@ -4,7 +4,6 @@ import 'package:cruky/handlers.dart';
 void main() => runApp(MyApp(), debug: true);
 
 class MyApp extends ServerApp {
-
   @override
   List get routes => [
         exampleWithGETRequest,
