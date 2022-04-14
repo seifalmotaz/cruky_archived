@@ -1,4 +1,4 @@
-import 'method.dart';
+import 'enum.dart';
 
 /// routing annotiation for route settings
 class Route {

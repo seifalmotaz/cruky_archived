@@ -10,7 +10,7 @@ import 'package:cruky/src/response/basic.dart';
 class BlankRoute {
   final List<String> methods;
   final PathParser path;
-  final List accepted;
+  final List<String> accepted;
   final List<MethodMW> beforeMW;
   final List<MethodMW> afterMW;
   BlankRoute({

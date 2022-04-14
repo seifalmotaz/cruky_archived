@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ansicolor/ansicolor.dart';
 import 'package:args/args.dart';
+import 'package:cruky/src/common/ansicolor.dart';
 
 final String _serveCMD = 'serve';
 final String _createCMD = 'create';
 
-final AnsiPen red = AnsiPen()..red();
-final AnsiPen blue = AnsiPen()..cyan();
 Future<void> main(List<String> args) async {
   var parser = ArgParser();
   parser.addCommand(_serveCMD);
@@ -32,7 +30,7 @@ Future<void> main(List<String> args) async {
         .forEach((e) => print(ls.convert(e).join('\n')));
 
     process.stderr.transform(utf8.decoder).forEach((e) async {
-      print('\n${red('Error with you code:')}\n');
+      print('\n${danger('Error with you code:')}\n');
       print(ls.convert(e).join('\n'));
     });
     return;

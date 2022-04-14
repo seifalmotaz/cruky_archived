@@ -1,6 +1,7 @@
 library cruky.handlers.direct;
 
 import 'dart:mirrors';
+import 'dart:async';
 
 import 'package:cruky/handlers.dart';
 import 'package:cruky/src/common/prototypes.dart';
@@ -8,6 +9,9 @@ import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/helpers/path_parser.dart';
 import 'package:cruky/src/interfaces/handler.dart';
 import 'package:cruky/src/request/request.dart';
+
+/// prototype function
+typedef DirectHandler<RespType> = FutureOr<RespType> Function(ReqCTX);
 
 final directHandler = HandlerType<DirectHandler>(
   parser: DirectRoute.parse,
@@ -33,7 +37,7 @@ class DirectRoute extends BlankRoute {
     required List<String> methods,
     required List<MethodMW> beforeMW,
     required List<MethodMW> afterMW,
-    required List accepted,
+    required List<String> accepted,
   }) : super(
           accepted: accepted,
           methods: methods,

@@ -5,9 +5,9 @@ RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
 RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
 
 extension ReqConverter on ReqCTX {
-  Future<Map> json() async {
+  Future json() async {
     String string = await utf8.decodeStream(native);
-    Map body = string.isEmpty ? {} : jsonDecode(string);
+    var body = string.isEmpty ? {} : jsonDecode(string);
     return body;
   }
 

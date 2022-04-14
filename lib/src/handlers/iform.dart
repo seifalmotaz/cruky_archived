@@ -52,7 +52,7 @@ class IFormRoute extends BlankRoute {
     required List<String> methods,
     required List<MethodMW> beforeMW,
     required List<MethodMW> afterMW,
-    required List accepted,
+    required List<String> accepted,
   }) : super(
           accepted: accepted,
           methods: methods,

@@ -23,17 +23,18 @@ extension Handlers on CrukyServer {
         print(e);
         print(stack);
       }
-    }
-    try {
-      if (data is Map || data is List) {
-        Json(data).writeResponse(req);
+    } else {
+      try {
+        if (data is Map || data is List) {
+          Json(data).writeResponse(req);
+        }
+        if (data is String) {
+          Text(data).writeResponse(req);
+        }
+      } catch (e, stack) {
+        print(e);
+        print(stack);
       }
-      if (data is String) {
-        Text(data).writeResponse(req);
-      }
-    } catch (e, stack) {
-      print(e);
-      print(stack);
     }
     if (!closed) await req.response.close();
     switch (req.response.statusCode) {
@@ -73,7 +74,7 @@ extension Handlers on CrukyServer {
       await _writeResponse(req, result, date);
     } catch (e, stack) {
       if (e is ExceptionRes) {
-        await _writeResponse(req, e, date);
+        await _writeResponse(req, e.res, date);
         if (e.error != null) {
           print(e.error!.msg);
           print(e.error!.stackTrace);

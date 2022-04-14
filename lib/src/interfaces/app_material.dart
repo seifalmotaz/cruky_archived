@@ -6,7 +6,7 @@ abstract class AppMaterial {
   String get prefix => '/';
 
   /// not userd getter
-  List get accepted => [];
+  List<String> get accepted => [];
 
   /// the routes to add to the main routes tree
   List get routes;

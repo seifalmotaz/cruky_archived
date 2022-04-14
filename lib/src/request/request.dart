@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cruky/src/common/mimetypes.dart';
 import 'package:mime/mime.dart';
 
 import '../utils/utils.dart';
@@ -35,11 +36,16 @@ class ReqCTX {
   List<Cookie> get cookies => native.cookies;
   HttpSession get session => native.session;
 
+  ContentType? get contentType => native.headers.contentType;
+  MimeType? get mimetype => contentType == null
+      ? null
+      : MimeType(contentType!.primaryType, contentType!.subType);
+
   /// the request uri
   final Uri path;
 
   /// the request uri query
-  final Map query;
+  final Map<String, List<String>> query;
 
   /// path parameters
   final Map parameters;

@@ -82,8 +82,9 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
     while (true) {}
   }
 
-  Isolate.spawn(runServerDebug, _dataParser);
-  while (true) {}
+  // Isolate.spawn(runServerDebug, _dataParser);
+  await runServerDebug(_dataParser);
+  // while (true) {}
 }
 
 Future<void> runServerDebug(_DataParser msg) async {
@@ -91,11 +92,17 @@ Future<void> runServerDebug(_DataParser msg) async {
     await i();
   }
   CrukyServer server = CrukyServer(msg.routes);
-  server.serve(
-    address: msg.app.address,
-    port: msg.app.port,
-    threads: msg.app.cores,
-  );
+  try {
+    server.serve(
+      address: msg.app.address,
+      port: msg.app.port,
+      threads: msg.app.cores,
+    );
+  } catch (e, s) {
+    print(e);
+    print(s);
+    return;
+  }
   print('Server opened on http://${msg.app.address}:${msg.app.port} '
       'in debug mode');
 
@@ -131,7 +138,9 @@ Future<void> runServerDebug(_DataParser msg) async {
 }
 
 Future<void> runServer(_DataParser msg) async {
-  msg.onlisten.map((e) async => await e());
+  for (var i in msg.onlisten) {
+    await i();
+  }
   CrukyServer server = CrukyServer(msg.routes);
   server.serve(
     address: msg.app.address,
@@ -159,6 +168,7 @@ Future<void> _addRoutes(app, List<BlankRoute> routes,
         afterMW: data['afterMW'],
         beforeMW: data['beforeMW'],
       ));
+      continue;
     }
     if (route is List<Function>) {
       for (var item in route) {
@@ -189,7 +199,7 @@ Map _methodData(Function route, List<AppMaterial> apps) {
   late List<String> methods;
   List<MethodMW> beforeMW = [];
   List<MethodMW> afterMW = [];
-  List acceptedRequests = [];
+  List<String> acceptedRequests = [];
   ClosureMirror mirror = reflect(route) as ClosureMirror;
 
   List<InstanceMirror> metadata = mirror.function.metadata;
