@@ -24,6 +24,7 @@ So I decided that I will make a new library that focuses on Dart and get the max
 ## Requirements
 
 - Install Dart from [Dart.dev](https://dart.dev/)
+- run command `dart pub global activate cruky`
 - Create new dart project
 - Install **cruky** <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a>
 - create `main.dart` file in bin directory and you ready to write your app
