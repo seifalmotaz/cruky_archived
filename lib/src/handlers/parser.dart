@@ -33,21 +33,21 @@ class MethodParser {
     inDirectType: inDirectHandler,
   }; // [dTypes] for dynamic types
 
-  final Map<Type?, HandlerType> types = {
-    directType: directHandler,
-    jsonType: jsonHandler,
-    formType: formHandler,
-    iFormType: iFormHandler,
-  };
+  final List<HandlerType> types = [
+    directHandler,
+    jsonHandler,
+    formHandler,
+    iFormHandler,
+  ];
 
-  MethodParser(Map<Type?, HandlerType> t) {
-    t.forEach((key, value) {
-      if (value.isDynamic) {
-        dTypes.addAll({key!: value});
+  MethodParser(List<HandlerType> t) {
+    for (var item in t) {
+      if (item.isDynamic) {
+        dTypes.addAll({item.annotiationType!: item});
       } else {
-        types.addAll({key: value});
+        types.add(item);
       }
-    });
+    }
   }
 
   Future<BlankRoute> parse(
@@ -73,20 +73,25 @@ class MethodParser {
         .toList();
 
     if (annoTypes.isNotEmpty) {
-      var type = types[annoTypes.first];
-      if (type == null) {
+      var type = dTypes[annoTypes.first];
+      if (type != null) {
+        return await type.parser(func, route);
+      }
+      try {
+        type = types.firstWhere((e) => e.annotiationType == annoTypes.first);
+        return await type.parser(func, route);
+      } on StateError {
         var sourceLocation = reflect2.function.location!;
         throw LibError(
           'There is no handler type like ${annoTypes.first}',
           "${sourceLocation.sourceUri.toFilePath()}:${sourceLocation.line}:${sourceLocation.column}",
         );
       }
-      return await type.parser(func, route);
     }
 
-    for (var item in types.entries) {
-      if (item.value.match(func)) {
-        return await item.value.parser(func, route);
+    for (var item in types) {
+      if (item.match(func)) {
+        return await item.parser(func, route);
       }
     }
 

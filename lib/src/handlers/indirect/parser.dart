@@ -14,6 +14,7 @@ import 'package:cruky/src/interfaces/handler.dart';
 
 part './in_query.dart';
 part './in_json.dart';
+part './in_form.dart';
 
 final inDirectHandler = HandlerType<Function>(
   parser: inDirectParse,
@@ -51,24 +52,49 @@ class SchemaParam {
   });
 }
 
+String getTypeName(Type type) {
+  switch (type) {
+    case String:
+      return 'string';
+    case int:
+      return 'int';
+    case double:
+      return 'double';
+    case num:
+      return 'number';
+    case bool:
+      return 'boolean';
+  }
+  var string = type.toString();
+  if (string.startsWith('Map')) {
+    return 'map';
+  }
+  if (type.toString().startsWith('List')) {
+    return 'list';
+  }
+  return type.toString();
+}
+
 Future<BlankRoute?> inDirectParse(Function handler, BlankRoute route) async {
   List<SchemaParam> schema = [];
-  // int queryArgs = 0;
   int jsonArgs = 0;
+  int formArgs = 0;
   ClosureMirror mirror = reflect(handler) as ClosureMirror;
   for (var element in mirror.function.parameters) {
     bool i = getIfQuery(element, schema, route);
-    if (i) {
-      // queryArgs++;
-      continue;
-    }
+    if (i) continue;
     i = getIfJson(element, schema, route);
     if (i) {
       jsonArgs++;
       continue;
     }
+    i = getFormJson(element, schema, route);
+    if (i) {
+      formArgs++;
+      continue;
+    }
   }
-  if (jsonArgs > 0) {
+  if (jsonArgs > 0 && formArgs == 0) {
     return InJsonRoute(
       handler: mirror.apply,
       schema: schema,
@@ -77,6 +103,17 @@ Future<BlankRoute?> inDirectParse(Function handler, BlankRoute route) async {
       beforeMW: route.beforeMW,
       afterMW: route.afterMW,
       accepted: [MimeTypes.json],
+    );
+  }
+  if (formArgs > 0 && jsonArgs == 0) {
+    return InFormRoute(
+      handler: mirror.apply,
+      schema: schema,
+      path: route.path,
+      methods: route.methods,
+      beforeMW: route.beforeMW,
+      afterMW: route.afterMW,
+      accepted: [MimeTypes.urlEncodedForm],
     );
   }
   return InQueryRoute(
@@ -112,7 +149,7 @@ bool getIfQuery(
         schema.add(SchemaParam(
           name: MirrorSystem.getName(element.simpleName),
           symbol: element.simpleName,
-          type: item.type,
+          type: element.type,
           isOptional: element.isOptional,
           bindFrom: BindFrom.query,
         ));
@@ -134,7 +171,7 @@ bool getIfJson(
   List<SchemaParam> schema,
   BlankRoute route,
 ) {
-  final bool isLangType = _jsonValidType(element.type);
+  final bool isLangType = _jsonValidType(element);
   if (isLangType && element.metadata.isEmpty) {
     schema.add(SchemaParam(
       name: MirrorSystem.getName(element.simpleName),
@@ -151,16 +188,55 @@ bool getIfJson(
         schema.add(SchemaParam(
           name: MirrorSystem.getName(element.simpleName),
           symbol: element.simpleName,
-          type: item.type,
+          type: element.type,
           isOptional: element.isOptional,
           bindFrom: BindFrom.json,
         ));
         return true;
       } else {
         throw LibError.stack(
-          element.location!,
-          '${danger("InDirect (${route.path}):")} the argument that binded '
-          'from request json body cannot be ${element.type.reflectedType}',
+          element.owner!.location!,
+          '\n${danger("InDirect (${route.path.path}):")} the argument that binded '
+          'from request json body cannot be ${element.type.reflectedType}.',
+        );
+      }
+    }
+  }
+  return false;
+}
+
+bool getFormJson(
+  ParameterMirror element,
+  List<SchemaParam> schema,
+  BlankRoute route,
+) {
+  final bool isLangType = _formValidType(element);
+  if (isLangType && element.metadata.isEmpty) {
+    schema.add(SchemaParam(
+      name: MirrorSystem.getName(element.simpleName),
+      symbol: element.simpleName,
+      type: element.type,
+      isOptional: element.isOptional,
+      bindFrom: BindFrom.form,
+    ));
+    return true;
+  }
+  for (var item in element.metadata) {
+    if (item.reflectee is _FormBind) {
+      if (isLangType) {
+        schema.add(SchemaParam(
+          name: MirrorSystem.getName(element.simpleName),
+          symbol: element.simpleName,
+          type: element.type,
+          isOptional: element.isOptional,
+          bindFrom: BindFrom.form,
+        ));
+        return true;
+      } else {
+        throw LibError.stack(
+          element.owner!.location!,
+          '\n${danger("InDirect (${route.path.path}):")} the argument that binded '
+          'from request json body cannot be ${element.type.reflectedType}.',
         );
       }
     }

@@ -20,7 +20,7 @@ part 'parser.dart';
 
 final AnsiPen greenPen = AnsiPen()..green();
 
-late final Map<Type?, HandlerType> _handlerTypes = {};
+late final List<HandlerType> _handlerTypes = [];
 
 /// This helps you to to add all app to the routes tree in the server.
 ///
@@ -44,10 +44,7 @@ late final Map<Type?, HandlerType> _handlerTypes = {};
 /// ```
 Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
   debugMode = debug;
-
-  for (var item in app.handlerTypes) {
-    _handlerTypes.addAll({item.annotiationType: item});
-  }
+  _handlerTypes.addAll(app.handlerTypes);
 
   List<BlankRoute> routes = [];
   try {
@@ -65,9 +62,7 @@ Future<void> runApp<T extends ServerApp>(T app, {bool debug = true}) async {
   onlisten.add(app.onlisten);
 
   for (PluginApp plugin in app.plugins) {
-    for (var item in plugin.handlerTypes) {
-      _handlerTypes.addAll({item.annotiationType: item});
-    }
+    _handlerTypes.addAll(plugin.handlerTypes);
     await _addRoutes(plugin, routes);
     onlisten.add(plugin.onlisten);
   }

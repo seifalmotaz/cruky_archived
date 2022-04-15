@@ -15,30 +15,21 @@ final formHandler = HandlerType<_FormHandler>(
   annotiationType: formType,
 );
 
-/// json request format
+/// form request format
 ///
 /// this handler will make your route just acceptjson content-type
-class FormCTX {
-  /// json decoded data
-  final Map data;
-
+class FormCTX extends FormData {
   /// the main request
   final ReqCTX req;
 
-  /// json request format
-  FormCTX(this.data, this.req);
-
-  /// get the data with `req['dataKey']`
-  operator [](Object i) => data[i];
+  /// form request format
+  FormCTX(data, this.req) : super(data);
 }
 
-/// json handler prototype
+/// form handler prototype
 typedef _FormHandler = Function(FormCTX);
 
-/// json route annotiation
-const form = _Form();
-
-/// json route public type
+/// form route public type
 const Type formType = _Form;
 
 /// direct route annotiation
@@ -68,7 +59,7 @@ class FormRoute extends BlankRoute {
   @override
   Future handle(ReqCTX req) async {
     var data = await req.form();
-    return await handler(FormCTX(data, req));
+    return await handler(FormCTX(data.formFields, req));
   }
 
   static Future<BlankRoute> parse(Function handler, BlankRoute route) async {

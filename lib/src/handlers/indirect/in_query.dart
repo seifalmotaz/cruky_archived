@@ -1,6 +1,6 @@
 part of cruky.handlers.in_direct;
 
-const query = _QueryBind();
+const cquery = _QueryBind();
 
 class _QueryBind {
   const _QueryBind();

@@ -1,3 +1,14 @@
+## 0.9.0
+
+### Added
+- `InDirect` routes with query and json types `not recommended for now`
+
+### Remove
+- remove the database plugins
+
+### Updating
+- The `FormCTX` and `iFormCTX` to handle repeated fields
+
 ## 0.8.5
 
 ### Added

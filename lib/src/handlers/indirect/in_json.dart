@@ -2,18 +2,23 @@ part of cruky.handlers.in_direct;
 
 const cjson = _JsonBind();
 
+class JsonSchema {}
+
 class _JsonBind {
   const _JsonBind();
 }
 
-bool _jsonValidType(TypeMirror typeMirror) {
-  Type type = typeMirror.reflectedType;
+bool _jsonValidType(ParameterMirror parameterMirror) {
+  Type type = parameterMirror.type.reflectedType;
+  Iterable list =
+      parameterMirror.metadata.where((e) => e.reflectee is _JsonBind);
+  if (list.isNotEmpty) return true;
   return type == Map ||
-      typeMirror.isSubtypeOf(reflectType(List)) ||
-      typeMirror.isSubtypeOf(reflectType(JsonSchema));
+      parameterMirror.type.isSubtypeOf(reflectType(List)) ||
+      parameterMirror.metadata
+          .where((e) => e.reflectee is JsonSchema)
+          .isNotEmpty;
 }
-
-class JsonSchema {}
 
 class InJsonRoute extends BlankRoute {
   final ApplyMethod handler;
@@ -34,29 +39,6 @@ class InJsonRoute extends BlankRoute {
           beforeMW: beforeMW,
           afterMW: afterMW,
         );
-
-  String getTypeName(Type type) {
-    switch (type) {
-      case String:
-        return 'string';
-      case int:
-        return 'int';
-      case double:
-        return 'double';
-      case num:
-        return 'number';
-      case bool:
-        return 'boolean';
-    }
-    var string = type.toString();
-    if (string.startsWith('Map')) {
-      return 'map';
-    }
-    if (type.toString().startsWith('List')) {
-      return 'list';
-    }
-    return type.toString();
-  }
 
   @override
   Future handle(ReqCTX req) async {
@@ -115,11 +97,17 @@ class InJsonRoute extends BlankRoute {
           args.add(List.from(data));
           continue;
         }
-        if (data.runtimeType != item.type.reflectedType) {
+        if (item.type.reflectedType == num && (data is int || data is double)) {
+          args.add(data);
+          continue;
+        } else if (data.runtimeType != item.type.reflectedType) {
           return Text(
             '"$data" is not subtype of ${getTypeName(item.type.reflectedType)}',
             422,
           );
+        } else {
+          args.add(data);
+          continue;
         }
       }
     }

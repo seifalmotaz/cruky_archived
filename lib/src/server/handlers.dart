@@ -63,9 +63,14 @@ extension Handlers on CrukyServer {
       return;
     }
     try {
-      if ((req.headers.contentType == null && matched.accepted.isNotEmpty) ||
-          (matched.accepted.isNotEmpty &&
-              !matched.accepted.contains(req.headers.contentType!.mimeType))) {
+      if ((matched.accepted.isEmpty && req.headers.contentType != null) ||
+          (matched.accepted.isNotEmpty && req.headers.contentType == null)) {
+        final res = Text('Not acceptable content-type', 415);
+        await _writeResponse(req, res, date);
+        return;
+      }
+      if (req.headers.contentType != null &&
+          !matched.accepted.contains(req.headers.contentType!.mimeType)) {
         final res = Text('Not acceptable content-type', 415);
         await _writeResponse(req, res, date);
         return;

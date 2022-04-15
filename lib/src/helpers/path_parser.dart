@@ -127,6 +127,8 @@ class PathParser {
 
     /// ending regex
     regex += endWith ? r'/?$' : "/?";
+    if (!path.startsWith('/')) path += '/';
+    if (!path.endsWith('/')) path = '/' + path;
     return PathParser(RegExp(regex, caseSensitive: false), params, path);
   }
 }

@@ -17,17 +17,16 @@ extension ReqConverter on ReqCTX {
         .then((b) => b.takeBytes());
   }
 
-  Future form() async {
+  Future<FormData> form() async {
     var bytes = await _getBytes(native);
-
-    Map<String, String> body =
-        Uri.splitQueryString(String.fromCharCodes(bytes));
+    Map<String, List<String>> body =
+        UriCustom.splitQueryStringMulti(String.fromCharCodes(bytes));
     return FormData(body);
   }
 
   Future<iFormData> iForm() async {
     final Map<String, String> formFields = {};
-    final Map<String, FilePart> formFiles = {};
+    final Map<String, List<FilePart>> formFiles = {};
     Stream<Uint8List> stream;
 
     var bytes = await _getBytes(native);
@@ -104,7 +103,11 @@ extension ReqConverter on ReqCTX {
 
       /// add the file to formFiles as stream
       Stream<List<int>> streamBytes = part.asBroadcastStream();
-      formFiles[name] = FilePart(name, filename, streamBytes);
+      if (formFiles.containsKey(name)) {
+        formFiles[name]!.add(FilePart(name, filename, streamBytes));
+      } else {
+        formFiles[name] = [FilePart(name, filename, streamBytes)];
+      }
     }
     return iFormData(formFields, formFiles);
   }
@@ -113,38 +116,35 @@ extension ReqConverter on ReqCTX {
 /// form data
 // ignore: camel_case_types
 class FormData {
-  final Map<String, String> formFields;
-  Object? operator [](String i) => formFields[i];
+  final Map<String, List<String>> formFields;
+  List? operator [](String i) => formFields[i];
   FormData(this.formFields);
 }
 
 /// multipart form data
 // ignore: camel_case_types
 class iFormData extends FormData {
-  final Map<String, FilePart> formFiles;
+  final Map<String, List<FilePart>> formFiles;
 
   @override
-  Object? operator [](String i) => formFields[i] ?? formFiles[i];
+  List? operator [](String i) => formFields[i] ?? formFiles[i];
 
   iFormData(formFields, this.formFiles) : super(formFields);
 }
 
 extension GetData on FormData {
   /// get value of field as [int]
-  int? getInt(String name) => formFields[name]?.toInt();
+  int? getInt(String name) => formFields[name]?.first.toInt();
 
   /// get value of field as [doubel]
-  double? getDouble(String name) => formFields[name]?.toDouble();
+  double? getDouble(String name) => formFields[name]?.first.toDouble();
 
   /// get value of field as [num]
-  num? getNum(String name) => formFields[name]?.toNum();
-
-  /// get value of field as [List]
-  List? getList(String name) => formFields[name]?.toList();
+  num? getNum(String name) => formFields[name]?.first.toNum();
 
   /// get value of field as [Map]
-  Map? getMap(String name) => formFields[name]?.toMap();
+  Map? getMap(String name) => formFields[name]?.first.toMap();
 
   /// get value of field as [bool]
-  bool? getBool(String name) => formFields[name]?.toBool();
+  bool? getBool(String name) => formFields[name]?.first.toBool();
 }

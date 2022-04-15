@@ -7,13 +7,9 @@ import 'package:cruky/src/common/mimetypes.dart';
 import 'package:cruky/src/common/prototypes.dart';
 import 'package:cruky/src/helpers/liberror.dart';
 import 'package:cruky/src/helpers/path_parser.dart';
-import 'package:cruky/src/interfaces/handler.dart';
 import 'package:cruky/src/request/request.dart';
 
-final jsonHandler = HandlerType<_JsonHandler>(
-  parser: JsonRoute.parse,
-  annotiationType: jsonType,
-);
+final jsonHandler = HandlerType<_JsonHandler>(parser: JsonRoute.parse);
 
 /// json request format
 ///
@@ -34,18 +30,6 @@ class JsonCTX {
 
 /// json handler prototype
 typedef _JsonHandler = Function(JsonCTX);
-
-/// json route annotiation
-const json = _Json();
-
-/// json route public type
-const Type jsonType = _Json;
-
-/// direct route annotiation
-class _Json extends HandlerInfo {
-  /// direct route annotiation
-  const _Json();
-}
 
 class JsonRoute extends BlankRoute {
   final _JsonHandler handler;

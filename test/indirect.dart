@@ -1,4 +1,5 @@
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/handlers/indirect/parser.dart';
 
 void main() => runApp(MyApp(), debug: true);
 
@@ -9,11 +10,17 @@ class MyApp extends ServerApp {
         testJson,
         testJson2,
         testJson3,
+        testForm,
       ];
 }
 
 @Route.get('/')
-testQuery(int w) {
+testQuery(num w) {
+  return Text('ok $w');
+}
+
+@Route.get('/f')
+testForm(@cform List w) {
   return Text('ok $w');
 }
 

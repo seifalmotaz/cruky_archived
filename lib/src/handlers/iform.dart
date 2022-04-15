@@ -17,24 +17,21 @@ final iFormHandler = HandlerType<_iFormHandler>(
   annotiationType: iFormType,
 );
 
-/// json request format
+/// iform request format
 ///
 /// this handler will make your route just acceptjson content-type
 class iFormCTX extends iFormData {
   /// the main request
   final ReqCTX req;
 
-  /// json request format
+  /// iform request format
   iFormCTX(iFormData data, this.req) : super(data.formFields, data.formFiles);
 }
 
-/// json handler prototype
+/// iform handler prototype
 typedef _iFormHandler = Function(iFormCTX);
 
-/// json route annotiation
-const iForm = _iForm();
-
-/// json route public type
+/// iform route public type
 const Type iFormType = _iForm;
 
 /// direct route annotiation
