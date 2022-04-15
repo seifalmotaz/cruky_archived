@@ -20,6 +20,7 @@ repo_name: seifalmotaz/cruky
 repo_url: https://github.com/seifalmotaz/cruky
 
 markdown_extensions:
+  - tables
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -28,3 +29,5 @@ markdown_extensions:
 
 nav:
   - Intro: index.md
+  - Basics:
+      - basics/app-matrial.md

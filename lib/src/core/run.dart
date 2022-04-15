@@ -206,6 +206,7 @@ Map _methodData(Function route, List<AppMaterial> apps) {
       Set mws = filterMW(ref.middlewares);
       beforeMW += mws.first;
       afterMW += mws.last;
+      acceptedRequests = List.of(ref.accepted);
       methods = expose.methods
           .replaceAll(' ', '')
           .split(',')
@@ -221,8 +222,6 @@ Map _methodData(Function route, List<AppMaterial> apps) {
     Set mws = filterMW(app.middlewares);
     beforeMW += mws.first;
     afterMW += mws.last;
-
-    acceptedRequests += app.accepted;
   }
 
   return {
