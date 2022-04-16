@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.9">
     
     
       
-        <title>Cruky</title>
+        <title>Route Handlers - Cruky</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.120efc48.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.120efc48.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.9647289d.min.css">
         
       
     
@@ -35,7 +35,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cruky" class="md-skip">
+        <a href="#route-handlers" class="md-skip">
           Skip to content
         </a>
       
@@ -77,7 +77,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Cruky" class="md-header__button md-logo" aria-label="Cruky" data-md-component="logo">
+    <a href="../.." title="Cruky" class="md-header__button md-logo" aria-label="Cruky" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Intro
+              Route Handlers
             
           </span>
         </div>
@@ -197,7 +197,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Cruky" class="md-nav__button md-logo" aria-label="Cruky" data-md-component="logo">
+    <a href="../.." title="Cruky" class="md-nav__button md-logo" aria-label="Cruky" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -226,6 +226,51 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-matrial/" class="md-nav__link">
+        App Matrial
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../server-app/" class="md-nav__link">
+        Server App
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -238,12 +283,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Intro
+          Route Handlers
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
-        Intro
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Route Handlers
       </a>
       
         
@@ -262,16 +307,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#route-annotation" class="md-nav__link">
+    Route annotation
+  </a>
+  
+    <nav class="md-nav" aria-label="Route annotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-constructor" class="md-nav__link">
+    Main constructor
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#first-lines" class="md-nav__link">
-    First lines
+        
+          <li class="md-nav__item">
+  <a href="#constructors" class="md-nav__link">
+    Constructors
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handler-method" class="md-nav__link">
+    Handler method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -279,51 +357,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="basics/app-matrial/" class="md-nav__link">
-        App Matrial
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="basics/server-app/" class="md-nav__link">
-        Server App
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="basics/routes/" class="md-nav__link">
-        Route Handlers
-      </a>
     </li>
   
 
@@ -355,16 +388,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#route-annotation" class="md-nav__link">
+    Route annotation
+  </a>
+  
+    <nav class="md-nav" aria-label="Route annotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-constructor" class="md-nav__link">
+    Main constructor
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#first-lines" class="md-nav__link">
-    First lines
+        
+          <li class="md-nav__item">
+  <a href="#constructors" class="md-nav__link">
+    Constructors
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handler-method" class="md-nav__link">
+    Handler method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -380,82 +446,113 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/basics/routes.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="cruky">Cruky</h1>
-<p>Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast <code>high performance</code>.</p>
-<p>The main reason why I built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
-and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, ROR, ..etc)
-So I decided that I will make a new library that focuses on Dart and get the maximum performance using dart:mirrors and code generators together to get the best usage of the dart.</p>
-<blockquote>
-<p>Inspired by server-side frameworks like (Django, Flask, FastAPI, ROR)</p>
-</blockquote>
-<p><strong><em>This is all frameworks that I learned.</em></strong></p>
-<hr />
-<p><strong>Documentation</strong>: <a href="https://seifalmotaz.github.io/cruky/" target="_blank">https://seifalmotaz.github.io/cruky/</a></p>
-<p><strong>Source Code</strong>: <a href="https://github.com/seifalmotaz/cruky" target="_blank">https://github.com/seifalmotaz/cruky</a></p>
-<p><strong>Issues</strong>: <a href="https://github.com/seifalmotaz/cruky/issues" target="_blank">https://github.com/seifalmotaz/cruky/issues</a></p>
-<hr />
-<h2 id="requirements">Requirements</h2>
+<h1 id="route-handlers">Route Handlers</h1>
+<p>Route handlers are functions/methods that handle the request with a specific path, and they can have middlewares before it or after.</p>
+<p>You can respond with the <strong>Response</strong> class.</p>
+<h2 id="usage">Usage</h2>
+<p>As we said the method must have a path to knowing what path this method handles</p>
+<p>so we define <strong>Route</strong> annotation for the method.</p>
+<h3 id="route-annotation">Route annotation</h3>
+<h5 id="main-constructor">Main constructor</h5>
+<p>The main constructor has two required arguments and two optional and all of them are positional arguments.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">const</span> <span class="n">Route</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   <span class="k">this</span><span class="p">.</span><span class="n">path</span><span class="p">,</span> <span class="c1">// define the method path</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   <span class="k">this</span><span class="p">.</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span> <span class="c1">// define the accepted methods like &quot;PUT, POST&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   <span class="k">this</span><span class="p">.</span><span class="n">middlewares</span> <span class="o">=</span> <span class="k">const</span> <span class="p">[],</span> <span class="c1">// adding scoped middlwares</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   <span class="k">this</span><span class="p">.</span><span class="n">accepted</span> <span class="o">=</span> <span class="k">const</span> <span class="p">[],</span> <span class="c1">// adding the accepted content type request</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">]);</span>
+</code></pre></div>
+<h5 id="constructors">Constructors</h5>
+<p>Some constructors will help you save some time.</p>
 <ul>
-<li>Install Dart from <a href="https://dart.dev/">Dart.dev</a></li>
-<li>run command <code>dart pub global activate cruky</code></li>
-<li>Create new dart project</li>
-<li>Install <strong>cruky</strong> <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a></li>
-<li>create <code>main.dart</code> file in bin directory and you ready to write your app</li>
+<li>The first constructors are the methods helper:</li>
 </ul>
-<h2 id="first-lines">First lines</h2>
-<p>First we must define our main app or the server entry point that have all the routes we use in the app
-as I recommend to name it <code>MyApp</code></p>
-<div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">import</span> <span class="s1">&#39;package:cruky/cruky.dart&#39;</span><span class="p">;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">class</span> <span class="nc">MyApp</span> <span class="kd">extends</span> <span class="n">ServerApp</span> <span class="p">{</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="nd">@override</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">routes</span> <span class="o">=&gt;</span> <span class="p">[];</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="nd">@override</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">middlewares</span> <span class="o">=&gt;</span> <span class="p">[];</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
-</code></pre></div>
-<p>We can define two main things the <code>routes</code> getter and <code>middlewares</code> getter:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>get</td>
+<td>This is a constructor that defines a route with the "GET" method</td>
+</tr>
+<tr>
+<td>post</td>
+<td>defines a route with the "POST" method</td>
+</tr>
+<tr>
+<td>put</td>
+<td>defines a route with the "PUT" method</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>defines a route with the "DELETE" method</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>routes used to add the route methods for the app</li>
-<li>middlewares used to add global middleware for the routes inside this app</li>
+<li>The second constructors are the methods and content type helper:</li>
 </ul>
-<p>Second we can add some routes to the main app, we will create a route that response with json and contains a massege:</p>
-<div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// rest of code</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">Json</span> <span class="n">getData</span><span class="p">(</span><span class="n">ReqCTX</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({</span><span class="s1">&#39;msg&#39;</span><span class="o">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">});</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  <span class="c1">/// You can use text response too like this Text(&quot;Hello world&quot;)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+<p>constructors that have JSON content type in the accepted arg</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jget</td>
+<td>This is a constructor that defines a route with the "GET" method</td>
+</tr>
+<tr>
+<td>jpost</td>
+<td>defines a route with the "POST" method</td>
+</tr>
+<tr>
+<td>jput</td>
+<td>defines a route with the "PUT" method</td>
+</tr>
+<tr>
+<td>jdelete</td>
+<td>defines a route with the "DELETE" method</td>
+</tr>
+</tbody>
+</table>
+<h3 id="handler-method">Handler method</h3>
+<p>There are several types of handler methods that you can use we will discuss the basic one on this page.</p>
+<p>After writing the annotation we define the method under it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/my/path&#39;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">ReqCTX</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({</span><span class="s1">&#39;token&#39;</span><span class="o">:</span> <span class="n">req</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]});</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
 </code></pre></div>
-<p>We define an annotiation first that contains the path then we add a method that handles the request and have a argument called <code>req</code> this argument has type <code>ReqCTX</code> that will help you get the request data easily like the (json, form, multipart/form)</p>
-<p>Now we must add this method to the main app inside the <code>routes</code> getter:</p>
-<div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// rest of code</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kd">class</span> <span class="nc">MyApp</span> <span class="kd">extends</span> <span class="n">ServerApp</span> <span class="p">{</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  <span class="nd">@override</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">routes</span> <span class="o">=&gt;</span> <span class="p">[</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      <span class="n">getData</span><span class="p">,</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="p">];</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  <span class="nd">@override</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">middlewares</span> <span class="o">=&gt;</span> <span class="p">[];</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1">// rest of code</span>
-</code></pre></div>
-<p>Last thing add the main function that will run the app:</p>
-<div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="n">runApp</span><span class="p">(</span><span class="n">MyApp</span><span class="p">(),</span> <span class="nl">debug:</span> <span class="kc">true</span><span class="p">);</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// rest of code</span>
-</code></pre></div>
-<p>Now run the app with command <code>dart pub run cruky serve</code> or you can run <code>dart run --enable-vm-service --disable-service-auth-codes bin/main.dart</code> both are the same. this will run the app in debug mode with hot reload.</p>
+<p>As we saw we defined the handler method with path <strong>/my/path/</strong> and it responds with <strong>Json</strong> class that extends <strong>Response</strong> class.</p>
+<p>From the <code>req</code> argument you can access some of the request helpers functions like:</p>
+<ul>
+<li>
+<p>you can access the JSON body from the request if the request content type is <strong>application/json</strong> </p>
+</li>
+<li>
+<p>or you can get the form data if content type is <strong>application/x-www-form-urlencoded</strong> </p>
+</li>
+<li>
+<p>or can get multipart form data if the content type <strong>multipart/form-data</strong></p>
+</li>
+<li>
+<p>you can also get the path query data, path parameters or headers like <code>req['field_name']</code></p>
+</li>
+</ul>
 
               
             </article>
@@ -468,21 +565,21 @@ as I recommend to name it <code>MyApp</code></p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-      
         
-        <a href="basics/app-matrial/" class="md-footer__link md-footer__link--next" aria-label="Next: App Matrial" rel="next">
+        <a href="../server-app/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Server App" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
-                Next
+                Previous
               </span>
-              App Matrial
+              Server App
             </div>
           </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
         </a>
+      
       
     </nav>
   
@@ -506,10 +603,10 @@ as I recommend to name it <code>MyApp</code></p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.6e54b5cd.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6e54b5cd.min.js"></script>
       
     
   </body>
