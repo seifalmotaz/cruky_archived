@@ -19,7 +19,7 @@ abstract class ServerApp extends AppMaterial {
   /// number of server listeners in the single isolate
   int get cores => 5;
 
-  /// number of isolate that will run
+  /// number of isolate that will run the app
   int get isolates => 1;
 
   /// types of handlers you can add custom type here
@@ -27,66 +27,5 @@ abstract class ServerApp extends AppMaterial {
 
   /// this is a list of used plugins in your app
   List<PluginApp> get plugins => [];
-
-  /// this method called before the binding the http server.
-  ///
-  /// you must use this function if you want to define a global variable
-  /// that has not initialized we run server in isolates so you must declare the global
-  /// variable for every isolate.
-  ///
-  /// This method called once when the server first start and do not recall it in hot reload
-  ///
-  /// ```
-  /// late final MySqlConnection conn;
-  /// main() => runApp(MyApp(), debug: false);
-  ///
-  /// class MyApp extends ServerApp {
-  ///   @override
-  ///   List get routes => [get];
-  ///
-  ///   @override
-  ///   List get middlewares => [];
-  ///
-  ///   @override
-  ///   Future onlisten() async {
-  ///     var settings = ConnectionSettings(
-  ///       host: 'localhost',
-  ///       port: 3306,
-  ///       user: 'root',
-  ///       password: 'root',
-  ///       db: 'labdesk',
-  ///     );
-  ///     conn = await MySqlConnection.connect(settings);
-  ///   }
-  /// }
-  /// ```
-  ///
-  /// This will work fine but this will not work:
-  ///
-  /// ```
-  /// late final MySqlConnection conn;
-  /// main() {
-  ///    var settings = ConnectionSettings(
-  ///       host: 'localhost',
-  ///       port: 3306,
-  ///       user: 'root',
-  ///       password: 'root',
-  ///       db: 'labdesk',
-  ///    );
-  ///    conn = await MySqlConnection.connect(settings);
-  ///    runApp(MyApp(), debug: false);
-  /// }
-  ///
-  /// class MyApp extends ServerApp {
-  ///   @override
-  ///   List get routes => [get];
-  ///
-  ///   @override
-  ///   List get middlewares => [];
-  /// }
-  /// ```
-  ///
-  /// It will cause a error like:
-  /// `Unhandled exception: LateInitializationError: Field 'conn' has not been initialized.`
   Future onlisten() async {}
 }

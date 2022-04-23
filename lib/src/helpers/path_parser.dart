@@ -104,7 +104,8 @@ class PathParser {
       String param = match[0]!; // the parameter
       String? type = match[1]; // the parameter type
 
-      String name = param.substring(1, param.indexOf('('));
+      String name = param.substring(
+          1, type == null ? param.length - 1 : param.indexOf('('),);
       // check parameter type and add the regex
       if (type == null || type == 'string') {
         paramType = String;

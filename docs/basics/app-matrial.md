@@ -4,11 +4,11 @@
 
 ## Getters
 
-| Name       | Type            | Discription                                                                                                                                               |
-|------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| prefix     | String          | this is a route path prefix that will be added as prefix to all routes children.                                                                          |
-| routes     | List | here we can define all the method handlers and routes. you simply add the function the has the annotiation `Route` and it will add it to the routes tree. |
-| middlwares | List | this is a route path prefix that will be added as prefix to all routes children.                                                                          |
+|Name|Type|Discription|
+|----|-----|-----------|
+| prefix | String | this is a route path prefix that will be added as prefix to all routes children.|
+| routes | List | here we can define all the method handlers and routes. you simply add the function the has the annotiation `Route` and it will add it to the routes tree. |
+| middlwares | List | this is a route path prefix that will be added as prefix to all routes children.|
 
 ## Usage
 

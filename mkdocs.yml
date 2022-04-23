@@ -29,5 +29,6 @@ markdown_extensions:
 
 nav:
   - Intro: index.md
-  - Basics:
-      - basics/app-matrial.md
+  - basics/app-matrial.md
+  - basics/server-app.md
+  - basics/routes.md

@@ -212,7 +212,7 @@ packages:
     source: hosted
     version: "3.0.0"
   shelf_static:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: shelf_static
       url: "https://pub.dartlang.org"

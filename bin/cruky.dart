@@ -60,7 +60,7 @@ class MyApp extends ServerApp {
   List get routes => [];
 
   @override
-  List get middlewares => [];
+  List get middleware => [];
 }
 """);
     print('Done...');

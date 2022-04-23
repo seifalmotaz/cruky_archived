@@ -9,7 +9,7 @@ export './src/request/request.dart';
 export 'src/response/basic.dart';
 
 /// annotiations
-export './src/common/annotiations.dart';
+export 'src/common/annotations.dart';
 
 /// interfaces
 export 'src/interfaces/app_material.dart';

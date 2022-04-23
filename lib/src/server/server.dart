@@ -12,13 +12,32 @@ part './handlers.dart';
 class CrukyServer {
   final List<BlankRoute> routes;
 
-  CrukyServer(this.routes);
+  CrukyServer(this.routes) {
+    _genOpenAPI();
+  }
 
   /// Internal http server
   List<HttpServer> _servers = <HttpServer>[];
 
   /// get http servers list
   Iterable<HttpServer> get servers => List.unmodifiable(_servers);
+
+  _genOpenAPI() {
+    List<BlankRoute> r = routes;
+    r.sort((a, b) => a.path.path.compareTo(b.path.path));
+    List<List<BlankRoute>> tree = [];
+    String? i;
+    List<BlankRoute> list = [];
+    for (var item in r) {
+      if (item.path.path != i) {
+        tree.add(list);
+        list = [item];
+        i = item.path.path;
+      } else {
+        list.add(item);
+      }
+    }
+  }
 
   void serve({
     String address = '127.0.0.1',

@@ -1,3 +1,5 @@
+import 'package:cruky/cruky.dart';
+
 import 'enum.dart';
 
 /// routing annotiation for route settings
@@ -49,6 +51,34 @@ class Route {
     this.middlewares = const [],
     this.accepted = const [],
   ]) : methods = ReqMethods.delete;
+
+  /// route with GET method
+  const Route.jget(
+    this.path, [
+    this.middlewares = const [],
+  ])  : methods = ReqMethods.get,
+        accepted = const [MimeTypes.json];
+
+  /// route with POST method
+  const Route.jpost(
+    this.path, [
+    this.middlewares = const [],
+  ])  : methods = ReqMethods.post,
+        accepted = const [MimeTypes.json];
+
+  /// route with PUT method
+  const Route.jput(
+    this.path, [
+    this.middlewares = const [],
+  ])  : methods = ReqMethods.put,
+        accepted = const [MimeTypes.json];
+
+  /// route with DELETE method
+  const Route.jdelete(
+    this.path, [
+    this.middlewares = const [],
+  ])  : methods = ReqMethods.delete,
+        accepted = const [MimeTypes.json];
 }
 
 /// this defines that the method called before the main handler method
