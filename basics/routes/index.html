@@ -533,7 +533,7 @@
 <p>There are several types of handler methods that you can use we will discuss the basic one on this page.</p>
 <p>After writing the annotation we define the method under it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/my/path&#39;</span><span class="p">)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">ReqCTX</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({</span><span class="s1">&#39;token&#39;</span><span class="o">:</span> <span class="n">req</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]});</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
 </code></pre></div>
@@ -550,7 +550,7 @@
 <p>or can get multipart form data if the content type <strong>multipart/form-data</strong></p>
 </li>
 <li>
-<p>you can also get the path query data, path parameters or headers like <code>req['field_name']</code></p>
+<p>you can also get the path query data <code>req.query.get('field_name')</code>, and path parameters <code>req.path.get('field_name')</code> and headers <code>req.headerValue('field_name')</code></p>
 </li>
 </ul>
 

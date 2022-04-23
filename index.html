@@ -386,9 +386,9 @@
 
 
 
-<h1 id="cruky">Cruky</h1>
-<p>Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast <code>high performance</code>.</p>
-<p>The main reason why I built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
+<h1 id="cruky"><strong>Cruky</strong></h1>
+<p><strong>Cruky</strong> is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast <code>high performance</code>.</p>
+<p>The main reason why <strong>Cruky</strong> is built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
 and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, ROR, ..etc)
 So I decided that I will make a new library that focuses on Dart and get the maximum performance using dart:mirrors and code generators together to get the best usage of the dart.</p>
 <blockquote>
@@ -410,7 +410,7 @@ So I decided that I will make a new library that focuses on Dart and get the max
 </ul>
 <h2 id="first-lines">First lines</h2>
 <p>First we must define our main app or the server entry point that have all the routes we use in the app
-as I recommend to name it <code>MyApp</code></p>
+as <strong>Cruky</strong> recommend to name it <code>MyApp</code></p>
 <div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">import</span> <span class="s1">&#39;package:cruky/cruky.dart&#39;</span><span class="p">;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">class</span> <span class="nc">MyApp</span> <span class="kd">extends</span> <span class="n">ServerApp</span> <span class="p">{</span>
@@ -418,10 +418,10 @@ as I recommend to name it <code>MyApp</code></p>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">routes</span> <span class="o">=&gt;</span> <span class="p">[];</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="nd">@override</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">middlewares</span> <span class="o">=&gt;</span> <span class="p">[];</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">pipeline</span> <span class="o">=&gt;</span> <span class="p">[];</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </code></pre></div>
-<p>We can define two main things the <code>routes</code> getter and <code>middlewares</code> getter:</p>
+<p>We can define two main things the <code>routes</code> getter and <code>pipeline</code> getter:</p>
 <ul>
 <li>routes used to add the route methods for the app</li>
 <li>middlewares used to add global middleware for the routes inside this app</li>
@@ -430,12 +430,12 @@ as I recommend to name it <code>MyApp</code></p>
 <div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// rest of code</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">Json</span> <span class="n">getData</span><span class="p">(</span><span class="n">ReqCTX</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">Json</span> <span class="n">getData</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({</span><span class="s1">&#39;msg&#39;</span><span class="o">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">});</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  <span class="c1">/// You can use text response too like this Text(&quot;Hello world&quot;)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
 </code></pre></div>
-<p>We define an annotiation first that contains the path then we add a method that handles the request and have a argument called <code>req</code> this argument has type <code>ReqCTX</code> that will help you get the request data easily like the (json, form, multipart/form)</p>
+<p>We define an annotation first that contains the path then we add a method that handles the request and have a argument called <code>req</code> this argument has type <code>Request</code> that will help you get the request data easily like the (json, form, multipart/form)</p>
 <p>Now we must add this method to the main app inside the <code>routes</code> getter:</p>
 <div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// rest of code</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
@@ -446,13 +446,13 @@ as I recommend to name it <code>MyApp</code></p>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="p">];</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  <span class="nd">@override</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">middlewares</span> <span class="o">=&gt;</span> <span class="p">[];</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">pipeline</span> <span class="o">=&gt;</span> <span class="p">[];</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1">// rest of code</span>
 </code></pre></div>
 <p>Last thing add the main function that will run the app:</p>
-<div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="n">runApp</span><span class="p">(</span><span class="n">MyApp</span><span class="p">(),</span> <span class="nl">debug:</span> <span class="kc">true</span><span class="p">);</span>
+<div class="highlight"><span class="filename">bin/main.dart</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="n">runApp</span><span class="p">(</span><span class="n">MyApp</span><span class="p">());</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// rest of code</span>
 </code></pre></div>
 <p>Now run the app with command <code>dart pub run cruky serve</code> or you can run <code>dart run --enable-vm-service --disable-service-auth-codes bin/main.dart</code> both are the same. this will run the app in debug mode with hot reload.</p>
