@@ -1,6 +1,6 @@
-# Cruky
+# __Cruky__
 
-Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
+__Cruky__ is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
 
 The main reason why I built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
 and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, ROR, ..etc)
@@ -43,7 +43,7 @@ class MyApp extends ServerApp {
   List get routes => [];
 
   @override
-  List get middlewares => [];
+  List get pipeline => [];
 }
 ```
 
@@ -58,13 +58,13 @@ Second we can add some routes to the main app, we will create a route that respo
 // rest of code
 
 @Route.get('/')
-Json getData(ReqCTX req) {
+Json getData(Request req) {
   return Json({'msg': "Hello world"});
   /// You can use text response too like this Text("Hello world")
 }
 ```
 
-We define an annotiation first that contains the path then we add a method that handles the request and have a argument called `req` this argument has type `ReqCTX` that will help you get the request data easily like the (json, form, multipart/form)
+We define an annotation first that contains the path then we add a method that handles the request and have a argument called `req` this argument has type `Request` that will help you get the request data easily like the (json, form, multipart/form)
 
 Now we must add this method to the main app inside the `routes` getter:
 
@@ -78,7 +78,7 @@ class MyApp extends ServerApp {
   ];
 
   @override
-  List get middlewares => [];
+  List get pipeline => [];
 }
 
 // rest of code

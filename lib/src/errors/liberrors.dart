@@ -10,10 +10,11 @@ class LibError {
 
   static getStackTraceFromLocation(SourceLocation location) =>
       "${location.sourceUri.toFilePath()}:${location.line}:${location.column}";
-}
 
-class ExceptionRes {
-  final Object res;
-  final LibError? error;
-  ExceptionRes(this.res, [this.error]);
+  println() {
+    print("\n");
+    print(msg);
+    print("\n");
+    print(stackTrace);
+  }
 }

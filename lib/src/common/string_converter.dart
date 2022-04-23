@@ -1,4 +1,4 @@
-part of cruky.utils;
+import 'dart:convert';
 
 extension StringUtils on String {
   int? toInt([int? defaultValue]) {

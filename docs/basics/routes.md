@@ -61,7 +61,7 @@ After writing the annotation we define the method under it:
 
 ```dart
 @Route.get('/my/path')
-Json example(ReqCTX req) {
+Json example(Request req) {
   return Json({'token': req.data['token']});
 }
 ```
@@ -76,4 +76,4 @@ From the `req` argument you can access some of the request helpers functions lik
 
 - or can get multipart form data if the content type __multipart/form-data__
 
-- you can also get the path query data, path parameters or headers like `req['field_name']`
+- you can also get the path query data `req.query.get('field_name')`, and path parameters `req.path.get('field_name')` and headers `req.headerValue('field_name')`

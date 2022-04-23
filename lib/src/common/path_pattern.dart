@@ -1,7 +1,7 @@
-import 'package:cruky/src/utils/utils.dart';
+import 'package:cruky/src/common/string_converter.dart';
 
 /// Param info
-class ParamMap {
+class ParamInfo {
   /// param name
   String name;
 
@@ -10,11 +10,11 @@ class ParamMap {
 
   /// param type
   Type type;
-  ParamMap(this.name, this.type, this.index);
+  ParamInfo(this.name, this.type, this.index);
 }
 
 /// Path data and regex
-class PathParser {
+class PathPattern {
   /// native path
   final String path;
 
@@ -22,22 +22,22 @@ class PathParser {
   final RegExp regExp;
 
   /// path params
-  final List<ParamMap> params;
+  final List<ParamInfo> params;
 
   /// init
-  PathParser(this.regExp, this.params, this.path);
+  PathPattern(this.regExp, this.params, this.path);
 
   /// match request path with this path
   bool match(String path) => regExp.hasMatch(path);
 
-  PathParser addPrefix(
+  PathPattern addPrefix(
     String p, {
     bool startWith = true,
     bool endWith = false,
   }) {
     List list = p.split('/') + path.split('/');
     String full = list.join('/');
-    return PathParser.parse(
+    return PathPattern.parse(
       full,
       startWith: startWith,
       endWith: endWith,
@@ -48,7 +48,7 @@ class PathParser {
   Map<String, dynamic> parseParams(String path) {
     Map<String, dynamic> _params = {};
     RegExpMatch paramsMatch = regExp.firstMatch(path)!;
-    for (ParamMap param in params) {
+    for (ParamInfo param in params) {
       String symbol = param.name;
       String data = Uri.decodeQueryComponent(paramsMatch.group(param.index)!);
 
@@ -77,7 +77,7 @@ class PathParser {
 
   /// get the path regex and parameters
   /// return PathRegex
-  factory PathParser.parse(
+  factory PathPattern.parse(
     String path, {
     bool startWith = true,
     bool endWith = true,
@@ -92,8 +92,8 @@ class PathParser {
     String regex = startWith ? r"^/" : "/";
     regex += path;
 
-    // params has list of ParamMap
-    final List<ParamMap> params = [];
+    // params has list of ParamInfo
+    final List<ParamInfo> params = [];
 
     int paramIndex = 0;
 
@@ -105,7 +105,9 @@ class PathParser {
       String? type = match[1]; // the parameter type
 
       String name = param.substring(
-          1, type == null ? param.length - 1 : param.indexOf('('),);
+        1,
+        type == null ? param.length - 1 : param.indexOf('('),
+      );
       // check parameter type and add the regex
       if (type == null || type == 'string') {
         paramType = String;
@@ -122,7 +124,7 @@ class PathParser {
       }
 
       paramIndex++;
-      params.add(ParamMap(name, paramType, paramIndex));
+      params.add(ParamInfo(name, paramType, paramIndex));
       return _regex;
     });
 
@@ -130,6 +132,6 @@ class PathParser {
     regex += endWith ? r'/?$' : "/?";
     if (!path.startsWith('/')) path += '/';
     if (!path.endsWith('/')) path = '/' + path;
-    return PathParser(RegExp(regex, caseSensitive: false), params, path);
+    return PathPattern(RegExp(regex, caseSensitive: false), params, path);
   }
 }

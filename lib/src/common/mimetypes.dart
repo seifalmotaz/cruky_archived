@@ -73,6 +73,8 @@ abstract class MimeTypes {
 
   static const tar = "application/x-tar";
 
+  static List<String> allFileTypes = fromFileExtension.values.toList();
+
   /// Map of file extension to mime type
   static const fromFileExtension = <String, String>{
     "html": html,

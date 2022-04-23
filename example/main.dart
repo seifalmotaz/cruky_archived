@@ -1,42 +1,26 @@
 import 'package:cruky/cruky.dart';
-import 'package:cruky/handlers.dart';
 
-void main() => runApp(MyApp(), debug: true);
+void main() => runApp(MyApp());
 
 class MyApp extends ServerApp {
   @override
   List get routes => [
-        exampleWithGETRequest,
-        getData,
-        method,
+        example,
         ExampleApp(),
       ];
-
-  @override
-  List get middlewares => [middlewareExample];
-
-  @Route.get('/method')
-  method(ReqCTX req) {
-    return Redirect('/example/get');
-  }
 }
 
-@Route.get('/')
-exampleWithGETRequest(ReqCTX req) {
-  return Json({'token': req.data['token']});
+@Route.get('/:id(string)', pipeline: [middlewareExample])
+example(Request req) {
+  return req.path.get('id');
 }
 
-@Route.get('/:id(int)')
-getData(ReqCTX req) {
-  return Json({'id': req['id']});
-}
-
-@BeforeMW()
-middlewareExample(ReqCTX req) {
+@UsePre()
+middlewareExample(Request req) {
   if (req.headerValue('Token') == null) {
     return Text('Not Auth', 401);
   } else {
-    req.data['token'] = req.headerValue('Token')!;
+    req.parser[#token] = req.headerValue('Token')!;
   }
 }
 
@@ -49,12 +33,8 @@ class ExampleApp extends AppMaterial {
         getExample,
       ];
 
-  /// this is route method with path '/example/get/',
-  ///
-  /// And it will accept just json content-type request because of
-  /// `JsonCTX` [req] type
   @Route.get('/get')
-  getExample(JsonCTX req) {
+  getExample(Request req) {
     return Text('Nested apps');
   }
 }

@@ -1,11 +1,11 @@
 # Server App
 
 `ServerApp` is the main app that the server will get the routes and all things from it like (port, host, routes, middlewares, plugins).
-This class extends __AppMatrial__ and have the same getters.
+This class extends __AppMaterial__ and have the same getters.
 
 ## Getters
 
-It has the same __AppMatrial__ getter plus:
+It has the same __AppMaterial__ getter plus:
 
 |Name|Type|Discription|
 |----|-----|-----------|
