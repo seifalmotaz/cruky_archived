@@ -1,3 +1,16 @@
+## 0.11.0
+
+### Changes
+- rename 'ReqCTX' to 'Request'
+- rename 'BeforeMW' to 'UsePre'
+- rename 'AfterMW' to 'UsePost'
+- rename 'middlewares' to 'pipeline'
+- changing routes tree system instead of of adding all function to routes stack the routes saved in stack with 'PathHandler' that contains spacific path and all handlers with this path and every handler has a method
+
+### Deleted
+- for now there is no indirect handlers and json, form or iForm handlers
+
+
 ## 0.9.0
 
 ### Added
