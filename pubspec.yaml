@@ -14,6 +14,7 @@ executables:
 dependencies:
   mime: ^1.0.1
   path: ^1.8.1
+  meta: ^1.7.0
   # for the hotreload
   watcher: ^1.0.1
   vm_service: ^8.2.2

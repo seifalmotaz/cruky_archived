@@ -10,6 +10,8 @@
 ### Deleted
 - for now there is no indirect handlers and json, form or iForm handlers
 
+- better route handlers scanner
+
 
 ## 0.9.0
 

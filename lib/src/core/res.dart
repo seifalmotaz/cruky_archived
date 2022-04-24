@@ -20,9 +20,10 @@ class Text extends Response {
 }
 
 class Json extends Response {
-  final Map body;
+  final Object body;
   final int status;
-  const Json(this.body, [this.status = 200]);
+  const Json(this.body, [this.status = 200])
+      : assert(body is Map || body is List);
 
   @override
   Future<void> write(HttpRequest req) async {

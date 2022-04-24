@@ -6,8 +6,9 @@ import 'dart:isolate';
 import 'package:cruky/src/common/ansicolor.dart';
 import 'package:cruky/src/core/path_handler.dart';
 import 'package:cruky/src/core/server.dart';
+import 'package:cruky/src/errors/liberrors.dart';
 import 'package:cruky/src/interfaces.dart';
-import 'package:cruky/src/scanner/core.dart';
+import 'package:cruky/src/scanner/scanner.dart';
 import 'package:vm_service/vm_service.dart' hide Isolate;
 import 'package:vm_service/vm_service_io.dart';
 import 'package:watcher/watcher.dart';
@@ -17,7 +18,18 @@ void runApp<T extends ServerApp>(
   int isolates = 1,
   int listeners = 4,
 }) async {
-  final List<PathHandler> routesTree = await scan(app);
+  late final List<PathHandler> routesTree;
+  try {
+    routesTree = await scan(app);
+  } catch (e) {
+    print('object');
+    if (e is LibError) {
+      print(e.msg);
+      print(e.stackTrace);
+      return;
+    }
+    rethrow;
+  }
   var data = IsolateData(
     app.address,
     app.port,
@@ -29,6 +41,7 @@ void runApp<T extends ServerApp>(
   );
   if (!app.isDebug) {
     runServer(IsolateData data) {
+      // print(data.routes.first.pattern.path);
       var crukyServer = CrukyServer(data.routes);
       crukyServer.serve(data.address, data.port, data.listeners);
     }
@@ -70,6 +83,8 @@ runInDebugMode(
 ) async {
   var server = CrukyServer(data.routes);
   server.serve(data.address, data.port, data.listeners);
+  print('Server opened on http://${app.address}:${app.port} '
+      'in debug mode');
 
   VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
   var vm = await serviceClient.getVM();

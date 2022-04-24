@@ -1,6 +1,13 @@
 import 'dart:convert';
 
 extension StringUtils on String {
+  List<String> getUrlSegmants() {
+    String i = replaceAll(r'\', '/');
+    var split = i.split('/');
+    split.removeWhere((e) => e.isEmpty);
+    return split;
+  }
+
   int? toInt([int? defaultValue]) {
     return int.tryParse(this) ?? defaultValue;
   }

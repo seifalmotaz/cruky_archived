@@ -9,7 +9,19 @@ abstract class AppMaterial {
   List get routes => [];
 
   /// Application level middleware
-  List get middleware => [];
+  List get pipeline => [];
+}
+
+/// this class is like the [AppMatrial] class but instead of manual adding
+/// to the routes getter, cruky will get the methods that have Route annotation
+/// inside the class and use it as route.
+abstract class InApp {
+  /// route path prefix that will be added
+  /// to all the children routes or middleware
+  String get prefix => '/';
+
+  /// Application level middleware
+  List get pipeline => [];
 }
 
 /// class defines the main things that needed for the main entry app
@@ -58,5 +70,5 @@ class PluginApp {
   List get routes => [];
 
   /// plugin middleware that will added to application level middleware
-  List get middleware => [];
+  List get pipeline => [];
 }

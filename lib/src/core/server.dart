@@ -8,6 +8,7 @@ import 'package:cruky/src/errors/status_errors.dart';
 import 'path_handler.dart';
 
 class CrukyServer {
+  StatusCodes statusHandler = TextStatusCodes();
   final List<PathHandler> routes;
 
   CrukyServer(this.routes);
@@ -67,12 +68,12 @@ class CrukyServer {
     try {
       PathHandler? matched = _matchReq(request);
       if (matched != null) {
-        matched(request);
+        matched(request, statusHandler);
       } else {
-        StatusCode.e404(request);
+        statusHandler.e404(request);
       }
     } catch (e, s) {
-      StatusCode.e500(request);
+      statusHandler.e500(request);
       print(e);
       print(s);
     }

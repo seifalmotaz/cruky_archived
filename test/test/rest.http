@@ -1,0 +1,9 @@
+@host=127.0.0.1
+@port=5000
+@url=http://{{host}}:{{port}}
+
+GET {{url}}/example/get HTTP/1.1
+
+###
+# middleware test
+GET {{url}}/myId HTTP/1.1
