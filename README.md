@@ -2,7 +2,7 @@
 
 __Cruky__ is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
 
-The main reason why I built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
+The main reason why __Cruky__ is built this is that all libraries are focused on the Flutter ecosystem and not on dart lang
 and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, ROR, ..etc)
 So I decided that I will make a new library that focuses on Dart and get the maximum performance using dart:mirrors and code generators together to get the best usage of the dart.
 
@@ -11,6 +11,8 @@ So I decided that I will make a new library that focuses on Dart and get the max
 ***This is all frameworks that I learned.***
 
 ---
+
+**Pub**: <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a>
 
 **Documentation**: <a href="https://seifalmotaz.github.io/cruky/" target="_blank">https://seifalmotaz.github.io/cruky/</a>
 
@@ -24,15 +26,18 @@ So I decided that I will make a new library that focuses on Dart and get the max
 ## Requirements
 
 - Install Dart from [Dart.dev](https://dart.dev/)
-- run command `dart pub global activate cruky`
-- Create new dart project
-- Install **cruky** <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a>
-- create `main.dart` file in bin directory and you ready to write your app
+- run `dart pub global activate cruky` to install cruky executable
+- create project by running `cruky create appName`
+
+> <span style="color: #2ECCFA; font-weight: bold">Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
+> 
+> - try to run `cruky.bat create appName`
+> - if it did not work add `C:\Users\{{Your name}}\AppData\Local\Pub\Cache\bin` to your enviroment variables
 
 ## First lines
 
 First we must define our main app or the server entry point that have all the routes we use in the app
-as I recommend to name it `MyApp`
+as __Cruky__ recommend to name it `MyApp`
 
 
 ```dart title="bin/main.dart"
@@ -47,7 +52,7 @@ class MyApp extends ServerApp {
 }
 ```
 
-We can define two main things the `routes` getter and `middlewares` getter:
+We can define two main things the `routes` getter and `pipeline` getter:
 
 - routes used to add the route methods for the app
 - middlewares used to add global middleware for the routes inside this app
@@ -87,7 +92,7 @@ class MyApp extends ServerApp {
 Last thing add the main function that will run the app:
 
 ```dart title="bin/main.dart"
-void main() => runApp(MyApp(), debug: true);
+void main() => runApp(MyApp());
 // rest of code
 ```
 
