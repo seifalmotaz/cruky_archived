@@ -30,9 +30,6 @@ abstract class ServerApp extends AppMaterial {
   List<PluginApp> get plugins => [];
 
   /// choose to run the app in debug mode or not
-  bool get isDebug => true;
-
-  /// choose to run the app in debug mode or not
   String get address => '127.0.0.1';
 
   /// choose to run the app in debug mode or not

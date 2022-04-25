@@ -2,7 +2,7 @@ library cruky.handlers;
 
 import 'dart:io';
 
-import 'package:cruky/src/core/req.dart';
+import 'package:cruky/src/request/req.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:meta/meta.dart';
 

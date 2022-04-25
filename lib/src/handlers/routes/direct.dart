@@ -1,6 +1,6 @@
 import 'dart:mirrors';
 
-import 'package:cruky/src/core/req.dart';
+import 'package:cruky/src/request/req.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 
 import 'abstract.dart';

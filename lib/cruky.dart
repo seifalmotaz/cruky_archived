@@ -1,7 +1,7 @@
 library cruky;
 
 export './src/core/runner.dart' show runApp;
-export './src/core/req.dart' show Request;
+export 'src/request/req.dart' show Request;
 export './src/core/res.dart';
 
 export './src/common/mimetypes.dart';

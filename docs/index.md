@@ -12,6 +12,8 @@ So I decided that I will make a new library that focuses on Dart and get the max
 
 ---
 
+**Pub**: <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a>
+
 **Documentation**: <a href="https://seifalmotaz.github.io/cruky/" target="_blank">https://seifalmotaz.github.io/cruky/</a>
 
 **Source Code**: <a href="https://github.com/seifalmotaz/cruky" target="_blank">https://github.com/seifalmotaz/cruky</a>
@@ -24,10 +26,13 @@ So I decided that I will make a new library that focuses on Dart and get the max
 ## Requirements
 
 - Install Dart from [Dart.dev](https://dart.dev/)
-- run command `dart pub global activate cruky`
-- Create new dart project
-- Install **cruky** <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a>
-- create `main.dart` file in bin directory and you ready to write your app
+- run `dart pub global activate cruky` to install cruky executable
+- create project by running `cruky create appName`
+
+> <span style="color: #2ECCFA; font-weight: bold">Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
+> 
+> - try to run `cruky.bat create appName`
+> - if it did not work add `C:\Users\{{Your name}}\AppData\Local\Pub\Cache\bin` to your enviroment variables
 
 ## First lines
 

@@ -1,15 +1,15 @@
 name: cruky
 description: cruky is server-side library to create API with modern and fast performance.
-version: 0.11.0
+version: 0.11.2
 homepage: https://github.com/seifalmotaz/cruky
 repository: https://github.com/seifalmotaz/cruky
-documentation: https://github.com/seifalmotaz/cruky/wiki
+documentation: https://seifalmotaz.github.io/cruky/
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
 
 executables:
-  cruky: cruky
+  cruky:
 
 dependencies:
   mime: ^1.0.1

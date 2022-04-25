@@ -40,13 +40,15 @@ Future<void> main(List<String> args) async {
     String appName = command.arguments.first;
     print('Creating dart project');
     await Process.run('dart', ['create', appName]);
+    await Process.run('dart', ['pub', 'add', 'cruky'],
+        workingDirectory: './$appName');
 
     print('Editing dart project');
     Directory('./$appName/lib').createSync();
 
-    File main = File('./$appName/bin/main.dart');
+    File main = File('./$appName/bin/$appName.dart');
 
-    if (!main.existsSync()) {
+    if (main.existsSync()) {
       main = main.renameSync('./$appName/bin/main.dart');
     }
 
@@ -60,11 +62,12 @@ class MyApp extends ServerApp {
   List get routes => [];
 
   @override
-  List get middleware => [];
+  List get pipeline => [];
 }
 """);
-    print('Done...');
-    print('\nRun this:');
-    print('     cd $appName && dart pub add cruky');
+    print('\n=> Done');
+    print('Run:');
+    print('  cd $appName');
+    print('  dart pub run cruky serve');
   }
 }

@@ -16,13 +16,12 @@ example(Request req) {
 }
 
 @UsePre()
-Text? middlewareExample(Request req) {
+middlewareExample(Request req) {
   if (req.headerValue('Token') == null) {
-    return Text('Not Auth', 401);
+    throw Text('Not Auth', 401);
   } else {
     req.parser[#token] = req.headerValue('Token')!;
   }
-  return null;
 }
 
 class ExampleApp extends AppMaterial {

@@ -33,7 +33,6 @@ class MethodParser {
     List<String> pathSeg,
     PipelineMock pipeline,
   ) async {
-    pipeline = pipeline.copy();
     var mirror = reflect(function) as ClosureMirror;
     pathSeg.removeWhere((e) => e.isEmpty);
     Iterable<Route> routes = mirror.function.metadata

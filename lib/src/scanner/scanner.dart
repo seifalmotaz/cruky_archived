@@ -102,7 +102,7 @@ Future<List<RouteMock>> getRoutes(
   MethodParser methodParser = MethodParser([]);
   for (var i in appRoutes) {
     if (i is Function) {
-      await methodParser.parse(i, prefix, pipeline);
+      await methodParser.parse(i, prefix, pipeline.copy());
       continue;
     }
     if (i is AppMaterial) {

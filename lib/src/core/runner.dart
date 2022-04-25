@@ -17,6 +17,7 @@ void runApp<T extends ServerApp>(
   T app, {
   int isolates = 1,
   int listeners = 4,
+  bool debug = true,
 }) async {
   late final List<PathHandler> routesTree;
   try {
@@ -39,7 +40,7 @@ void runApp<T extends ServerApp>(
     [],
     [],
   );
-  if (!app.isDebug) {
+  if (!debug) {
     runServer(IsolateData data) {
       // print(data.routes.first.pattern.path);
       var crukyServer = CrukyServer(data.routes);

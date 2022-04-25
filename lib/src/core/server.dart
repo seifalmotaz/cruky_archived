@@ -71,9 +71,11 @@ class CrukyServer {
         matched(request, statusHandler);
       } else {
         statusHandler.e404(request);
+        request.response.close();
       }
     } catch (e, s) {
       statusHandler.e500(request);
+      request.response.close();
       print(e);
       print(s);
     }

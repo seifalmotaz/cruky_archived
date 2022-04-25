@@ -1,4 +1,10 @@
+## 0.11.2
+
+- Adding request body converter
+
 ## 0.11.0
+
+- better route handlers scanner
 
 ### Changes
 - rename 'ReqCTX' to 'Request'
@@ -9,9 +15,6 @@
 
 ### Deleted
 - for now there is no indirect handlers and json, form or iForm handlers
-
-- better route handlers scanner
-
 
 ## 0.9.0
 
