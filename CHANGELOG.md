@@ -1,5 +1,9 @@
 ## 0.11.2
 
+- fixing `InApp` problem
+
+## 0.11.2
+
 - Adding request body converter
 
 ## 0.11.0

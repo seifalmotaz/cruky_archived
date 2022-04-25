@@ -1,18 +1,18 @@
-# App Matrial
+# AppMaterial
 
-`AppMaterial` is the main thing that runs the server, it contains the main things that every app need.
+`AppMaterial` is the main thing that runs the server, it contains the main things that every app needs.
 
 ## Getters
 
-|Name|Type|Discription|
-|----|-----|-----------|
-| prefix | String | this is a route path prefix that will be added as prefix to all routes children.|
-| routes | List | here we can define all the method handlers and routes. you simply add the function the has the annotation `Route` and it will add it to the routes tree. |
-| middlwares | List | this is a route path prefix that will be added as prefix to all routes children.|
+| Name     | Type   | Description                                                                                                                                               |
+| -------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| prefix   | String | this is a route path prefix that will be added as a prefix to all routes children.                                                                        |
+| routes   | List   | here we can define all the method handlers and routes. you simply add the function that has the annotation `Route` and it will add it to the routes tree. |
+| pipeline | List   | here you can add all your middleware to the app and it will be added to all children.                                                                     |
 
 ## Usage
 
-Let's make an example. first we define a class that extends the `AppMaterial` interface and adding routes and the prefix getter with path "/example":
+Let's make an example. first, we define a class that extends the `AppMaterial` interface and adds routes and the prefix getter with path "/example":
 
 ```dart
 class ExampleApp extends AppMaterial {
@@ -41,7 +41,7 @@ class ExampleApp extends AppMaterial {
 }
 ```
 
-Now you can add this app to the routes tree with adding it to the main entry app:
+Now you can add this app to the routes tree by adding it to the main entry app:
 
 ```dart
 import 'package:cruky/cruky.dart';
@@ -74,4 +74,4 @@ class ExampleApp extends AppMaterial {
 And run the app with `dart pub run cruky serve`
 Try to go to `localhost:5000/example/main` and you will get the `Hello world` response.
 
-__Cruky__ supports nested apps that means you can add an app to the __ExampleApp__ routes and it will have the prefix `/example/` and the child app prefix.
+__Cruky__ supports nested apps which means you can add an app to the __ExampleApp__ routes and it will have the prefix `/example/` and the child app prefix.

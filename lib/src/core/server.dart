@@ -3,6 +3,7 @@ library cruky.server;
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cruky/src/common/ansicolor.dart';
 import 'package:cruky/src/errors/status_errors.dart';
 
 import 'path_handler.dart';
@@ -72,10 +73,14 @@ class CrukyServer {
       } else {
         statusHandler.e404(request);
         request.response.close();
+        print("${info('INFO:')} HTTP/${request.protocolVersion} "
+            "${request.method} ${ok(request.uri.path)} ${request.response.statusCode}");
       }
     } catch (e, s) {
       statusHandler.e500(request);
       request.response.close();
+      print("${info('INFO:')} HTTP/${request.protocolVersion} "
+          "${request.method} ${ok(request.uri.path)} ${request.response.statusCode}");
       print(e);
       print(s);
     }

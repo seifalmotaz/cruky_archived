@@ -24,14 +24,9 @@ middlewareExample(Request req) {
   }
 }
 
-class ExampleApp extends AppMaterial {
+class ExampleApp extends InApp {
   @override
   String get prefix => '/example';
-
-  @override
-  List get routes => [
-        getExample,
-      ];
 
   @Route.get('/get')
   getExample(Request req) {

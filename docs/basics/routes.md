@@ -10,8 +10,6 @@ As we said the method must have a path to knowing what path this method handles
 
 so we define __Route__ annotation for the method.
 
-
-
 ### Route annotation
 
 ##### Main constructor
@@ -54,8 +52,6 @@ Some constructors will help you save some time.
 ### Handler method
 
 There are several types of handler methods that you can use we will discuss the basic one on this page.
-
-
 
 After writing the annotation we define the method under it:
 

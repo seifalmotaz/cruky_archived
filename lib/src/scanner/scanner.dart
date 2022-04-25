@@ -111,21 +111,28 @@ Future<List<RouteMock>> getRoutes(
         ..pre.addAll(line.pre)
         ..post.addAll(line.post);
       methodParser.list.addAll(await getRoutes(
-          i.routes, _pipeline, prefix + i.prefix.getUrlSegmants()));
+        i.routes,
+        _pipeline,
+        prefix + i.prefix.getUrlSegmants(),
+      ));
       continue;
     }
     if (i is InApp) {
-      var reflectClass2 = reflectClass(i.runtimeType);
-      List<Function> routes = reflectClass2.declarations.values
+      var reflected = reflect(i);
+      List<Function> routes = reflected.type.declarations.values
           .whereType<MethodMirror>()
           .where((e) => e.isRegularMethod)
-          .map<Function>((e) => reflectClass2.getField(e.simpleName).reflectee)
+          .map<Function>((e) => reflected.getField(e.simpleName).reflectee)
           .toList();
       PipelineMock line = await getPipelineMock(i.pipeline);
       PipelineMock _pipeline = pipeline.copy()
         ..pre.addAll(line.pre)
         ..post.addAll(line.post);
-      methodParser.list.addAll(await getRoutes(routes, _pipeline, prefix));
+      methodParser.list.addAll(await getRoutes(
+        routes,
+        _pipeline,
+        prefix + i.prefix.getUrlSegmants(),
+      ));
     }
   }
   return methodParser.list;
