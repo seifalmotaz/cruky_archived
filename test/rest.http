@@ -6,5 +6,5 @@ GET {{url}}/example/get HTTP/1.1
 
 ###
 # middleware test
-GET {{url}}/myId HTTP/1.1
-Token: FakeToken
+GET {{url}}/5 HTTP/1.1
+Authorization: FakeToken

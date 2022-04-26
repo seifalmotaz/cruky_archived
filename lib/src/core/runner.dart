@@ -3,22 +3,18 @@ library cruky.core.runner;
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/common/ansicolor.dart';
 import 'package:cruky/src/core/path_handler.dart';
 import 'package:cruky/src/core/server.dart';
 import 'package:cruky/src/errors/liberrors.dart';
-import 'package:cruky/src/interfaces.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 import 'package:vm_service/vm_service.dart' hide Isolate;
 import 'package:vm_service/vm_service_io.dart';
 import 'package:watcher/watcher.dart';
 
-void runApp<T extends ServerApp>(
-  T app, {
-  int isolates = 1,
-  int listeners = 4,
-  bool debug = true,
-}) async {
+void runApp<T extends ServerApp>(T app,
+    {int isolates = 1, int listeners = 4}) async {
   late final List<PathHandler> routesTree;
   try {
     routesTree = await scan(app);
@@ -31,18 +27,11 @@ void runApp<T extends ServerApp>(
     }
     rethrow;
   }
-  var data = IsolateData(
-    app.address,
-    app.port,
-    routesTree,
-    listeners,
-    [],
-    [],
-    [],
-  );
-  if (!debug) {
+  var data = IsolateData(app, routesTree, listeners, [], [], []);
+  if (!app.debug) {
     runServer(IsolateData data) {
-      // print(data.routes.first.pattern.path);
+      kIsDebug = data.app.debug;
+      kStatus = data.app.statusHandler;
       var crukyServer = CrukyServer(data.routes);
       crukyServer.serve(data.address, data.port, data.listeners);
     }
@@ -60,16 +49,16 @@ void runApp<T extends ServerApp>(
 }
 
 class IsolateData {
-  final String address;
-  final int port;
+  final ServerApp app;
   final int listeners;
   final List<PathHandler> routes;
   final List<Function> onInit;
   final List<Function> onReady;
   final List<Function> onClose;
+  String get address => app.address;
+  int get port => app.port;
   IsolateData(
-    this.address,
-    this.port,
+    this.app,
     this.routes,
     this.listeners,
     this.onInit,
@@ -82,6 +71,8 @@ runInDebugMode(
   ServerApp app,
   IsolateData data,
 ) async {
+  kIsDebug = data.app.debug;
+  kStatus = data.app.statusHandler;
   var server = CrukyServer(data.routes);
   server.serve(data.address, data.port, data.listeners);
   print('Server opened on http://${app.address}:${app.port} '

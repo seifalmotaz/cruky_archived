@@ -1,27 +1,22 @@
-import 'dart:io';
+import 'package:cruky/src/core/res.dart';
 
 abstract class StatusCodes {
-  e404(HttpRequest req);
-  e405(HttpRequest req);
-  e500(HttpRequest req);
+  Response e404([dynamic msg]);
+  Response e405([dynamic msg]);
+  Response e500([dynamic msg]);
+  Response e422([dynamic msg]);
 }
 
 class TextStatusCodes extends StatusCodes {
   @override
-  e404(HttpRequest req) {
-    req.response.statusCode = 404;
-    req.response.write('Page not found.');
-  }
+  Response e404([dynamic msg]) => Text(msg ?? 'Page not found', 404);
 
   @override
-  e405(HttpRequest req) {
-    req.response.statusCode = 405;
-    req.response.write('Method not allowed.');
-  }
+  Response e405([dynamic msg]) => Text(msg ?? 'Method not allowed', 405);
 
   @override
-  e500(HttpRequest req) {
-    req.response.statusCode = 500;
-    req.response.write('Server error.');
-  }
+  Response e500([dynamic msg]) => Text(msg ?? 'Server error', 500);
+
+  @override
+  Response e422([dynamic msg]) => Text(msg, 422);
 }

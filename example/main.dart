@@ -11,16 +11,16 @@ class MyApp extends ServerApp {
 }
 
 @Route.get('/:id(string)', pipeline: [middlewareExample])
-example(Request req) {
-  return req.path.get('id');
+String example(Request req) {
+  return req.path['id'];
 }
 
 @UsePre()
 middlewareExample(Request req) {
-  if (req.headerValue('Token') == null) {
+  if (req.headerValue('Authorization') == null) {
     return Text('Not Auth', 401);
   } else {
-    req.parser[#token] = req.headerValue('Token')!;
+    req.parser[#token] = req.headerValue('Authorization')!;
   }
 }
 

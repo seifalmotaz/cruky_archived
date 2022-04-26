@@ -4,12 +4,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cruky/src/common/ansicolor.dart';
-import 'package:cruky/src/errors/status_errors.dart';
+import 'package:cruky/src/constants.dart';
 
 import 'path_handler.dart';
 
 class CrukyServer {
-  StatusCodes statusHandler = TextStatusCodes();
   final List<PathHandler> routes;
 
   CrukyServer(this.routes);
@@ -69,15 +68,15 @@ class CrukyServer {
     try {
       PathHandler? matched = _matchReq(request);
       if (matched != null) {
-        matched(request, statusHandler);
+        matched(request, kStatus);
       } else {
-        statusHandler.e404(request);
+        kStatus.e404().write(request);
         request.response.close();
         print("${info('INFO:')} HTTP/${request.protocolVersion} "
             "${request.method} ${ok(request.uri.path)} ${request.response.statusCode}");
       }
     } catch (e, s) {
-      statusHandler.e500(request);
+      kStatus.e500().write(request);
       request.response.close();
       print("${info('INFO:')} HTTP/${request.protocolVersion} "
           "${request.method} ${ok(request.uri.path)} ${request.response.statusCode}");

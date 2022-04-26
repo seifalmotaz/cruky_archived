@@ -10,17 +10,17 @@ class MyApp extends ServerApp {
       ];
 }
 
-@Route.get('/:id(string)', pipeline: [middlewareExample])
+@Route.get('/:id(int)', pipeline: [middlewareExample])
 example(Request req) {
-  return req.path.get('id');
+  return req.path['id'].toString();
 }
 
 @UsePre()
 middlewareExample(Request req) {
-  if (req.headerValue('Token') == null) {
+  if (req.headerValue('Authorization') == null) {
     throw Text('Not Auth', 401);
   } else {
-    req.parser[#token] = req.headerValue('Token')!;
+    req.parser[#token] = req.headerValue('Authorization')!;
   }
 }
 

@@ -1,3 +1,5 @@
+import 'package:cruky/src/errors/status_errors.dart';
+
 /// A class that have the required getters and
 /// methods to define an app to add it to the main entry app
 abstract class AppMaterial {
@@ -29,11 +31,17 @@ abstract class ServerApp extends AppMaterial {
   /// this is a list of used plugins in your app
   List<PluginApp> get plugins => [];
 
-  /// choose to run the app in debug mode or not
+  /// choose server address
   String get address => '127.0.0.1';
 
-  /// choose to run the app in debug mode or not
+  /// choose server port
   int get port => 5000;
+
+  /// choose to run the app in debug mode or not
+  bool get debug => true;
+
+  /// status codes handler
+  StatusCodes get statusHandler => TextStatusCodes();
 
   /// this method will be called after calling init method
   /// and running http servers on every isolate

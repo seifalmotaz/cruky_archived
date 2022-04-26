@@ -29,8 +29,10 @@ markdown_extensions:
 
 nav:
   - Intro: index.md
-  - Apps:
-    - basics/app-matrial.md
-    - basics/server-app.md
-    - basics/in-app.md
-  - basics/routes.md
+  - Tutorial:
+    - Apps:
+      - tutorial/app-matrial.md
+      - tutorial/server-app.md
+      - tutorial/in-app.md
+    - tutorial/routes.md
+  - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"

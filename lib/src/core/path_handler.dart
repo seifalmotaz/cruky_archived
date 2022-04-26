@@ -26,8 +26,12 @@ class PathHandler {
 
   Future<void> call(HttpRequest req, StatusCodes statusHandler) async {
     try {
+      req.response.headers.contentType = null;
       RouteHandler? handler = methods[req.method];
-      if (handler == null) return statusHandler.e405(req);
+      if (handler == null) {
+        statusHandler.e405().write(req);
+        return req.response.close();
+      }
       Object? result = await handler(req, pattern.parseParams(req.uri.path));
       if (result != null) await writeResponse(result, req);
     } catch (e, s) {
@@ -35,7 +39,8 @@ class PathHandler {
       if (!wait) {
         print(e);
         print(s);
-        statusHandler.e500(req);
+        statusHandler.e500().write(req);
+        return req.response.close();
       }
     }
     print("${info('INFO:')} HTTP/${req.protocolVersion} "

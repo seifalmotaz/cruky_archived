@@ -15,34 +15,17 @@ class ParamInfo {
 
 /// Path data and regex
 class PathPattern {
-  /// native path
-  final String path;
-
   /// path regex for matching
   final RegExp regExp;
 
   /// path params
   final List<ParamInfo> params;
 
-  /// init
-  PathPattern(this.regExp, this.params, this.path);
+  /// Path data and regex
+  PathPattern(this.regExp, this.params);
 
   /// match request path with this path
   bool match(String path) => regExp.hasMatch(path);
-
-  PathPattern addPrefix(
-    String p, {
-    bool startWith = true,
-    bool endWith = false,
-  }) {
-    List list = p.split('/') + path.split('/');
-    String full = list.join('/');
-    return PathPattern.parse(
-      full,
-      startWith: startWith,
-      endWith: endWith,
-    );
-  }
 
   /// get path parameters
   Map<String, dynamic> parseParams(String path) {
@@ -76,7 +59,7 @@ class PathPattern {
   }
 
   /// get the path regex and parameters
-  /// return PathRegex
+  /// return PathPattern
   factory PathPattern.parse(
     String path, {
     bool startWith = true,
@@ -132,6 +115,6 @@ class PathPattern {
     regex += endWith ? r'/?$' : "/?";
     if (!path.startsWith('/')) path += '/';
     if (!path.endsWith('/')) path = '/' + path;
-    return PathPattern(RegExp(regex, caseSensitive: false), params, path);
+    return PathPattern(RegExp(regex, caseSensitive: false), params);
   }
 }

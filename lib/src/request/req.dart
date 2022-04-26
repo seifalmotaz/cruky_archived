@@ -4,42 +4,63 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/common/string_converter.dart';
-import 'package:cruky/src/request/file_part.dart';
-import 'package:cruky/src/request/form_data.dart';
 import 'package:mime/mime.dart';
 
+import 'common/query.dart';
+
+/// request manipulating helper
 class Request {
-  final HttpRequest req;
+  /// native [HttpRequest] class from the stream listener
+  final HttpRequest native;
 
-  final MapConverter query;
-  final MapConverter path;
-  final Map<Symbol, Object> parser = {};
+  /// request query
+  final QueryParameters query;
 
-  HttpResponse get res => req.response;
-  String get method => req.method;
-  Uri get uri => req.uri;
-  HttpSession get session => req.session;
+  /// request path parameters
+  final Map<String, dynamic> path;
 
-  String? headerValue(String i) => req.headers.value(i);
+  /// native [HttpResponse] class from [HttpRequest]
+  HttpResponse get res => native.response;
 
+  /// request method
+  String get method => native.method;
+
+  /// request uri
+  Uri get uri => native.uri;
+
+  /// request headers content type
+  ContentType? get contentType => native.headers.contentType;
+
+  /// request session
+  HttpSession get session => native.session;
+
+  /// method to get value fro request headers
+  String? headerValue(String i) => native.headers.value(i);
+
+  /// get headers values as map
   Map<String, List<String>> get headers {
     Map<String, List<String>> data = {};
-    req.headers.forEach((name, values) {
+    native.headers.forEach((name, values) {
       data.addAll({name: values});
     });
     return data;
   }
 
+  /// request manipulating helper
   Request({
-    required this.req,
-    required Map<String, dynamic> pathParams,
-    required Map<String, dynamic> query,
-  })  : path = MapConverter<Map<String, dynamic>>(pathParams),
-        query = MapConverter<Map<String, dynamic>>(query);
+    required this.path,
+    required this.query,
+    required this.native,
+  });
 
+  /// data that passed from the pipeline/middleware
+  final Map<Symbol, Object> parser = {};
+
+  /// covert request body to json/map it can return map or list
   Future json() async {
-    String string = await utf8.decodeStream(req);
+    String string = await utf8.decodeStream(native);
     var body = string.isEmpty ? {} : jsonDecode(string);
     return body;
   }
@@ -50,12 +71,14 @@ class Request {
         .then((b) => b.takeBytes());
   }
 
+  /// covert request body to form data
   Future<FormData> form() async {
-    var bytes = await _getBytes(req);
+    var bytes = await _getBytes(native);
     Map<String, List<String>> body = String.fromCharCodes(bytes).splitQuery();
     return FormData(body);
   }
 
+  /// covert request body to multipart form data
   Future<iFormData> iForm() async {
     /// get the fields from multi form fields
     RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
@@ -65,14 +88,13 @@ class Request {
     final Map<String, List<FilePart>> formFiles = {};
     Stream<Uint8List> stream;
 
-    var bytes = await _getBytes(req);
+    var bytes = await _getBytes(native);
     var ctrl = StreamController<Uint8List>()
       ..add(bytes)
       ..close();
     stream = ctrl.stream;
 
-    var parts = MimeMultipartTransformer(
-            req.headers.contentType!.parameters['boundary']!)
+    var parts = MimeMultipartTransformer(contentType!.parameters['boundary']!)
         .bind(stream);
 
     await for (MimeMultipart part in parts) {
@@ -88,18 +110,16 @@ class Request {
       /// check if the field name exist
       {
         if (fieldNameMatch == null) {
-          throw {
-            #status: 500,
+          throw Json({
             "msg": "Cannot find the header name field for the request",
-          };
+          }, 500);
         }
 
         if (fieldNameMatch[1] == null) {
-          throw {
-            #status: 500,
+          throw Json({
             "msg": "the form field name is empty please "
                 "try to put a name for the field",
-          };
+          }, 500);
         }
       }
 
@@ -120,18 +140,17 @@ class Request {
       /// check if the file name exist
       {
         if (fileNameMatch == null) {
-          throw {
-            #status: 500,
+          throw Json({
             "msg": "Cannot find the header name field for the request",
-          };
+          }, 500);
         }
 
         if (fileNameMatch[1] == null) {
-          throw {
+          throw Json({
             #status: 500,
             "msg": "the form field name is empty please "
                 "try to put a name for the field",
-          };
+          }, 500);
         }
       }
 
@@ -149,26 +168,32 @@ class Request {
   }
 }
 
+/// Map helper to help you conver String values to other types
 class MapConverter<T extends Map> {
   final T data;
   MapConverter(this.data);
 
+  /// get the value as string
   String? get(String i) => data[i];
 
+  /// get the value as it is
   dynamic getAny(String i) => data[i];
 
+  /// get value as int
   int? getInt(String i) {
     final _data = data[i];
     if (_data == null) return null;
     return int.tryParse(_data);
   }
 
+  /// get value as double
   double? getDouble(String i) {
     final _data = data[i];
     if (_data == null) return null;
     return double.tryParse(_data);
   }
 
+  /// get value as bool
   bool? getBool(String i) {
     final _data = data[i];
     if (_data == null) return null;

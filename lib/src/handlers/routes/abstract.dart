@@ -2,6 +2,7 @@ library cruky.handlers;
 
 import 'dart:io';
 
+import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/request/req.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:meta/meta.dart';
@@ -19,9 +20,9 @@ abstract class RouteHandler {
     Map<String, dynamic> pathParams,
   ) async {
     Request reqCTX = Request(
-      req: req,
-      pathParams: pathParams,
-      query: req.uri.queryParametersAll,
+      native: req,
+      path: pathParams,
+      query: QueryParameters(req.uri),
     );
 
     for (var item in pre) {

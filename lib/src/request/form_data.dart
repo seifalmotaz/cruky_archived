@@ -1,6 +1,6 @@
 import 'package:cruky/src/common/string_converter.dart';
 
-import 'file_part.dart';
+import 'common/file_part.dart';
 
 /// form data
 class FormData {
