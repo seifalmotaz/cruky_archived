@@ -1,4 +1,9 @@
-## 0.11.2
+## 0.11.3
+
+- fixing `InApp` problem
+- adding `JsonHandler` and `TextHandler`
+
+## 0.11.3
 
 - fixing `InApp` problem
 

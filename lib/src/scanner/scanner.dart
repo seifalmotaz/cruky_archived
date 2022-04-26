@@ -14,6 +14,13 @@ import 'package:cruky/src/scanner/method.dart';
 
 import 'middleware.dart';
 
+class PipelineMock {
+  final List<Middleware> pre;
+  final List<Middleware> post;
+  PipelineMock(this.pre, this.post);
+  PipelineMock copy() => PipelineMock(List.of(pre), List.of(post));
+}
+
 Future<List<PathHandler>> scan<T extends ServerApp>(T app) async {
   final List appPipelineMock = app.pipeline; // app routes
   final List appRoutes = app.routes; // app routes
@@ -77,28 +84,24 @@ Future<List<PathHandler>> scan<T extends ServerApp>(T app) async {
   return routesTree;
 }
 
-class PipelineMockMock {
-  final List<ClosureMirror> pre = [];
-  final List<ClosureMirror> post = [];
-  final List<Middleware> premw = [];
-  final List<Middleware> postmw = [];
-}
-
 // filtred pipeline pre and post pipelines
 Future<PipelineMock> getPipelineMock(List pipelineList) async {
-  final PipelineMockMock pipelineMock = filterMW(pipelineList);
+  final Set pipelineMock = filterMW(pipelineList);
   final MiddlewareParser parser = MiddlewareParser();
-  for (var item in pipelineMock.pre) {
+  for (var item in pipelineMock.first) {
     await parser.parse(item, true);
   }
-  for (var item in pipelineMock.post) {
+  for (var item in pipelineMock.last) {
     await parser.parse(item, false);
   }
   return PipelineMock(parser.pre, parser.post);
 }
 
 Future<List<RouteMock>> getRoutes(
-    List appRoutes, PipelineMock pipeline, List<String> prefix) async {
+  List appRoutes,
+  PipelineMock pipeline,
+  List<String> prefix,
+) async {
   MethodParser methodParser = MethodParser([]);
   for (var i in appRoutes) {
     if (i is Function) {
@@ -138,8 +141,9 @@ Future<List<RouteMock>> getRoutes(
   return methodParser.list;
 }
 
-PipelineMockMock filterMW(List mw) {
-  PipelineMockMock middleware = PipelineMockMock();
+Set<List<ClosureMirror>> filterMW(List mw) {
+  List<ClosureMirror> pre = [];
+  List<ClosureMirror> post = [];
   for (var item in mw) {
     var ref = reflect(item) as ClosureMirror;
     var function = ref.function;
@@ -153,8 +157,8 @@ PipelineMockMock filterMW(List mw) {
     }
 
     if (isPre != null) {
-      if (isPre) middleware.pre.add(ref);
-      if (!isPre) middleware.post.add(ref);
+      if (isPre) pre.add(ref);
+      if (!isPre) post.add(ref);
     } else {
       throw LibError.stack(
           function.location!,
@@ -162,5 +166,5 @@ PipelineMockMock filterMW(List mw) {
           ' cannot be a middleware without annotation');
     }
   }
-  return middleware;
+  return {pre, post};
 }

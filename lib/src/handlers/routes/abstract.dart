@@ -2,15 +2,19 @@ library cruky.handlers;
 
 import 'dart:io';
 
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/request/common/query.dart';
-import 'package:cruky/src/request/req.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
+import 'package:cruky/src/scanner/scanner.dart';
 import 'package:meta/meta.dart';
 
 abstract class RouteHandler {
-  // final List<String> accepted;
-  final List<Middleware> pre = [];
-  final List<Middleware> post = [];
+  final List<Middleware> pre;
+  final List<Middleware> post;
+  final List<String> acceptedContentType;
+  RouteHandler(PipelineMock mock, {this.acceptedContentType = const []})
+      : pre = List.of(mock.pre, growable: false),
+        post = List.of(mock.post, growable: false);
 
   Future handle(Request req);
 
@@ -19,6 +23,10 @@ abstract class RouteHandler {
     HttpRequest req,
     Map<String, dynamic> pathParams,
   ) async {
+    if (!acceptedContentType.contains(req.headers.contentType?.mimeType)) {
+      return kStatus.e406();
+    }
+
     Request reqCTX = Request(
       native: req,
       path: pathParams,

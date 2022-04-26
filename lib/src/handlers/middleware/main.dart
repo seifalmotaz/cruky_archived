@@ -2,13 +2,6 @@ import 'dart:mirrors';
 
 import 'package:cruky/src/request/req.dart';
 
-class PipelineMock {
-  final List<Middleware> pre;
-  final List<Middleware> post;
-  PipelineMock(this.pre, this.post);
-  PipelineMock copy() => PipelineMock(List.of(pre), List.of(post));
-}
-
 abstract class Middleware {
   Future handle(Request req);
 }

@@ -1,27 +1,29 @@
-import 'dart:async';
+import 'dart:convert';
 import 'dart:mirrors';
 
-import 'package:cruky/src/request/req.dart';
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 
-import 'abstract.dart';
+import '../abstract.dart';
 
-class DirectHandler extends RouteHandler {
-  final Function(Request) handler;
-  DirectHandler(mock, accepted, this.handler)
+class TextHandler extends RouteHandler {
+  final Function(String) handler;
+  TextHandler(mock, accepted, this.handler)
       : super(mock, acceptedContentType: accepted);
 
   @override
-  Future handle(Request req) async => await handler(req);
+  Future handle(Request req) async {
+    return await handler(await utf8.decodeStream(req.native));
+  }
 
-  static Future<DirectHandler?> parse(
+  static Future<TextHandler?> parse(
     ClosureMirror handler,
     PipelineMock pipeline,
     List<String> acceptedContentType,
   ) async =>
-      DirectHandler(
+      TextHandler(
         pipeline,
-        acceptedContentType,
+        [MimeTypes.txt],
         handler.reflectee,
       );
 
@@ -32,7 +34,7 @@ class DirectHandler extends RouteHandler {
   ) {
     List<ParameterMirror> params = handler.function.parameters;
     if (params.length != 1) return false;
-    if (params.first.type.reflectedType == Request) {
+    if (params.first.type.reflectedType == String) {
       return true;
     }
     return false;

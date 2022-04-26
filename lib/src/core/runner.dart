@@ -19,7 +19,6 @@ void runApp<T extends ServerApp>(T app,
   try {
     routesTree = await scan(app);
   } catch (e) {
-    print('object');
     if (e is LibError) {
       print(e.msg);
       print(e.stackTrace);

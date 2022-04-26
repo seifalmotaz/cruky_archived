@@ -76,4 +76,6 @@ class PluginApp {
 
   /// plugin middleware that will added to application level middleware
   List get pipeline => [];
+
+  List get handlers => [];
 }

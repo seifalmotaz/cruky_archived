@@ -1,0 +1,28 @@
+@host=127.0.0.1
+@port=5000
+@url=http://{{host}}:{{port}}
+
+
+# json type
+GET {{url}}/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1
+}
+
+### json list
+
+GET {{url}}/list HTTP/1.1
+Content-Type: application/json
+
+[{
+    "id": 1
+}]
+
+### text
+
+GET {{url}}/text HTTP/1.1
+Content-Type: text/plain
+
+test string.

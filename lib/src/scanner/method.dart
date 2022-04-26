@@ -2,10 +2,23 @@ import 'dart:mirrors';
 import 'package:cruky/src/annotation.dart';
 import 'package:cruky/src/common/string_converter.dart';
 import 'package:cruky/src/errors/liberrors.dart';
-import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:cruky/src/handlers/routes/abstract.dart';
+import 'package:cruky/src/handlers/routes/app/text.dart';
 import 'package:cruky/src/handlers/routes/direct.dart';
+import 'package:cruky/src/handlers/routes/app/json.dart';
 import 'package:cruky/src/scanner/scanner.dart';
+
+typedef ParserFunction<T> = T Function(
+  ClosureMirror,
+  PipelineMock,
+  List<String>,
+);
+
+class HandlerType {
+  final ParserFunction<Future> parser;
+  final ParserFunction<bool> checker;
+  HandlerType(this.parser, this.checker);
+}
 
 class RouteMock {
   final List<String> methods;
@@ -20,11 +33,22 @@ class RouteMock {
 
 class MethodParser {
   final List<RouteMock> list = [];
-  final List<Function(ClosureMirror, PipelineMock)> types = [
-    DirectHandler.parse
+  final List<HandlerType> types = [
+    HandlerType(
+      DirectHandler.parse,
+      DirectHandler.check,
+    ),
+    HandlerType(
+      JsonHandler.parse,
+      JsonHandler.check,
+    ),
+    HandlerType(
+      TextHandler.parse,
+      TextHandler.check,
+    ),
   ];
 
-  MethodParser(List<Function(ClosureMirror, PipelineMock)> t) {
+  MethodParser(List<HandlerType> t) {
     types.addAll(t);
   }
 
@@ -47,13 +71,15 @@ class MethodParser {
       pipeline.post.addAll(line.post);
       RouteHandler? result;
       for (var type in types) {
-        result = await type(mirror, pipeline);
-        if (result == null) continue;
-        break;
+        if (type.checker(mirror, pipeline, route.accepted)) {
+          result = await type.parser(mirror, pipeline, route.accepted);
+          if (result == null) continue;
+          break;
+        }
       }
       if (result == null) {
         throw LibError.stack(mirror.function.location!,
-            'The function $function does not have a handler type');
+            'The function "${function.runtimeType}" does not have a handler type');
       }
       list.add(RouteMock(
         path: (pathSeg + route.path.getUrlSegmants()).join('/'),

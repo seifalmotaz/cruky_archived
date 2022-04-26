@@ -5,6 +5,7 @@ abstract class StatusCodes {
   Response e405([dynamic msg]);
   Response e500([dynamic msg]);
   Response e422([dynamic msg]);
+  Response e406([dynamic msg]);
 }
 
 class TextStatusCodes extends StatusCodes {
@@ -19,4 +20,7 @@ class TextStatusCodes extends StatusCodes {
 
   @override
   Response e422([dynamic msg]) => Text(msg, 422);
+
+  @override
+  Response e406([dynamic msg]) => Text(msg ?? 'Not Acceptable', 406);
 }
