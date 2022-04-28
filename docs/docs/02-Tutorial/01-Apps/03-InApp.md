@@ -1,5 +1,3 @@
-# InApp
-
 __InApp__ class helps you to add routes to the main app like the __AppMaterieal__ but does not has a routes getter instead you write the route method inside the class.
 
 #### Example

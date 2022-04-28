@@ -1,5 +1,3 @@
-# AppMaterial
-
 `AppMaterial` is the main thing that runs the server, it contains the main things that every app needs.
 
 ## Getters

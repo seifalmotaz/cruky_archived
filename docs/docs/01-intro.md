@@ -1,3 +1,7 @@
+---
+title: Introduction
+sidebar_position: 1
+---
 # __Cruky__
 
 __Cruky__ is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
@@ -29,7 +33,7 @@ __If you have any idea tell me in discussion section on github <a href="https://
 - run `dart pub global activate cruky` to install cruky executable
 - create project by running `cruky create appName`
 
-> <span style="color: #2ECCFA; font-weight: bold">Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
+> <span style={{color: "#2ECCFA", fontWeight: "bold"}}>Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
 > 
 > - try to run `cruky.bat create appName`
 > - if it did not work add `C:\Users\{{Your name}}\AppData\Local\Pub\Cache\bin` to your enviroment variables
