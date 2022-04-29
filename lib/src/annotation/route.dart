@@ -1,33 +1,4 @@
-library cruky.annotation;
-
-import 'common/mimetypes.dart';
-import 'constants.dart';
-
-/// handler for handlers annotations
-class HandlerInfo {
-  const HandlerInfo();
-}
-
-/// this defines that the method called before the main handler method
-class UsePre {
-  /// this defines that the method called before the main handler method
-  const UsePre();
-}
-
-/// this defines that the method called after the main handler method
-class UsePost {
-  /// this defines that the method called after the main handler method
-  const UsePost();
-}
-
-/// method pipeline instead of using the [Route] pipeline
-class Pipeline {
-  /// route middleware
-  final List pipeline;
-
-  /// method pipeline instead of using the [Route] pipeline
-  const Pipeline(this.pipeline);
-}
+part of './annotation.dart';
 
 /// routing annotation for route settings
 class Route {

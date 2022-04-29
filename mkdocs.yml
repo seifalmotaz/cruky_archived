@@ -25,6 +25,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - admonition
+  - pymdownx.details
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.highlight:
@@ -38,5 +40,7 @@ nav:
       - tutorial/apps/server-app.md
       - tutorial/apps/in-app.md
     - tutorial/routes.md
+    - tutorial/path_params.md
+    - tutorial/request_body.md
   - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"
   - Roadmap: roadmap.md

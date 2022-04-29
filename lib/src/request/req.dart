@@ -147,7 +147,6 @@ class Request {
 
         if (fileNameMatch[1] == null) {
           throw Json({
-            #status: 500,
             "msg": "the form field name is empty please "
                 "try to put a name for the field",
           }, 500);

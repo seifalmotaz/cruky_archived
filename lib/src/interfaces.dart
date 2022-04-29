@@ -40,11 +40,11 @@ abstract class ServerApp extends AppMaterial {
 
   /// this method will be called after calling init method
   /// and running http servers on every isolate
-  void ready() async {}
+  // void ready() async {}
 
   /// this method will be called before
   /// closing all http servers on all isolates
-  void close() async {}
+  // void close() async {}
 
   /// this is a method that will call on every
   /// isolate to run the server with the returned data from __CrukyServer__
@@ -60,11 +60,11 @@ class PluginApp {
 
   /// this method will be called after calling init method and
   /// running http servers on every isolate
-  void onReady() {}
+  // void onReady() {}
 
   /// this method will be called before
   /// closing all http servers on all isolates
-  void onClose() {}
+  // void onClose() {}
 
   /// Plugin routes tree
   List get routes => [];

@@ -102,7 +102,11 @@ class PathPattern {
         }
         if (type == 'double') {
           paramType = double;
-          _regex += r"([^\s][0-9]*\.[0-9]+)";
+          _regex += r"([0-9]*\.[0-9]+)";
+        }
+        if (type == 'num') {
+          paramType = num;
+          _regex += r"([0-9]*(\.[0-9]+)?)";
         }
       }
 

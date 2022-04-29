@@ -3,7 +3,7 @@ library cruky.server;
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cruky/src/core/res.dart';
+import 'package:cruky/src/errors/exp_res.dart';
 
 import 'path_handler.dart';
 
@@ -69,10 +69,10 @@ class CrukyServer {
       if (matched != null) {
         matched(request);
       } else {
-        Text('Not found', 404).write(request);
+        ERes.e404().write(request);
       }
     } catch (e, s) {
-      Text('Server error', 500).write(request);
+      ERes.e500().write(request);
       print(e);
       print(s);
     }

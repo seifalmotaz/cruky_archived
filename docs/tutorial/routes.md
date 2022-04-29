@@ -54,7 +54,7 @@ After writing the annotation we define the method under it:
 ```dart
 @Route.get('/my/path')
 Json example(Request req) {
-  return Json({'token': req.data['token']});
+  return Json({});
 }
 ```
 

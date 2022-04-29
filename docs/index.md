@@ -19,8 +19,8 @@ __If you have any idea tell me in discussion section on github <a href="https://
 
 > Inspired by server-side frameworks like (Django, Flask, FastAPI)
 
-### Note
-__This is an early release of Cruky. there may be minor changes in future updates. A few features are still missing that will be part of the 1.0 release.__
+!!! danger
+    This is an early release of Cruky. there may be minor changes in future updates. A few features are still missing that will be part of the 1.0 release.
 
 ---
 

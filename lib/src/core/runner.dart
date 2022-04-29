@@ -14,7 +14,7 @@ import 'package:vm_service/vm_service_io.dart';
 import 'package:watcher/watcher.dart';
 
 void runApp<T extends ServerApp>(T app,
-    {int isolates = 1, int listeners = 4}) async {
+    {int isolates = 2, int listeners = 4}) async {
   late final List<PathHandler> routesTree;
   try {
     routesTree = await scan(app);
@@ -26,10 +26,18 @@ void runApp<T extends ServerApp>(T app,
     }
     rethrow;
   }
-  var data = IsolateData(app, routesTree, listeners, [], [], []);
+  List<Function> inits = [app.init];
+  for (var item in app.plugins) {
+    inits.add(item.onInit);
+  }
+  var data = IsolateData(app, routesTree, listeners, []);
   if (!app.debug) {
-    runServer(IsolateData data) {
+    runServer(IsolateData data) async {
       kIsDebug = data.app.debug;
+      for (var item in data.onInit) {
+        await item();
+      }
+
       var crukyServer = CrukyServer(data.routes);
       crukyServer.serve(data.address, data.port, data.listeners);
     }
@@ -51,8 +59,6 @@ class IsolateData {
   final int listeners;
   final List<PathHandler> routes;
   final List<Function> onInit;
-  final List<Function> onReady;
-  final List<Function> onClose;
   String get address => app.address;
   int get port => app.port;
   IsolateData(
@@ -60,8 +66,6 @@ class IsolateData {
     this.routes,
     this.listeners,
     this.onInit,
-    this.onReady,
-    this.onClose,
   );
 }
 

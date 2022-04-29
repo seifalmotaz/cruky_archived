@@ -1,11 +1,12 @@
 import 'dart:mirrors';
-import 'package:cruky/src/annotation.dart';
+import 'package:cruky/src/annotation/annotation.dart';
 import 'package:cruky/src/common/string_converter.dart';
 import 'package:cruky/src/errors/liberrors.dart';
 import 'package:cruky/src/handlers/routes/abstract.dart';
 import 'package:cruky/src/handlers/routes/app/text.dart';
 import 'package:cruky/src/handlers/routes/direct.dart';
 import 'package:cruky/src/handlers/routes/app/json.dart';
+import 'package:cruky/src/handlers/routes/schema/parser.dart' as schema;
 import 'package:cruky/src/scanner/scanner.dart';
 
 typedef ParserFunction<T> = T Function(
@@ -45,6 +46,10 @@ class MethodParser {
     HandlerType(
       TextHandler.parse,
       TextHandler.check,
+    ),
+    HandlerType(
+      schema.parse,
+      schema.check,
     ),
   ];
 

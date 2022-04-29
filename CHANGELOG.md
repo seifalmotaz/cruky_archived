@@ -1,11 +1,12 @@
+## 0.11.5
+
+- enable `init` and `onInit` functions
+- docs update
+
 ## 0.11.3
 
 - fixing `InApp` problem
 - adding `JsonHandler` and `TextHandler`
-
-## 0.11.3
-
-- fixing `InApp` problem
 
 ## 0.11.2
 
