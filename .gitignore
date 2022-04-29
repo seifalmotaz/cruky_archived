@@ -3,6 +3,5 @@
 .packages
 
 # Conventional directory for build output.
-docs/build/
 benchmarks/
 site/
