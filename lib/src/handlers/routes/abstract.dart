@@ -3,6 +3,7 @@ library cruky.handlers;
 import 'dart:io';
 
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:cruky/src/scanner/scanner.dart';
@@ -24,7 +25,7 @@ abstract class RouteHandler {
     Map<String, dynamic> pathParams,
   ) async {
     if (!acceptedContentType.contains(req.headers.contentType?.mimeType)) {
-      return kStatus.e406();
+      return ERes.e415();
     }
 
     Request reqCTX = Request(

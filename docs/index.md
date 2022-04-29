@@ -1,10 +1,15 @@
 ---
-title: Introduction
-sidebar_position: 1
+description: Cruky is a server-side library for the dart ecosystem to help you create your API as fast as possible
+tags:
+  - cruky
+  - dart
+  - api
+  - API
 ---
+
 # __Cruky__
 
-__Cruky__ is a server-side library for the dart ecosystem to help you create your API as fast as possible. We want to make server-side apps with modern style and fast `high performance`.
+__Cruky__ is a server-side library for the dart ecosystem to help you create your API as fast as possible. Cruky team want to make server-side apps with modern style and fast `high performance`.
 
 The main reason why __Cruky__ was built, because all libraries are focused on the Flutter ecosystem and not on dart language
 and this makes the library have fewer futures than other frameworks or libraries like (Django, FastAPI, ROR, ..etc)
@@ -13,6 +18,9 @@ So __cruky team__ decided that we will make a new library that focuses on Dart a
 __If you have any idea tell me in discussion section on github <a href="https://github.com/seifalmotaz/cruky/discussions/new?category=ideas" target="_blank">Submit new idea</a>__
 
 > Inspired by server-side frameworks like (Django, Flask, FastAPI)
+
+### Note
+__This is an early release of Cruky. there may be minor changes in future updates. A few features are still missing that will be part of the 1.0 release.__
 
 ---
 
@@ -33,7 +41,7 @@ __If you have any idea tell me in discussion section on github <a href="https://
 - run `dart pub global activate cruky` to install cruky executable
 - create project by running `cruky create appName`
 
-> <span style={{color: "#2ECCFA", fontWeight: "bold"}}>Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
+> <span style="color: #2ECCFA; font-weight: bold">Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
 > 
 > - try to run `cruky.bat create appName`
 > - if it did not work add `C:\Users\{{Your name}}\AppData\Local\Pub\Cache\bin` to your enviroment variables

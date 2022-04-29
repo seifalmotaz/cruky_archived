@@ -3,8 +3,7 @@ library cruky.server;
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cruky/src/common/ansicolor.dart';
-import 'package:cruky/src/constants.dart';
+import 'package:cruky/src/core/res.dart';
 
 import 'path_handler.dart';
 
@@ -68,18 +67,12 @@ class CrukyServer {
     try {
       PathHandler? matched = _matchReq(request);
       if (matched != null) {
-        matched(request, kStatus);
+        matched(request);
       } else {
-        kStatus.e404().write(request);
-        request.response.close();
-        print("${info('INFO:')} HTTP/${request.protocolVersion} "
-            "${request.method} ${ok(request.uri.path)} ${request.response.statusCode}");
+        Text('Not found', 404).write(request);
       }
     } catch (e, s) {
-      kStatus.e500().write(request);
-      request.response.close();
-      print("${info('INFO:')} HTTP/${request.protocolVersion} "
-          "${request.method} ${ok(request.uri.path)} ${request.response.statusCode}");
+      Text('Server error', 500).write(request);
       print(e);
       print(s);
     }

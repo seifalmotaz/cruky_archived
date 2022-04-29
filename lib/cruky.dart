@@ -18,4 +18,6 @@ export './src/request/form_data.dart';
 
 /// request, response
 export './src/core/res.dart';
-export 'src/request/req.dart' show Request;
+export './src/request/req.dart' show Request;
+
+export './src/errors/exp_res.dart' show ExpRes;

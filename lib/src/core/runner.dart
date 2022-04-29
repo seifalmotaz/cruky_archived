@@ -30,7 +30,6 @@ void runApp<T extends ServerApp>(T app,
   if (!app.debug) {
     runServer(IsolateData data) {
       kIsDebug = data.app.debug;
-      kStatus = data.app.statusHandler;
       var crukyServer = CrukyServer(data.routes);
       crukyServer.serve(data.address, data.port, data.listeners);
     }
@@ -71,7 +70,6 @@ runInDebugMode(
   IsolateData data,
 ) async {
   kIsDebug = data.app.debug;
-  kStatus = data.app.statusHandler;
   var server = CrukyServer(data.routes);
   server.serve(data.address, data.port, data.listeners);
   print('Server opened on http://${app.address}:${app.port} '

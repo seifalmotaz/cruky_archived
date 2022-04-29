@@ -16,7 +16,7 @@ class JsonHandler extends RouteHandler {
     try {
       return await handler(other);
     } on TypeError {
-      return kStatus.e406();
+      return Text('Not Acceptable', 406);
     }
   }
 

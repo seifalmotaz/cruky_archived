@@ -1,0 +1,42 @@
+site_name: Cruky
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: red
+      accent: cyan
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - scheme: default
+      primary: red
+      accent: cyan
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+
+repo_name: seifalmotaz/cruky
+repo_url: https://github.com/seifalmotaz/cruky
+
+markdown_extensions:
+  - tables
+  - meta
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+nav:
+  - Intro: index.md
+  - Tutorial:
+    - Apps:
+      - tutorial/apps/app-matrial.md
+      - tutorial/apps/server-app.md
+      - tutorial/apps/in-app.md
+    - tutorial/routes.md
+  - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"
+  - Roadmap: roadmap.md
