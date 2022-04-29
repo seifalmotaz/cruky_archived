@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Route handlers are functions/methods that handle the request with a specific path">
+        <meta name="description" content="Request body">
       
       
       
@@ -15,7 +15,7 @@
     
     
       
-        <title>Route Handlers - Cruky</title>
+        <title>Request Body - Cruky</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#route-handlers" class="md-skip">
+        <a href="#request-body" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Route Handlers
+              Request Body
             
           </span>
         </div>
@@ -346,92 +346,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Route Handlers
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../routes/" class="md-nav__link">
         Route Handlers
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-annotation" class="md-nav__link">
-    Route annotation
-  </a>
-  
-    <nav class="md-nav" aria-label="Route annotation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#main-constructor" class="md-nav__link">
-    Main constructor
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#handler-method" class="md-nav__link">
-    Handler method
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -455,11 +374,66 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../request_body/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Request Body
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Request Body
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#json-json" class="md-nav__link">
+    Json json
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#form-x-www-form-urlencoded" class="md-nav__link">
+    Form x-www-form-urlencoded
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multipart-form-multipartform-data" class="md-nav__link">
+    Multipart form multipart/form-data
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -528,49 +502,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-annotation" class="md-nav__link">
-    Route annotation
-  </a>
-  
-    <nav class="md-nav" aria-label="Route annotation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#main-constructor" class="md-nav__link">
-    Main constructor
+  <a href="#json-json" class="md-nav__link">
+    Json json
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
+      
+        <li class="md-nav__item">
+  <a href="#form-x-www-form-urlencoded" class="md-nav__link">
+    Form x-www-form-urlencoded
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#handler-method" class="md-nav__link">
-    Handler method
+      
+        <li class="md-nav__item">
+  <a href="#multipart-form-multipartform-data" class="md-nav__link">
+    Multipart form multipart/form-data
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -586,80 +534,52 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/tutorial/routes.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/tutorial/request_body.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="route-handlers">Route Handlers</h1>
-<p>Route handlers are functions/methods that handle the request with a specific path, and they can have middlewares before it or after.</p>
-<p>You can respond with the <strong>Response</strong> class.</p>
-<h2 id="usage">Usage</h2>
-<p>As we said the method must have a path to knowing what path this method handles</p>
-<p>so we define <strong>Route</strong> annotation for the method.</p>
-<h3 id="route-annotation">Route annotation</h3>
-<h5 id="main-constructor">Main constructor</h5>
-<p>The main constructor has two required arguments and two optional and all of them are positional arguments.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">const</span> <span class="n">Route</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   <span class="k">this</span><span class="p">.</span><span class="n">path</span><span class="p">,</span> <span class="c1">// define the method path</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   <span class="k">this</span><span class="p">.</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span> <span class="c1">// define the accepted methods like &quot;PUT, POST&quot;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   <span class="k">this</span><span class="p">.</span><span class="n">middlewares</span> <span class="o">=</span> <span class="k">const</span> <span class="p">[],</span> <span class="c1">// adding scoped middlwares</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   <span class="k">this</span><span class="p">.</span><span class="n">accepted</span> <span class="o">=</span> <span class="k">const</span> <span class="p">[],</span> <span class="c1">// adding the accepted content type request</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">]);</span>
+<h1 id="request-body">Request Body</h1>
+<p>You can get the request data by the <strong>Request</strong> class, it will help you to manipulate the <strong>HttpRequest</strong>.</p>
+<h3 id="json-json">Json <code>json</code></h3>
+<p><strong>Request</strong> help you to convert the data to <code>Map</code> or <code>List</code> type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">Future</span><span class="o">&lt;</span><span class="n">Json</span><span class="o">&gt;</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="hll">  <span class="n">Map</span> <span class="n">body</span> <span class="o">=</span> <span class="kd">await</span> <span class="n">req</span><span class="p">.</span><span class="n">json</span><span class="p">();</span>
+</span><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">(</span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
 </code></pre></div>
-<h5 id="constructors">Constructors</h5>
-<p>Some constructors will help you save some time.</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>get</td>
-<td>This is a constructor that defines a route with the "GET" method</td>
-</tr>
-<tr>
-<td>post</td>
-<td>defines a route with the "POST" method</td>
-</tr>
-<tr>
-<td>put</td>
-<td>defines a route with the "PUT" method</td>
-</tr>
-<tr>
-<td>delete</td>
-<td>defines a route with the "DELETE" method</td>
-</tr>
-</tbody>
-</table>
-<h3 id="handler-method">Handler method</h3>
-<p>There are several types of handler methods that you can use we will discuss the basic one on this page.</p>
-<p>After writing the annotation we define the method under it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/my/path&#39;</span><span class="p">)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({});</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It uses <strong>utf8</strong> to decode <strong>HttpRequest</strong> stream.</p>
+</div>
+<h3 id="form-x-www-form-urlencoded">Form <code>x-www-form-urlencoded</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Future</span><span class="o">&lt;</span><span class="n">Text</span><span class="o">&gt;</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="hll">  <span class="n">FormData</span> <span class="n">body</span> <span class="o">=</span> <span class="kd">await</span> <span class="n">req</span><span class="p">.</span><span class="n">form</span><span class="p">();</span>
+</span><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="c1">// print List&lt;String&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">getInt</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">))</span> <span class="c1">// print int</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">listInt</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">))</span> <span class="c1">// print List&lt;int&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  <span class="k">return</span> <span class="n">Text</span><span class="p">(</span><span class="s1">&#39;ok&#39;</span><span class="p">);</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
 </code></pre></div>
-<p>As we saw we defined the handler method with path <strong>/my/path/</strong> and it responds with <strong>Json</strong> class that extends <strong>Response</strong> class.</p>
-<p>From the <code>req</code> argument you can access some of the request helpers functions like:</p>
-<ul>
-<li>
-<p>you can access the JSON body from the request if the request content type is <strong>application/json</strong> </p>
-</li>
-<li>
-<p>or you can get the form data if content type is <strong>application/x-www-form-urlencoded</strong> </p>
-</li>
-<li>
-<p>or can get multipart form data if the content type <strong>multipart/form-data</strong></p>
-</li>
-<li>
-<p>you can also get the path query data <code>req.query.get('field_name')</code>, and path parameters <code>req.path.get('field_name')</code> and headers <code>req.headerValue('field_name')</code></p>
-</li>
-</ul>
+<p>This method will help you to get the form data as <code>Map&lt;String, List&lt;String&gt;&gt;</code> so you can get the data by <code>body['data']</code> bu if you want to get the data with spacific type like <strong>int</strong> you can use <code>body.getInt('data')</code> or you can get a list of <code>int</code> by <code>body.listInt('data')</code>.</p>
+<h3 id="multipart-form-multipartform-data">Multipart form <code>multipart/form-data</code></h3>
+<p>It has the same options that in <code>FormData</code> and <strong>formFiles</strong> variable that contains a list of <strong>FilePart</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">Future</span><span class="o">&lt;</span><span class="n">Text</span><span class="o">&gt;</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="hll">  <span class="n">iFormData</span> <span class="n">body</span> <span class="o">=</span> <span class="kd">await</span> <span class="n">req</span><span class="p">.</span><span class="n">iForm</span><span class="p">();</span>
+</span><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="hll">  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">formFiles</span><span class="p">);</span> <span class="c1">// print Map&lt;String, List&lt;FilePart&gt;&gt;</span>
+</span><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="c1">// print List&lt;String&gt;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">getInt</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">))</span> <span class="c1">// print int</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">listInt</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">))</span> <span class="c1">// print List&lt;int&gt;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="hll">  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">])</span> <span class="c1">// print List&lt;FilePart&gt;</span>
+</span><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll">  <span class="n">print</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="n">getFile</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">))</span> <span class="c1">// print FilePart</span>
+</span><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  <span class="k">return</span> <span class="n">Text</span><span class="p">(</span><span class="s1">&#39;ok&#39;</span><span class="p">);</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
+</code></pre></div>
 
               
             </article>
@@ -673,7 +593,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../apps/in-app/" class="md-footer__link md-footer__link--prev" aria-label="Previous: InApp" rel="prev">
+        <a href="../path_params/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Path Parameters" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -682,20 +602,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              InApp
+              Path Parameters
             </div>
           </div>
         </a>
       
       
         
-        <a href="../path_params/" class="md-footer__link md-footer__link--next" aria-label="Next: Path Parameters" rel="next">
+        <a href="../../roadmap/" class="md-footer__link md-footer__link--next" aria-label="Next: Roadmap" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Path Parameters
+              Roadmap
             </div>
           </div>
           <div class="md-footer__button md-icon">

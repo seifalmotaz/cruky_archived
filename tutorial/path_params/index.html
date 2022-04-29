@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Route handlers are functions/methods that handle the request with a specific path">
+        <meta name="description" content="Path parameters">
       
       
       
@@ -15,7 +15,7 @@
     
     
       
-        <title>Route Handlers - Cruky</title>
+        <title>Path Parameters - Cruky</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#route-handlers" class="md-skip">
+        <a href="#path-parameters" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Route Handlers
+              Path Parameters
             
           </span>
         </div>
@@ -346,6 +346,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../routes/" class="md-nav__link">
+        Route Handlers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -358,12 +372,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Route Handlers
+          Path Parameters
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Route Handlers
+        Path Parameters
       </a>
       
         
@@ -382,49 +396,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
+  <a href="#types" class="md-nav__link">
+    Types
   </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-annotation" class="md-nav__link">
-    Route annotation
-  </a>
-  
-    <nav class="md-nav" aria-label="Route annotation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#main-constructor" class="md-nav__link">
-    Main constructor
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#handler-method" class="md-nav__link">
-    Handler method
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -432,20 +406,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../path_params/" class="md-nav__link">
-        Path Parameters
-      </a>
     </li>
   
 
@@ -528,49 +488,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
+  <a href="#types" class="md-nav__link">
+    Types
   </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-annotation" class="md-nav__link">
-    Route annotation
-  </a>
-  
-    <nav class="md-nav" aria-label="Route annotation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#main-constructor" class="md-nav__link">
-    Main constructor
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#handler-method" class="md-nav__link">
-    Handler method
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -586,80 +506,34 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/tutorial/routes.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/tutorial/path_params.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="route-handlers">Route Handlers</h1>
-<p>Route handlers are functions/methods that handle the request with a specific path, and they can have middlewares before it or after.</p>
-<p>You can respond with the <strong>Response</strong> class.</p>
-<h2 id="usage">Usage</h2>
-<p>As we said the method must have a path to knowing what path this method handles</p>
-<p>so we define <strong>Route</strong> annotation for the method.</p>
-<h3 id="route-annotation">Route annotation</h3>
-<h5 id="main-constructor">Main constructor</h5>
-<p>The main constructor has two required arguments and two optional and all of them are positional arguments.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">const</span> <span class="n">Route</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   <span class="k">this</span><span class="p">.</span><span class="n">path</span><span class="p">,</span> <span class="c1">// define the method path</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   <span class="k">this</span><span class="p">.</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span> <span class="c1">// define the accepted methods like &quot;PUT, POST&quot;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   <span class="k">this</span><span class="p">.</span><span class="n">middlewares</span> <span class="o">=</span> <span class="k">const</span> <span class="p">[],</span> <span class="c1">// adding scoped middlwares</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   <span class="k">this</span><span class="p">.</span><span class="n">accepted</span> <span class="o">=</span> <span class="k">const</span> <span class="p">[],</span> <span class="c1">// adding the accepted content type request</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">]);</span>
+<h1 id="path-parameters">Path Parameters</h1>
+<p>You can declare path parameters in the <strong>Route</strong> path string:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="hll"><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/my/:id&#39;</span><span class="p">)</span>
+</span><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="hll">  <span class="kt">String</span> <span class="n">myId</span> <span class="o">=</span> <span class="n">req</span><span class="p">.</span><span class="n">path</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span>
+</span><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({</span><span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="n">myId</span><span class="p">});</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
 </code></pre></div>
-<h5 id="constructors">Constructors</h5>
-<p>Some constructors will help you save some time.</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>get</td>
-<td>This is a constructor that defines a route with the "GET" method</td>
-</tr>
-<tr>
-<td>post</td>
-<td>defines a route with the "POST" method</td>
-</tr>
-<tr>
-<td>put</td>
-<td>defines a route with the "PUT" method</td>
-</tr>
-<tr>
-<td>delete</td>
-<td>defines a route with the "DELETE" method</td>
-</tr>
-</tbody>
-</table>
-<h3 id="handler-method">Handler method</h3>
-<p>There are several types of handler methods that you can use we will discuss the basic one on this page.</p>
-<p>After writing the annotation we define the method under it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/my/path&#39;</span><span class="p">)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({});</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+<p>By adding <code>:</code> and the name of the parameter like <code>:id</code> or <code>:name</code>. you can get the parameter data from the path variable in request <code>req.path['parameter']</code>.</p>
+<h3 id="types">Types</h3>
+<p>You can get a specific type of parameter by adding a type validator to the path parameter:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="hll"><span class="nd">@Route</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">&#39;/my/:id(int)&#39;</span><span class="p">)</span>
+</span><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Json</span> <span class="n">example</span><span class="p">(</span><span class="n">Request</span> <span class="n">req</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="kt">int</span> <span class="n">myId</span> <span class="o">=</span> <span class="n">req</span><span class="p">.</span><span class="n">path</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  <span class="k">return</span> <span class="n">Json</span><span class="p">({</span><span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="n">myId</span><span class="p">});</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
 </code></pre></div>
-<p>As we saw we defined the handler method with path <strong>/my/path/</strong> and it responds with <strong>Json</strong> class that extends <strong>Response</strong> class.</p>
-<p>From the <code>req</code> argument you can access some of the request helpers functions like:</p>
-<ul>
-<li>
-<p>you can access the JSON body from the request if the request content type is <strong>application/json</strong> </p>
-</li>
-<li>
-<p>or you can get the form data if content type is <strong>application/x-www-form-urlencoded</strong> </p>
-</li>
-<li>
-<p>or can get multipart form data if the content type <strong>multipart/form-data</strong></p>
-</li>
-<li>
-<p>you can also get the path query data <code>req.query.get('field_name')</code>, and path parameters <code>req.path.get('field_name')</code> and headers <code>req.headerValue('field_name')</code></p>
-</li>
-</ul>
+<p>The default type is a string but there are other types like <code>int</code>, <code>double</code>, <code>num</code>, and <code>string</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if you set a type for path parameter like the above example if anyone tries to send a request to <code>/my/string</code> will get <strong>404</strong> massage.</p>
+</div>
 
               
             </article>
@@ -673,7 +547,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../apps/in-app/" class="md-footer__link md-footer__link--prev" aria-label="Previous: InApp" rel="prev">
+        <a href="../routes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Route Handlers" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -682,20 +556,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              InApp
+              Route Handlers
             </div>
           </div>
         </a>
       
       
         
-        <a href="../path_params/" class="md-footer__link md-footer__link--next" aria-label="Next: Path Parameters" rel="next">
+        <a href="../request_body/" class="md-footer__link md-footer__link--next" aria-label="Next: Request Body" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Path Parameters
+              Request Body
             </div>
           </div>
           <div class="md-footer__button md-icon">
