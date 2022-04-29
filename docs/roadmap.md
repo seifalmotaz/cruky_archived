@@ -1,13 +1,12 @@
 # Roadmap
 
 ## Improve
-- [ ] how status codes is handled
+- [x] how status codes is handled
 - [ ] error handling
 - [ ] Documentation
 
 ## Add
 - [ ] Request schema validator from class
-- [ ] logger to the server
 - [ ] Auto generatore OpenAPI/Swagger page inspired from FastAPI
 - [ ] Auto client code generatore from openapi inspired from Serverpod
 
