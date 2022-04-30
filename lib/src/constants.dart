@@ -1,7 +1,11 @@
 library cruky.constants;
 
+import 'handlers/routes/schema/parser.dart';
+
 /// globl variable that hlps you to know the server debug mode
 bool kIsDebug = true;
+
+final Map<Type, SchemaType> schemaTypes = {};
 
 /// request method types
 class ReqMethods {

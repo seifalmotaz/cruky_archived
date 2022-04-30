@@ -37,8 +37,9 @@ class PathHandler {
         writeResponse(e.res, req);
         return;
       }
+      print('');
       print(e);
-      print(s);
+      if (s.toString().isNotEmpty) print(s);
       ERes.e500().write(req);
     }
   }

@@ -1,3 +1,7 @@
+## 0.12.0
+
+- Adding schema validator
+
 ## 0.11.5
 
 - enable `init` and `onInit` functions

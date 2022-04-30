@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cruky/cruky.dart';
 import 'package:cruky/src/common/string_converter.dart';
+import 'package:cruky/src/errors/exp_res.dart';
 import 'package:mime/mime.dart';
 
 import 'common/query.dart';
@@ -84,7 +85,7 @@ class Request {
     RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
     RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
 
-    final Map<String, String> formFields = {};
+    final Map<String, List<String>> formFields = {};
     final Map<String, List<FilePart>> formFiles = {};
     Stream<Uint8List> stream;
 
@@ -94,8 +95,20 @@ class Request {
       ..close();
     stream = ctrl.stream;
 
-    var parts = MimeMultipartTransformer(contentType!.parameters['boundary']!)
-        .bind(stream);
+    if (contentType == null) {
+      throw ExpRes(ERes.e415());
+    }
+    if (contentType!.parameters['boundary'] == null) {
+      throw ExpRes(ERes.e400("`boundary` not found in headers"));
+    }
+
+    late Stream<MimeMultipart> parts;
+    try {
+      parts = MimeMultipartTransformer(contentType!.parameters['boundary']!)
+          .bind(stream);
+    } catch (e) {
+      throw ExpRes(ERes.e400(e.toString()));
+    }
 
     await for (MimeMultipart part in parts) {
       String headers = part.headers['content-disposition']!;
@@ -110,16 +123,13 @@ class Request {
       /// check if the field name exist
       {
         if (fieldNameMatch == null) {
-          throw Json({
-            "msg": "Cannot find the header name field for the request",
-          }, 500);
+          throw ExpRes(
+              ERes.e400("Cannot find the header name field for the request"));
         }
 
         if (fieldNameMatch[1] == null) {
-          throw Json({
-            "msg": "the form field name is empty please "
-                "try to put a name for the field",
-          }, 500);
+          throw ExpRes(ERes.e400("the form field name is empty please "
+              "try to put a name for the field"));
         }
       }
 
@@ -128,7 +138,11 @@ class Request {
       /// check if this part is field or file
       if (!headers.contains('filename=')) {
         /// handle if if it's a field
-        formFields[name] = await utf8.decodeStream(part);
+        if (formFields.containsKey(name)) {
+          formFields[name]!.add(await utf8.decodeStream(part));
+        } else {
+          formFields[name] = [await utf8.decodeStream(part)];
+        }
         continue;
       }
 
@@ -140,16 +154,13 @@ class Request {
       /// check if the file name exist
       {
         if (fileNameMatch == null) {
-          throw Json({
-            "msg": "Cannot find the header name field for the request",
-          }, 500);
+          throw ExpRes(
+              ERes.e400("Cannot find the header name field for the request"));
         }
 
         if (fileNameMatch[1] == null) {
-          throw Json({
-            "msg": "the form field name is empty please "
-                "try to put a name for the field",
-          }, 500);
+          throw ExpRes(ERes.e400("the form field name is empty please "
+              "try to put a name for the field"));
         }
       }
 

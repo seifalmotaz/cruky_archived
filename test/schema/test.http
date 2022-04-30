@@ -2,4 +2,30 @@
 @port=5000
 @url=http://{{host}}:{{port}}
 
-GET {{url}}/example/get HTTP/1.1
+GET {{url}}/json HTTP/1.1
+Content-Type: application/json
+
+{
+    "task": "todo list",
+    "isCompleted": true
+}
+
+###
+
+GET {{url}}/form HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+task=todo
+&isCompleted=true
+
+###
+
+POST {{url}}/iform HTTP/1.1
+Content-Type: multipart/form-data; boundary=X-BOUNDARY
+--X-BOUNDARY
+Content-Disposition: form-data; name="task"
+todo
+--X-BOUNDARY
+Content-Disposition: form-data; name="isCompleted"
+true
+--X-BOUNDARY--

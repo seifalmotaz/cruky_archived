@@ -8,13 +8,13 @@
 - [ ] Documentation
 
 ### Add
-- [ ] Request schema validator from class
-- [ ] Auto generatore OpenAPI/Swagger page inspired from FastAPI
-- [ ] Auto client code generatore from openapi inspired from Serverpod
+- [ ] Add web socket
+- [x] Request schema validator from class
 
 ## In Future
 Features that are added at an unspecified time:
 
-- [ ] Add web socket
 - [ ] ORM library inspired from Prisma
 - [ ] Server CRUD code generator inspired from ROR
+- [ ] Auto generatore OpenAPI/Swagger page inspired from FastAPI
+- [ ] Auto client code generatore from openapi inspired from Serverpod

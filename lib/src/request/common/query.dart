@@ -9,6 +9,13 @@ class QueryParameters {
   /// request query parameters helper that can help you get data easily
   QueryParameters(Uri uri) : map = uri.queryParametersAll;
 
+  /// get value as string
+  String? getString(String i) {
+    final _data = map[i];
+    if (_data == null) return null;
+    return _data.first;
+  }
+
   /// get value as int
   int? getInt(String i) {
     final _data = map[i];

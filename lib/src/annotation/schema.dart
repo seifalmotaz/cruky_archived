@@ -5,23 +5,29 @@ class Schema {
   /// the accepted content type
   final List<String> accepted;
 
-  /// __Schema__ class helps you to define how to get the data and validate them
-  const Schema(this.accepted);
+  /// bind data type
+  final BindingType bindingType;
 
-  /// this will accept the empty content type
-  const Schema.none() : accepted = const [];
+  /// __Schema__ class helps you to define how to get the data and validate them
+  const Schema(this.accepted, this.bindingType);
 
   /// this will accept the json content type
-  const Schema.json() : accepted = const [MimeTypes.json];
+  const Schema.json()
+      : accepted = const [MimeTypes.json],
+        bindingType = BindingType.json;
 
   /// this will accept the form content type
-  const Schema.form() : accepted = const [MimeTypes.urlEncodedForm];
+  const Schema.form()
+      : accepted = const [MimeTypes.urlEncodedForm],
+        bindingType = BindingType.form;
 
   /// this will accept the multipart form content type
-  const Schema.iform() : accepted = const [MimeTypes.multipartForm];
+  const Schema.iform()
+      : accepted = const [MimeTypes.multipartForm],
+        bindingType = BindingType.iform;
 }
 
-enum _BindingType {
+enum BindingType {
   json,
   form,
   iform,
@@ -30,11 +36,11 @@ enum _BindingType {
 }
 
 class BindFrom {
-  final _BindingType from;
+  final BindingType from;
   const BindFrom(this.from);
-  const BindFrom.json() : from = _BindingType.json;
-  const BindFrom.form() : from = _BindingType.form;
-  const BindFrom.iform() : from = _BindingType.iform;
-  const BindFrom.query() : from = _BindingType.query;
-  const BindFrom.path() : from = _BindingType.path;
+  const BindFrom.json() : from = BindingType.json;
+  const BindFrom.form() : from = BindingType.form;
+  const BindFrom.iform() : from = BindingType.iform;
+  const BindFrom.query() : from = BindingType.query;
+  const BindFrom.path() : from = BindingType.path;
 }
