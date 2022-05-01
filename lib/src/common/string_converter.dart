@@ -21,9 +21,10 @@ extension StringUtils on String {
   }
 
   bool? toBool([bool? defaultValue]) {
-    if (this == "true") {
+    String i = toLowerCase();
+    if (i == "true") {
       return true;
-    } else if (this == "false") {
+    } else if (i == "false") {
       return false;
     }
 

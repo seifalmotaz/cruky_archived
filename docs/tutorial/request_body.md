@@ -1,30 +1,36 @@
 ---
+
 description: Request body
 tags:
-  - request
-  - body
-  - content type
+
+- request
+- body
+- content type
+
 ---
+
 # Request Body
+
 You can get the request data by the __Request__ class, it will help you to manipulate the __HttpRequest__.
 
 ### Json `json`
+
 __Request__ help you to convert the data to `Map` or `List` type:
 
-```dart hl_lines="3"
+```dart
 @Route.get('/')
 Future<Json> example(Request req) async {
   Map body = await req.json();
   return Json(body);
 }
 ```
-!!! note
-    It uses __utf8__ to decode __HttpRequest__ stream.
 
+!!! info
+    It uses __utf8__ to decode __HttpRequest__ stream.
 
 ### Form `x-www-form-urlencoded`
 
-```dart hl_lines="3"
+```dart
 @Route.get('/')
 Future<Text> example(Request req) async {
   FormData body = await req.form();
@@ -41,7 +47,7 @@ This method will help you to get the form data as `Map<String, List<String>>` so
 
 It has the same options that in `FormData` and __formFiles__ variable that contains a list of __FilePart__:
 
-```dart hl_lines="3 4 9 10"
+```dart
 @Route.get('/')
 Future<Text> example(Request req) async {
   iFormData body = await req.iForm();

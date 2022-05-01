@@ -42,5 +42,11 @@ nav:
     - tutorial/routes.md
     - tutorial/path_params.md
     - tutorial/request_body.md
+    - tutorial/schema_validator.md
+  - Advanced:
+    - advanced/01-handler_types.md
+    - advanced/02-more_handlers.md
+    - advanced/03-web_sockets.md
+    - advanced/04-isolates.md
   - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"
   - Roadmap: roadmap.md

@@ -50,7 +50,7 @@ extension GetData on FormData {
       throw Json({'msg': 'field $i is required'}, 422);
     }
     return _data.map((e) {
-      bool? i2 = e.toLowerCase().toBool();
+      bool? i2 = e.toBool();
       if (i2 == null && required) {
         throw Json({'msg': 'field $i is not a list of booleans'}, 422);
       }

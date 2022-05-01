@@ -41,7 +41,7 @@ class QueryParameters {
   bool? getBool(String i) {
     final _data = map[i];
     if (_data == null) return null;
-    String ii = _data.first.toLowerCase();
+    String ii = _data.first;
     return ii.toBool();
   }
 
@@ -54,7 +54,7 @@ class QueryParameters {
       throw Json({'msg': 'field $i is required'}, 422);
     }
     return _data.map((e) {
-      bool? i2 = e.toLowerCase().toBool();
+      bool? i2 = e.toBool();
       if (i2 == null && required) {
         throw Json({'msg': 'field $i is not a list of booleans'}, 422);
       }
@@ -71,7 +71,7 @@ class QueryParameters {
       throw Json({'msg': 'field $i is required'}, 422);
     }
     return _data.map((e) {
-      int? i2 = e.toLowerCase().toInt();
+      int? i2 = e.toInt();
       if (i2 == null && required) {
         throw Json({'msg': 'field $i is not a list of integers'}, 422);
       }
@@ -88,7 +88,7 @@ class QueryParameters {
       throw Json({'msg': 'field $i is required'}, 422);
     }
     return _data.map((e) {
-      double? i2 = e.toLowerCase().toDouble();
+      double? i2 = e.toDouble();
       if (i2 == null && required) {
         throw Json({'msg': 'field $i is not a list of doubles'}, 422);
       }
@@ -105,7 +105,7 @@ class QueryParameters {
       throw Json({'msg': 'field $i is required'}, 422);
     }
     return _data.map((e) {
-      num? i2 = e.toLowerCase().toNum();
+      num? i2 = e.toNum();
       if (i2 == null && required) {
         throw Json({'msg': 'field $i is not a list of numbers'}, 422);
       }

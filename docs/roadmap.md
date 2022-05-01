@@ -12,7 +12,7 @@
 - [x] Request schema validator from class
 
 ## In Future
-Features that are added at an unspecified time:
+Features will be added at an unspecified time and may not occur:
 
 - [ ] ORM library inspired from Prisma
 - [ ] Server CRUD code generator inspired from ROR

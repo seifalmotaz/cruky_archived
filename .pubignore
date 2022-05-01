@@ -1,5 +1,13 @@
 assets/
+
 benchmarks/
+
 site/
+
 docs/
+
 api/
+
+test/
+
+mkdocs.yml
