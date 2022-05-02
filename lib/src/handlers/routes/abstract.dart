@@ -24,7 +24,8 @@ abstract class RouteHandler {
     HttpRequest req,
     Map<String, dynamic> pathParams,
   ) async {
-    if (!acceptedContentType.contains(req.headers.contentType?.mimeType)) {
+    if (!acceptedContentType.contains(req.headers.contentType?.mimeType) &&
+        acceptedContentType.isNotEmpty) {
       return ERes.e415();
     }
 

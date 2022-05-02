@@ -1,3 +1,7 @@
+## 0.12.5
+
+- Adding web sockets
+
 ## 0.12.0
 
 - Adding schema validator

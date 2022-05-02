@@ -7,6 +7,7 @@ import 'package:cruky/src/handlers/routes/app/text.dart';
 import 'package:cruky/src/handlers/routes/direct.dart';
 import 'package:cruky/src/handlers/routes/app/json.dart';
 import 'package:cruky/src/handlers/routes/schema/parser.dart' as schema;
+import 'package:cruky/src/handlers/routes/web_sockets.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 
 typedef ParserFunction<T> = T Function(
@@ -50,6 +51,10 @@ class MethodParser {
     HandlerType(
       schema.parse,
       schema.check,
+    ),
+    HandlerType(
+      WebSocketHandler.parse,
+      WebSocketHandler.check,
     ),
   ];
 

@@ -22,7 +22,7 @@ class PipelineMock {
 }
 
 Future<List<PathHandler>> scan<T extends ServerApp>(T app) async {
-  final List appPipelineMock = app.pipeline; // app routes
+  final List appPipelineMock = app.pipeline; // app pipeline/middleware
   final List appRoutes = app.routes; // app routes
   // adding plugins routes and pipelines to the main app data
   for (var item in app.plugins) {

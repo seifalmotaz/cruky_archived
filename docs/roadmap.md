@@ -8,7 +8,7 @@
 - [ ] Documentation
 
 ### Add
-- [ ] Add web socket
+- [x] Add web socket
 - [x] Request schema validator from class
 
 ## In Future
