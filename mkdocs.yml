@@ -35,18 +35,16 @@ markdown_extensions:
 nav:
   - Intro: index.md
   - Tutorial:
-    - Apps:
-      - tutorial/apps/app-matrial.md
-      - tutorial/apps/server-app.md
-      - tutorial/apps/in-app.md
-    - tutorial/routes.md
-    - tutorial/path_params.md
-    - tutorial/request_body.md
-    - tutorial/schema_validator.md
-  - Advanced:
-    - advanced/01-handler_types.md
-    - advanced/02-more_handlers.md
-    - advanced/03-web_sockets.md
-    - advanced/04-isolates.md
+    - tutorial/01-Appmatrial.md
+    - tutorial/02-InApp.md
+    - tutorial/03-ServerApp.md
+    - tutorial/04-Routes.md
+    - tutorial/05-Path Params.md
+    - tutorial/06- Request Body.md
+    - tutorial/07-Schema Validator.md
+    - tutorial/08-Handler Types.md
+    - tutorial/09-More Handlers.md
+    - tutorial/10-WebSockets.md
+    - tutorial/11-Isolates.md
   - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"
   - Roadmap: roadmap.md

@@ -8,7 +8,7 @@ tags:
 ---
 # Route Handlers
 
-Route handlers are functions/methods that handle the request with a specific path, and they can have middlewares before it or after.
+Route handlers are functions/methods that handle the request with a specific path, and they can have middleware before it or after.
 
 You can respond with the __Response__ class.
 
@@ -43,6 +43,7 @@ Some constructors will help you save some time.
 | post   | defines a route with the "POST" method                           |
 | put    | defines a route with the "PUT" method                            |
 | delete | defines a route with the "DELETE" method                         |
+| ws     | defines a route for WebSocket handler type                       |
 
 
 ### Handler method
