@@ -6,6 +6,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="ServerApp is the main app that the server will get the routes and all things from it like (port, host, routes, middlewares, plugins)">
+      
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -13,7 +15,7 @@
     
     
       
-        <title>Web Sockets - Cruky</title>
+        <title>ServerApp - Cruky</title>
       
     
     
@@ -63,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#web-sockets" class="md-skip">
+        <a href="#serverapp" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Web Sockets
+              ServerApp
             
           </span>
         </div>
@@ -241,12 +243,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -268,34 +272,8 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2_1">
-          Apps
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Apps" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_1">
-          <span class="md-nav__icon md-icon"></span>
-          Apps
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../../tutorial/apps/app-matrial/" class="md-nav__link">
+      <a href="../01-Appmatrial/" class="md-nav__link">
         AppMaterial
       </a>
     </li>
@@ -309,149 +287,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorial/apps/server-app/" class="md-nav__link">
-        ServerApp
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tutorial/apps/in-app/" class="md-nav__link">
+      <a href="../02-InApp/" class="md-nav__link">
         InApp
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tutorial/routes/" class="md-nav__link">
-        Route Handlers
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tutorial/path_params/" class="md-nav__link">
-        Path Parameters
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tutorial/request_body/" class="md-nav__link">
-        Request Body
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tutorial/schema_validator/" class="md-nav__link">
-        Schema Validator
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3">
-          Advanced
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Advanced" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Advanced
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../01-handler_types/" class="md-nav__link">
-        Handlers Types
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../02-more_handlers/" class="md-nav__link">
-        More handlers
       </a>
     </li>
   
@@ -473,9 +310,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          ServerApp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Web Sockets
+        ServerApp
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getters" class="md-nav__link">
+    Getters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -488,7 +363,105 @@
   
   
     <li class="md-nav__item">
-      <a href="../04-isolates/" class="md-nav__link">
+      <a href="../04-Routes/" class="md-nav__link">
+        Route Handlers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-Path%20Params/" class="md-nav__link">
+        Path Parameters
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-%20Request%20Body/" class="md-nav__link">
+        Request Body
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-Schema%20Validator/" class="md-nav__link">
+        Schema Validator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-Handler%20Types/" class="md-nav__link">
+        Handlers Types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-More%20Handlers/" class="md-nav__link">
+        More handlers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-WebSockets/" class="md-nav__link">
+        Web Sockets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-Isolates/" class="md-nav__link">
         Isolates
       </a>
     </li>
@@ -552,6 +525,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getters" class="md-nav__link">
+    Getters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -562,13 +557,55 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/advanced/03-web_sockets.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/seifalmotaz/cruky/edit/master/docs/tutorial/03-ServerApp.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="web-sockets">Web Sockets</h1>
+<h1 id="serverapp">ServerApp</h1>
+<p><code>ServerApp</code> is the main app that the server will get the routes and all things from it like (port, host, routes, middlewares, plugins).
+This class extends <strong>AppMaterial</strong> and have the same getters.</p>
+<h2 id="getters">Getters</h2>
+<p>It has the same <strong>AppMaterial</strong> getter plus:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>port</td>
+<td>String</td>
+<td>you can define a custom port to use here the default is <strong>5000</strong></td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>you can define a custom host to use here the default is <strong>127.0.0.1</strong></td>
+</tr>
+<tr>
+<td>plugins</td>
+<td>List</td>
+<td>you can add plugins to the app</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">class</span> <span class="nc">MyApp</span> <span class="kd">extends</span> <span class="n">ServerApp</span> <span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  <span class="kt">int</span> <span class="kd">get</span> <span class="n">port</span> <span class="o">=&gt;</span> <span class="m">80</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="kt">String</span> <span class="kd">get</span> <span class="n">address</span> <span class="o">=&gt;</span> <span class="s1">&#39;0.0.0.0&#39;</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  <span class="nd">@override</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">routes</span> <span class="o">=&gt;</span> <span class="p">[</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>      <span class="n">ExampleApp</span><span class="p">(),</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  <span class="p">];</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+</code></pre></div>
 
               
             </article>
@@ -582,7 +619,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../02-more_handlers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: More handlers" rel="prev">
+        <a href="../02-InApp/" class="md-footer__link md-footer__link--prev" aria-label="Previous: InApp" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -591,20 +628,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              More handlers
+              InApp
             </div>
           </div>
         </a>
       
       
         
-        <a href="../04-isolates/" class="md-footer__link md-footer__link--next" aria-label="Next: Isolates" rel="next">
+        <a href="../04-Routes/" class="md-footer__link md-footer__link--next" aria-label="Next: Route Handlers" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Isolates
+              Route Handlers
             </div>
           </div>
           <div class="md-footer__button md-icon">
