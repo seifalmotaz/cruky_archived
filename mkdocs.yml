@@ -38,11 +38,11 @@ nav:
     - tutorial/01-Appmatrial.md
     - tutorial/02-InApp.md
     - tutorial/03-ServerApp.md
-    - tutorial/04-Routes.md
+    - tutorial/04-Route Handlers.md
     - tutorial/05-Path Params.md
     - tutorial/06- Request Body.md
     - tutorial/07-Schema Validator.md
-    - tutorial/08-Handler Types.md
+    - tutorial/08-Route Handlers Types.md
     - tutorial/09-WebSockets.md
     - tutorial/10-Isolates.md
   - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"
