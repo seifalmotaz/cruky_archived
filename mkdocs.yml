@@ -43,8 +43,7 @@ nav:
     - tutorial/06- Request Body.md
     - tutorial/07-Schema Validator.md
     - tutorial/08-Handler Types.md
-    - tutorial/09-More Handlers.md
-    - tutorial/10-WebSockets.md
-    - tutorial/11-Isolates.md
+    - tutorial/09-WebSockets.md
+    - tutorial/10-Isolates.md
   - API reference: "https://pub.dev/documentation/cruky/latest/cruky/cruky-library.html"
   - Roadmap: roadmap.md

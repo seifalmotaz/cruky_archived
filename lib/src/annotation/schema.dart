@@ -1,6 +1,6 @@
 part of './annotation.dart';
 
-/// __Schema__ class helps you to define how to get the data and validate them
+/// An annotation for specifying where to get the data and pass it to the annotated class
 class Schema {
   /// the accepted content type
   final List<String> accepted;
@@ -8,20 +8,20 @@ class Schema {
   /// bind data type
   final BindingType bindingType;
 
-  /// __Schema__ class helps you to define how to get the data and validate them
+  /// An annotation for spacifiying where to get the data and pass it to the annotated class
   const Schema(this.accepted, this.bindingType);
 
-  /// this will accept the json content type
+  /// annotation that accept the json content type
   const Schema.json()
       : accepted = const [MimeTypes.json],
         bindingType = BindingType.json;
 
-  /// this will accept the form content type
+  /// annotation that accept the form content type
   const Schema.form()
       : accepted = const [MimeTypes.urlEncodedForm],
         bindingType = BindingType.form;
 
-  /// this will accept the multipart form content type
+  /// annotation that accept the multipart form content type
   const Schema.iform()
       : accepted = const [MimeTypes.multipartForm],
         bindingType = BindingType.iform;

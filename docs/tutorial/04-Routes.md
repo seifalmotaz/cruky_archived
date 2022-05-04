@@ -1,11 +1,14 @@
 ---
 description: Route handlers are functions/methods that handle the request with a specific path
 tags:
-  - Route
-  - route
-  - annotation
-  - method handler
+
+- Route
+- route
+- annotation
+- method handler
+
 ---
+
 # Route Handlers
 
 Route handlers are functions/methods that handle the request with a specific path, and they can have middleware before it or after.
@@ -45,10 +48,9 @@ Some constructors will help you save some time.
 | delete | defines a route with the "DELETE" method                         |
 | ws     | defines a route for WebSocket handler type                       |
 
-
 ### Handler method
 
-There are several types of handler methods that you can use we will discuss the basic one on this page.
+There are several types of route handlers that you can use we will discuss the basic one on this page.
 
 After writing the annotation we define the method under it:
 

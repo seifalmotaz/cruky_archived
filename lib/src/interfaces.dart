@@ -1,4 +1,4 @@
-/// A class that have the required getters and
+/// An interface that have the required getters and
 /// methods to define an app to add it to the main entry app
 abstract class AppMaterial {
   /// route path prefix that will be added
@@ -12,7 +12,7 @@ abstract class AppMaterial {
   List get pipeline => [];
 }
 
-/// this class is like the [AppMatrial] class but instead of manual adding
+/// Like the [AppMatrial] interface but instead of manual adding
 /// to the routes getter, cruky will get the methods that have Route annotation
 /// inside the class and use it as route.
 abstract class InApp {
