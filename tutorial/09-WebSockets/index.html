@@ -6,6 +6,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Web sockets">
+      
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -313,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../04-Routes/" class="md-nav__link">
+      <a href="../04-Route%20Handlers/" class="md-nav__link">
         Route Handlers
       </a>
     </li>
@@ -369,7 +371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Handler%20Types/" class="md-nav__link">
+      <a href="../08-Route%20Handlers%20Types/" class="md-nav__link">
         Route Handlers Types
       </a>
     </li>
@@ -392,9 +394,40 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Web Sockets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Web Sockets
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -471,6 +504,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -488,6 +536,48 @@
 
 
 <h1 id="web-sockets">Web Sockets</h1>
+<blockquote>
+<p>WebSockets are one of many different tools for building web applications that provide instant, real-time updates, and communication. The WebSocket Protocol establishes full-duplex, bidirectional communication between a client and server.</p>
+<p><a href="https://www.pubnub.com/guides/what-are-websockets-and-when-should-you-use-them/">Google search</a></p>
+</blockquote>
+<p>To use a web socket we use <strong>WebSocketHandler</strong>, It's one of the <strong>Route Handlers Type</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Return Type</th>
+<th>Method Args</th>
+<th>Content Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Void</td>
+<td><strong>WebSocket</strong></td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example">Example</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">import</span> <span class="s1">&#39;dart:io&#39;</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@Route</span><span class="p">.</span><span class="n">ws</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kt">void</span> <span class="n">example</span><span class="p">(</span><span class="n">WebSocket</span> <span class="n">socket</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// you can use Future&lt;void&gt; for async method</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  <span class="c1">// listen to data from the socket</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  <span class="n">socket</span><span class="p">.</span><span class="n">listen</span><span class="p">((</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">print</span><span class="p">(</span><span class="n">event</span><span class="p">);</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">if</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;close&#39;</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>      <span class="c1">// send data</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>      <span class="n">socket</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;Server is closing the socket&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>      <span class="c1">// close the socket</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>      <span class="n">socket</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">}</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  <span class="p">});</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>The middleware after <code>That have UsePre annotation</code> the main method will not be executed.</p>
+</div>
 
               
             </article>
@@ -501,7 +591,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../08-Handler%20Types/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Route Handlers Types" rel="prev">
+        <a href="../08-Route%20Handlers%20Types/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Route Handlers Types" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
