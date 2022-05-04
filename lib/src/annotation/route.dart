@@ -19,14 +19,7 @@ class Route {
     this.path,
     this.methods, {
     this.pipeline = const [],
-    this.accepted = const [
-      MimeTypes.json,
-      MimeTypes.xhtml,
-      MimeTypes.txt,
-      MimeTypes.binary,
-      MimeTypes.multipartForm,
-      MimeTypes.urlEncodedForm,
-    ],
+    this.accepted = const [],
   });
 
   /// route with GET method
@@ -40,55 +33,27 @@ class Route {
   const Route.get(
     this.path, {
     this.pipeline = const [],
-    this.accepted = const [
-      MimeTypes.json,
-      MimeTypes.xhtml,
-      MimeTypes.txt,
-      MimeTypes.binary,
-      MimeTypes.multipartForm,
-      MimeTypes.urlEncodedForm,
-    ],
+    this.accepted = const [],
   }) : methods = ReqMethods.get;
 
   /// route with POST method
   const Route.post(
     this.path, {
     this.pipeline = const [],
-    this.accepted = const [
-      MimeTypes.json,
-      MimeTypes.xhtml,
-      MimeTypes.txt,
-      MimeTypes.binary,
-      MimeTypes.multipartForm,
-      MimeTypes.urlEncodedForm,
-    ],
+    this.accepted = const [],
   }) : methods = ReqMethods.post;
 
   /// route with PUT method
   const Route.put(
     this.path, {
     this.pipeline = const [],
-    this.accepted = const [
-      MimeTypes.json,
-      MimeTypes.xhtml,
-      MimeTypes.txt,
-      MimeTypes.binary,
-      MimeTypes.multipartForm,
-      MimeTypes.urlEncodedForm,
-    ],
+    this.accepted = const [],
   }) : methods = ReqMethods.put;
 
   /// route with DELETE method
   const Route.delete(
     this.path, {
     this.pipeline = const [],
-    this.accepted = const [
-      MimeTypes.json,
-      MimeTypes.xhtml,
-      MimeTypes.txt,
-      MimeTypes.binary,
-      MimeTypes.multipartForm,
-      MimeTypes.urlEncodedForm,
-    ],
+    this.accepted = const [],
   }) : methods = ReqMethods.delete;
 }

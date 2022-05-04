@@ -24,7 +24,7 @@ pipelinePost(Request req) {
   print('post');
 }
 
-@Route.get('/')
+@Route.ws('/')
 Future example(WebSocket socket) async {
   print('obj');
   socket.listen((event) {

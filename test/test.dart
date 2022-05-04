@@ -1,6 +1,10 @@
 import 'package:cruky/cruky.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      MyApp(),
+      isolates: 2,
+      listeners: 2,
+    );
 
 class MyApp extends ServerApp {
   @override

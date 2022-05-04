@@ -18,7 +18,7 @@ class WebSocketHandler extends RouteHandler {
   @override
   Future handle(Request req) async {
     WebSocket socket = await WebSocketTransformer.upgrade(req.native);
-    handler(socket);
+    await handler(socket);
     return;
   }
 
@@ -57,7 +57,7 @@ class WebSocketHandler extends RouteHandler {
   ) async =>
       WebSocketHandler(
         pipeline,
-        <String>[],
+        acceptedContentType,
         handler.reflectee,
       );
 
