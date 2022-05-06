@@ -38,7 +38,7 @@ void runApp<T extends ServerApp>(T app,
         await item();
       }
 
-      var crukyServer = CrukyServer(data.routes);
+      var crukyServer = CrukyServer(data.routes, data.app.securityContext);
       crukyServer.serve(data.address, data.port, data.listeners);
     }
 
@@ -74,7 +74,7 @@ runInDebugMode(
   IsolateData data,
 ) async {
   kIsDebug = data.app.debug;
-  var server = CrukyServer(data.routes);
+  var server = CrukyServer(data.routes, data.app.securityContext);
   server.serve(data.address, data.port, data.listeners);
   print('Server opened on http://${app.address}:${app.port} '
       'in debug mode');

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 /// An interface that have the required getters and
 /// methods to define an app to add it to the main entry app
 abstract class AppMaterial {
@@ -37,6 +39,9 @@ abstract class ServerApp extends AppMaterial {
 
   /// choose to run the app in debug mode or not
   bool get debug => true;
+
+  /// choose to run the app in debug mode or not
+  SecurityContext? get securityContext => null;
 
   /// this method will be called after calling init method
   /// and running http servers on every isolate

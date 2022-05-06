@@ -8,9 +8,10 @@ import 'package:cruky/src/errors/exp_res.dart';
 import 'path_handler.dart';
 
 class CrukyServer {
+  final SecurityContext? securityContext;
   final List<PathHandler> routes;
 
-  CrukyServer(this.routes);
+  CrukyServer(this.routes, [this.securityContext]);
 
   /// Internal http server
   List<HttpServer> _servers = <HttpServer>[];
@@ -25,7 +26,17 @@ class CrukyServer {
   ) async {
     try {
       for (var i = 0; i < listeners; i++) {
-        final server = await HttpServer.bind(address, port, shared: true);
+        final HttpServer server;
+        if (securityContext != null) {
+          server = await HttpServer.bindSecure(
+            address,
+            port,
+            securityContext!,
+            shared: true,
+          );
+        } else {
+          server = await HttpServer.bind(address, port, shared: true);
+        }
         runZonedGuarded(() {
           server.listen(_handle);
         }, (e, s) {

@@ -1,29 +1,13 @@
 # Roadmap
 
-## Version 1.5.0
+This page will contain the todo list and tasks for developing __cruky__.
+The tasks will be up to date to know what __cruky team__ had finished.
 
-### Add
+## Currently working on
 
 - [ ] Static files handler
 - [ ] Start server for multiple __ServerApp__
-- [ ] Server CRUD code generator for [mysql_client](https://pub.dev/packages/mysql_client)
-
-### Improve
-
-- [ ] Get request data in web socket handler
-
-## Version 1.0.0
-
-### Improve
-
-- [x] how status codes are handled
-- [x] error handling
-- [x] Documentation
-
-### Add
-
-- [x] Add web socket
-- [x] Request schema validator from class
+- [ ] Https support
 
 ## In Future
 
@@ -33,3 +17,7 @@ Features will be added at an unspecified time and may not occur:
 - [ ] Server CRUD code generator inspired by ROR
 - [ ] Auto generator OpenAPI/Swagger page inspired by FastAPI
 - [ ] Auto client code generator from open API inspired by Serverpod
+- [ ] Http 2 support
+
+
+<!-- - [ ] Server CRUD code generator for [mysql_client](https://pub.dev/packages/mysql_client) -->
