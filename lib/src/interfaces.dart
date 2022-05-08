@@ -51,6 +51,9 @@ abstract class InApp {
 
 /// class defines the main things that needed for the main entry app
 abstract class ServerApp extends AppMaterial {
+  /// app unique name for multi apps server
+  String get name => 'MyApp';
+
   /// this is a list of used plugins in your app
   List<PluginApp> get plugins => [];
 

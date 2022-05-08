@@ -15,8 +15,11 @@ import 'package:watcher/watcher.dart';
 
 import 'server.dart';
 
+part './multi_run.dart';
+
 /// ServerApp binded data
 class _App {
+  final String name;
   final bool debugMode;
   final ServerBind Function() init;
   final List<Future<void> Function()> onInit;
@@ -24,14 +27,14 @@ class _App {
 
   _App({
     required this.init,
+    required this.name,
     required this.onInit,
     required this.debugMode,
     required this.routesTree,
   });
 }
 
-void runApp<T extends ServerApp>(T app,
-    {int isolates = 2, bool debug = true}) async {
+void runApp(ServerApp app, {int isolates = 2, bool debug = true}) async {
   final List<PathHandler> routesTree;
   try {
     routesTree = await scan(app);
@@ -49,19 +52,20 @@ void runApp<T extends ServerApp>(T app,
   }
   _App bindedApp = _App(
     init: app.init,
+    name: app.name,
     onInit: inits,
     debugMode: debug,
     routesTree: routesTree,
   );
-  if (debug) return _runAppInDebug(bindedApp, app);
-  _runIsolatedApp(bindedApp);
+  if (debug) return runAppInDebug(bindedApp, app);
+  runIsolatedApp(bindedApp);
   for (var i = 0; i < (isolates - 1); i++) {
-    await Isolate.spawn(_runIsolatedApp, bindedApp);
+    Isolate.spawn(runIsolatedApp, bindedApp);
   }
 }
 
 /// for running the app in isolates in production mode
-void _runIsolatedApp(_App bindedApp) async {
+void runIsolatedApp(_App bindedApp) async {
   kIsDebug = bindedApp.debugMode;
   for (var item in bindedApp.onInit) {
     await item();
@@ -77,7 +81,7 @@ void _runIsolatedApp(_App bindedApp) async {
 }
 
 /// for running app in debug mode
-void _runAppInDebug(_App bindedApp, ServerApp app) async {
+void runAppInDebug(_App bindedApp, ServerApp app) async {
   kIsDebug = bindedApp.debugMode;
 
   var server = CrukyServer(bindedApp.routesTree);
@@ -86,7 +90,7 @@ void _runAppInDebug(_App bindedApp, ServerApp app) async {
   print('Listening on http://${serverBind.address}:${serverBind.port} '
       'in debug mode');
   try {
-    await _watchDir(server, bindedApp, app, serverBind);
+    await watchDir(server, bindedApp, app, serverBind);
   } catch (e) {
     print('Did not find vm debugger on port `8181`'
         ' and the hot reloader will not run\n'
@@ -94,7 +98,7 @@ void _runAppInDebug(_App bindedApp, ServerApp app) async {
   }
 }
 
-Future<void> _watchDir(
+Future<void> watchDir(
   CrukyServer server,
   _App bindedApp,
   ServerApp app,
