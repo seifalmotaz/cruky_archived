@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cruky/src/errors/exp_res.dart';
+import 'package:cruky/src/interfaces.dart';
 
 import 'path_handler.dart';
 
@@ -19,23 +20,19 @@ class CrukyServer {
   /// get http servers list
   Iterable<HttpServer> get servers => List.unmodifiable(_servers);
 
-  void serve(
-    String address,
-    int port,
-    int listeners,
-  ) async {
+  void serve(ServerBind app) async {
     try {
-      for (var i = 0; i < listeners; i++) {
+      for (var i = 0; i < app.listeners; i++) {
         final HttpServer server;
-        if (securityContext != null) {
+        if (app.securityContext != null) {
           server = await HttpServer.bindSecure(
-            address,
-            port,
-            securityContext!,
+            app.address,
+            app.port,
+            app.securityContext!,
             shared: true,
           );
         } else {
-          server = await HttpServer.bind(address, port, shared: true);
+          server = await HttpServer.bind(app.address, app.port, shared: true);
         }
         runZonedGuarded(() {
           server.listen(_handle);

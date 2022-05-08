@@ -1,5 +1,28 @@
 import 'dart:io';
 
+/// HttpServer binding info
+class ServerBind {
+  /// server address
+  final String address;
+
+  /// server port
+  final int port;
+
+  /// number of HttpServer listeners
+  final int listeners;
+
+  /// SecurityContext if you want to secure the protcol with HttpServer.bindSecure
+  final SecurityContext? securityContext;
+
+  /// HttpServer binding info
+  ServerBind({
+    this.address = '127.0.0.1',
+    this.port = 5000,
+    this.listeners = 2,
+    this.securityContext,
+  });
+}
+
 /// An interface that have the required getters and
 /// methods to define an app to add it to the main entry app
 abstract class AppMaterial {
@@ -31,29 +54,12 @@ abstract class ServerApp extends AppMaterial {
   /// this is a list of used plugins in your app
   List<PluginApp> get plugins => [];
 
-  /// choose server address
-  String get address => '127.0.0.1';
-
-  /// choose server port
-  int get port => 5000;
-
-  /// choose to run the app in debug mode or not
-  bool get debug => true;
-
-  /// choose to run the app in debug mode or not
-  SecurityContext? get securityContext => null;
-
-  /// this method will be called after calling init method
-  /// and running http servers on every isolate
-  // void ready() async {}
-
-  /// this method will be called before
-  /// closing all http servers on all isolates
-  // void close() async {}
+  @Deprecated('not used for now')
+  Map get globals => {};
 
   /// this is a method that will call on every
-  /// isolate to run the server with the returned data from __CrukyServer__
-  void init() async {}
+  /// isolate to run the server with the returned data from __ServerBind__
+  ServerBind init() => ServerBind();
 }
 
 /// an app to add it to the main app as plugin
@@ -61,7 +67,7 @@ abstract class ServerApp extends AppMaterial {
 class PluginApp {
   /// this method will be called before calling init method and
   /// running http servers on every isolate
-  void onInit() {}
+  Future<void> onInit() async {}
 
   /// this method will be called after calling init method and
   /// running http servers on every isolate
@@ -77,5 +83,6 @@ class PluginApp {
   /// plugin middleware that will added to application level middleware
   List get pipeline => [];
 
+  @Deprecated('not used for now')
   List get handlers => [];
 }
