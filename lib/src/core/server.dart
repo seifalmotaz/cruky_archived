@@ -3,6 +3,7 @@ library cruky.server;
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/interfaces.dart';
 
@@ -58,17 +59,31 @@ class CrukyServer {
   }
 
   PathHandler? _matchReq(HttpRequest req) {
-    var path2 = req.uri.path;
-    Iterable<PathHandler> matches = routes.where((e) => e.match(path2));
+    var path = req.uri.pathSegments;
+    List<PathHandler> matches = routes.where((e) => e.match(path)).toList();
     if (matches.isEmpty) return null;
-    if (matches.length > 1) {
-      for (var item in matches) {
-        if (item.path.split('/').join() == path2.split('/').join()) {
-          return item;
-        }
+    if (matches.length == 1) return matches.first;
+    Map<int, int> scores = {};
+
+    for (var i = 0; i < matches.length; i++) {
+      PathPattern matchPath = matches[i].pattern;
+      for (var p = 0; p < path.length; p++) {
+        bool b = matchPath.matchSeg(path[p], p);
+        if (b) scores[i] = (scores[i] ?? 0) + 1;
       }
     }
-    return matches.first;
+
+    int i = 0;
+    int iScore = 0;
+
+    scores.forEach((key, value) {
+      if (value > iScore) {
+        iScore = value;
+        i = key;
+      }
+    });
+
+    return matches[i];
   }
 
   void _handle(HttpRequest request) {

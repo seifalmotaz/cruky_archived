@@ -38,4 +38,4 @@ void example(WebSocket socket) { // you can use Future<void> for async method
 ```
 
 !!! danger
-    The middleware after `That have UsePre annotation` the main method will not be executed.
+    The middleware after `That have UsePost annotation` the main method will not be executed.

@@ -26,8 +26,8 @@ class Route {
   const Route.ws(
     this.path, {
     this.pipeline = const [],
-    this.accepted = const [],
-  }) : methods = ReqMethods.get;
+  })  : methods = ReqMethods.get,
+        accepted = const [];
 
   /// route with GET method
   const Route.get(

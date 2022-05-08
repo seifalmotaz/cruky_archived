@@ -3,59 +3,35 @@ import 'package:cruky/src/common/string_converter.dart';
 /// Param info
 class ParamInfo {
   /// param name
-  final String name;
+  String name;
 
   /// param index in path params list
-  final int seg;
-  final int groupInt;
+  int seg;
+  int groupInt;
 
   /// param type
-  final Type type;
+  Type type;
   ParamInfo(this.name, this.type, this.seg, this.groupInt);
 }
 
 /// Path data and regex
 class PathPattern {
-  final bool isAbstract;
-
   /// path regex for matching
   final Map<RegExp, List<ParamInfo>> segmants;
 
   /// Path data and regex
-  PathPattern(this.segmants, this.isAbstract);
-
-  bool matchSeg(String seg, int i) {
-    try {
-      RegExp reg = segmants.keys.toList()[i];
-      if (reg.firstMatch(seg) != null) return true;
-      return false;
-    } on RangeError catch (e) {
-      return false;
-    }
-  }
+  PathPattern(this.segmants);
 
   /// match request path with this path
   bool match(List<String> pathSegmants) {
-    pathSegmants = List.of(pathSegmants)..removeWhere((e) => e.isEmpty);
     List<MapEntry<RegExp, List<ParamInfo>>> entries = segmants.entries.toList();
-    if (!isAbstract) {
-      print(entries);
-      if (pathSegmants.length != entries.length) return false;
-      for (var i = 0; i < pathSegmants.length; i++) {
-        MapEntry<RegExp, List<ParamInfo>> entry = entries[i];
-        String seg = pathSegmants[i];
+    if (pathSegmants.length != entries.length) return false;
+    for (var i = 0; i < pathSegmants.length; i++) {
+      MapEntry<RegExp, List<ParamInfo>> entry = entries[i];
+      String seg = pathSegmants[i];
 
-        RegExpMatch? match = entry.key.firstMatch(seg);
-        if (match == null) return false;
-      }
-    } else {
-      for (var i = 0; i < entries.length; i++) {
-        MapEntry<RegExp, List<ParamInfo>> entry = entries[i];
-        String seg = pathSegmants[i];
-
-        RegExpMatch? match = entry.key.firstMatch(seg);
-        if (match == null) return false;
-      }
+      RegExpMatch? match = entry.key.firstMatch(seg);
+      if (match == null) return false;
     }
     return true;
   }
@@ -102,6 +78,7 @@ class PathPattern {
     bool endWith = true,
   }) {
     List<String> list = path.split('/')..removeWhere((e) => e.isEmpty);
+    path = list.join('/');
 
     final Map<RegExp, List<ParamInfo>> fSegmants = {}; // the final segmants
 
@@ -153,10 +130,6 @@ class PathPattern {
 
       fSegmants.addAll({RegExp(regex): params});
     }
-    if (list.last == '.*' || list.last == '.+') {
-      return PathPattern(fSegmants, true);
-    } else {
-      return PathPattern(fSegmants, false);
-    }
+    return PathPattern(fSegmants);
   }
 }

@@ -20,7 +20,7 @@ class PathHandler {
     required this.pattern,
   });
 
-  bool match(String p) => pattern.match(p);
+  bool match(List<String> p) => pattern.match(p);
 
   Future<void> call(HttpRequest req) async {
     try {
