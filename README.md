@@ -22,12 +22,22 @@ __If you have any idea tell me in discussion section on github <a href="https://
 
 ---
 
-
 ## Requirements
 
-- Install Dart from [Dart.dev](https://dart.dev/)
-- run `dart pub global activate cruky` to install cruky executable
-- create project by running `cruky create appName`
+- Latest Dart version from [Dart.dev](https://dart.dev/)
+- An editor like vcode or android studio.
+
+## Installation
+
+Install cruky globaly
+```console
+$ dart pub global activate cruky
+```
+
+create new project
+```console
+$ cruky create project_name
+```
 
 > <span style="color: #2ECCFA; font-weight: bold">Note:</span> if you run cruky and get `bash: cruky: command not found` error you can do this:
 > 
@@ -96,4 +106,11 @@ void main() => runApp(MyApp());
 // rest of code
 ```
 
-Now run the app with command `dart pub run cruky serve` or you can run `dart run --enable-vm-service --disable-service-auth-codes bin/main.dart` both are the same. this will run the app in debug mode with hot reload.
+Now run the app with command
+```console
+$ cruky serve
+- or
+$ dart pub run cruky serve
+- or
+$ dart run --enable-vm-service --disable-service-auth-codes bin/main.dart
+```
