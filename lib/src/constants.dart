@@ -3,7 +3,7 @@ library cruky.constants;
 import 'handlers/routes/schema/parser.dart';
 
 /// globl variable that hlps you to know the server debug mode
-bool kIsDebug = true;
+late final bool kIsDebug;
 
 final Map<Type, SchemaType> schemaTypes = {};
 
