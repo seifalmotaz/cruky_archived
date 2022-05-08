@@ -6,7 +6,7 @@ The tasks will be up to date to know what __cruky team__ had finished.
 ## Currently working on
 
 - [ ] Static files handler
-- [ ] Start server for multiple __ServerApp__
+- [x] Start server for multiple __ServerApp__
 - [x] Https support
 
 ## In Future
