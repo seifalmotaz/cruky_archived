@@ -19,7 +19,7 @@ class CrukyServer {
   List<HttpServer> _servers = <HttpServer>[];
 
   /// get http servers list
-  Iterable<HttpServer> get servers => List.unmodifiable(_servers);
+  List<HttpServer> get servers => List.unmodifiable(_servers);
 
   void serve(ServerBind app) async {
     try {

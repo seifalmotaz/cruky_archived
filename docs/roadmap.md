@@ -5,8 +5,8 @@ The tasks will be up to date to know what __cruky team__ had finished.
 
 ## Currently working on
 
-- [ ] Static files handler
-- [ ] Search request.uri.path by segmants
+- [x] Static files handler
+- [x] Search request.uri.path by segmants
 - [x] Start server for multiple __ServerApp__
 - [x] Https support
 

@@ -2,7 +2,7 @@
 @port=5000
 @url=http://{{host}}:{{port}}
 
-GET {{url}}/example/get HTTP/1.1
+GET {{url}} /example/get HTTP/1.1
 
 ###
 # middleware test

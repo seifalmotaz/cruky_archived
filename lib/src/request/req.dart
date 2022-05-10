@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/common/string_converter.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:mime/mime.dart';
@@ -15,6 +16,9 @@ import 'common/query.dart';
 class Request {
   /// native [HttpRequest] class from the stream listener
   final HttpRequest native;
+
+  final PathPattern _pathPattern;
+  RegExpMatch get regex => _pathPattern.regex(uri.pathSegments);
 
   /// request query
   final QueryParameters query;
@@ -54,7 +58,8 @@ class Request {
     required this.path,
     required this.query,
     required this.native,
-  });
+    required PathPattern pattern,
+  }) : _pathPattern = pattern;
 
   /// data that passed from the pipeline/middleware
   final Map<Symbol, Object> parser = {};

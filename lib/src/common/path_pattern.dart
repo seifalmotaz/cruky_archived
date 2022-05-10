@@ -29,7 +29,7 @@ class PathPattern {
       RegExp reg = segmants.keys.toList()[i];
       if (reg.firstMatch(seg) != null) return true;
       return false;
-    } on RangeError catch (e) {
+    } on RangeError {
       return false;
     }
   }
@@ -39,7 +39,6 @@ class PathPattern {
     pathSegmants = List.of(pathSegmants)..removeWhere((e) => e.isEmpty);
     List<MapEntry<RegExp, List<ParamInfo>>> entries = segmants.entries.toList();
     if (!isAbstract) {
-      print(entries);
       if (pathSegmants.length != entries.length) return false;
       for (var i = 0; i < pathSegmants.length; i++) {
         MapEntry<RegExp, List<ParamInfo>> entry = entries[i];
@@ -58,6 +57,14 @@ class PathPattern {
       }
     }
     return true;
+  }
+
+  /// get regex
+  RegExpMatch regex(List<String> pathSegmants) {
+    pathSegmants = List.of(pathSegmants)..removeWhere((e) => e.isEmpty);
+    String path = pathSegmants.join('/');
+    String fullRegex = segmants.keys.map((e) => e.pattern).join('/');
+    return RegExp(fullRegex).firstMatch(path)!;
   }
 
   /// get path parameters
@@ -153,7 +160,8 @@ class PathPattern {
 
       fSegmants.addAll({RegExp(regex): params});
     }
-    if (list.last == '.*' || list.last == '.+') {
+    var last = list.last;
+    if (last == '.*' || last == '.+' || last == '(.+)' || last == '(.*)') {
       return PathPattern(fSegmants, true);
     } else {
       return PathPattern(fSegmants, false);

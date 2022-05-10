@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:mirrors';
 
-import 'package:cruky/cruky.dart';
+import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/request/req.dart';
@@ -26,7 +26,7 @@ class WebSocketHandler extends RouteHandler {
   // ignore: invalid_override_of_non_virtual_member
   Future call(
     HttpRequest req,
-    Map<String, dynamic> pathParams,
+    PathPattern pattern,
   ) async {
     if (!acceptedContentType.contains(req.headers.contentType?.mimeType) &&
         acceptedContentType.isNotEmpty) {
@@ -35,7 +35,8 @@ class WebSocketHandler extends RouteHandler {
 
     Request reqCTX = Request(
       native: req,
-      path: pathParams,
+      pattern: pattern,
+      path: pattern.parseParams(req.uri.path),
       query: QueryParameters(req.uri),
     );
 

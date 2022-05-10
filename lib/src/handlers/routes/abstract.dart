@@ -3,6 +3,7 @@ library cruky.handlers;
 import 'dart:io';
 
 import 'package:cruky/cruky.dart';
+import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
@@ -22,7 +23,7 @@ abstract class RouteHandler {
   @nonVirtual
   Future call(
     HttpRequest req,
-    Map<String, dynamic> pathParams,
+    PathPattern pattern,
   ) async {
     if (!acceptedContentType.contains(req.headers.contentType?.mimeType) &&
         acceptedContentType.isNotEmpty) {
@@ -31,7 +32,8 @@ abstract class RouteHandler {
 
     Request reqCTX = Request(
       native: req,
-      path: pathParams,
+      pattern: pattern,
+      path: pattern.parseParams(req.uri.path),
       query: QueryParameters(req.uri),
     );
 

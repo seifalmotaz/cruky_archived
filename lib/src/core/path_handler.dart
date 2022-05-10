@@ -25,12 +25,12 @@ class PathHandler {
   Future<void> call(HttpRequest req) async {
     try {
       req.response.headers.contentType = null;
-      RouteHandler? handler = methods[req.method];
+      RouteHandler? handler = methods[req.method] ?? methods['ANY'];
       if (handler == null) {
         ERes.e405().write(req);
         return;
       }
-      Object? result = await handler(req, pattern.parseParams(req.uri.path));
+      Object? result = await handler(req, pattern);
       if (result != null) writeResponse(result, req);
     } catch (e, s) {
       if (e is ExpRes) {

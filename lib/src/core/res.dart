@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cruky/src/common/ansicolor.dart';
+import 'package:cruky/src/common/mimetypes.dart';
 
 abstract class Response {
   const Response();
@@ -37,6 +38,27 @@ class Json extends Response {
     req.response.statusCode = status;
     req.response.headers.contentType = ContentType.json;
     req.response.write(jsonEncode(body));
+    super.write(req);
+  }
+}
+
+class FileRes extends Response {
+  final String uri;
+  final int status;
+  const FileRes(this.uri, [this.status = 200]);
+
+  @override
+  Future<void> write(HttpRequest req) async {
+    req.response.statusCode = status;
+    File file = File(uri);
+    String? mimetype = MimeTypes.ofFile(file);
+    if (mimetype != null) {
+      List list = mimetype.split('/');
+      req.response.headers.contentType = ContentType(list.first, list.last);
+    } else {
+      req.response.headers.contentType = ContentType.binary;
+    }
+    await req.response.addStream(file.openRead());
     super.write(req);
   }
 }

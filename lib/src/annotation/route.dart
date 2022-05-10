@@ -22,6 +22,13 @@ class Route {
     this.accepted = const [],
   });
 
+  /// route with any method
+  const Route.any(
+    this.path, {
+    this.pipeline = const [],
+  })  : methods = 'ANY',
+        accepted = const [];
+
   /// route with GET method
   const Route.ws(
     this.path, {
