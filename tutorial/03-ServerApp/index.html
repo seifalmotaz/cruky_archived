@@ -346,6 +346,19 @@
     Usage
   </a>
   
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#https" class="md-nav__link">
+    Https
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -544,6 +557,19 @@
     Usage
   </a>
   
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#https" class="md-nav__link">
+    Https
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -566,7 +592,7 @@
 
 <h1 id="serverapp">ServerApp</h1>
 <p><code>ServerApp</code> is the main app that the server will get the routes and all things from it like (port, host, routes, middlewares, plugins).
-This class extends <strong>AppMaterial</strong> and have the same getters.</p>
+This class extends <strong>AppMaterial</strong> and has the same getters.</p>
 <h2 id="getters">Getters</h2>
 <p>It has the same <strong>AppMaterial</strong> getter plus:</p>
 <table>
@@ -579,14 +605,14 @@ This class extends <strong>AppMaterial</strong> and have the same getters.</p>
 </thead>
 <tbody>
 <tr>
-<td>port</td>
+<td>name</td>
 <td>String</td>
-<td>you can define a custom port to use here the default is <strong>5000</strong></td>
+<td>app unique name for multi apps serve</td>
 </tr>
 <tr>
-<td>address</td>
-<td>String</td>
-<td>you can define a custom host to use here the default is <strong>127.0.0.1</strong></td>
+<td>init</td>
+<td>Function</td>
+<td>a method that will call on every isolate to run the server with the returned data from <strong>ServerBind</strong></td>
 </tr>
 <tr>
 <td>plugins</td>
@@ -597,16 +623,22 @@ This class extends <strong>AppMaterial</strong> and have the same getters.</p>
 </table>
 <h2 id="usage">Usage</h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">class</span> <span class="nc">MyApp</span> <span class="kd">extends</span> <span class="n">ServerApp</span> <span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  <span class="kt">int</span> <span class="kd">get</span> <span class="n">port</span> <span class="o">=&gt;</span> <span class="m">80</span><span class="p">;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="kt">String</span> <span class="kd">get</span> <span class="n">address</span> <span class="o">=&gt;</span> <span class="s1">&#39;0.0.0.0&#39;</span><span class="p">;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  <span class="nd">@override</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">routes</span> <span class="o">=&gt;</span> <span class="p">[</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>      <span class="n">ExampleApp</span><span class="p">(),</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  <span class="p">];</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="kt">String</span> <span class="kd">get</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s1">&#39;MyApp&#39;</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="n">ServerBind</span> <span class="n">init</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="n">ServerBind</span><span class="p">(</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="nl">address:</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="nl">port:</span> <span class="m">5000</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="nl">listeners:</span> <span class="m">2</span><span class="p">,</span> <span class="c1">// number of HttpServer listeners</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  <span class="p">);</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  <span class="nd">@override</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  <span class="n">List</span> <span class="kd">get</span> <span class="n">routes</span> <span class="o">=&gt;</span> <span class="p">[</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>      <span class="n">ExampleApp</span><span class="p">(),</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  <span class="p">];</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
 </code></pre></div>
+<h3 id="https">Https</h3>
+<p>You can use the HTTPS listener if you define a securityContext field in <strong>ServerBind</strong> </p>
 
               
             </article>
