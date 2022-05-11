@@ -1,0 +1,25 @@
+{
+    "name": "cruky-snippets",
+    "displayName": "cruky_snippets",
+    "description": "A code snippets helper for cruky microframework developers",
+    "version": "0.0.1",
+    "repository": "0.0.1",
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Snippets"
+    ],
+    "contributes": {
+        "snippets": [
+            {
+                "language": "dart",
+                "path": "./snippets/classes.code-snippets"
+            },
+            {
+                "language": "dart",
+                "path": "./snippets/handlers.code-snippets"
+            }
+        ]
+    }
+}

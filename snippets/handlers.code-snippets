@@ -1,0 +1,70 @@
+{
+    "DirectHandler": {
+        "prefix": "cdh",
+        "description": "create a direct route handler method (DirectHandler)",
+        "body": [
+            "@Route.${1|get,post,put,delete,any,ws|}('$2')",
+            "String ${3:direct}(Request req) {",
+            "   return 'My string';",
+            "}",
+        ]
+    },
+    "JsonHandler": {
+        "prefix": "cjh",
+        "description": "create a json route handler method (JsonHandler)",
+        "body": [
+            "@Route.${1|get,post,put,delete,any,ws|}('$2')",
+            "String ${3:jsonr}(Map body) {",
+            "   return 'My string';",
+            "}",
+        ]
+    },
+    "TextHandler": {
+        "prefix": "cth",
+        "description": "create a text route handler method (TextHandler)",
+        "body": [
+            "@Route.${1|get,post,put,delete,any,ws|}('$2')",
+            "String ${3:textr}(String body) {",
+            "   return 'My string';",
+            "}",
+        ]
+    },
+    "WebSocketHandler": {
+        "prefix": "cwsh",
+        "description": "create a web socket route handler method (WebSocketHandler)",
+        "body": [
+            "@Route.ws('$1')",
+            "${3|void,Future<void>|} ${2:wsr}(WebSocket body) async {",
+            "   socket.listen((event) {});",
+            "}",
+        ]
+    },
+    "SchemaHandler with schema class": {
+        "prefix": "css",
+        "description": "create a schema route handler method (SchemaHandler) and schema validator class",
+        "body": [
+            "@Schema.${1|json,form,iform|}()",
+            "class ${2:SchemaClass} {",
+            "",
+            "final String name;",
+            "",
+            "${2:SchemaClass}.parse(this.name);",
+            "",
+            "}",
+            "@Route.${3|get,post,put,delete,any,ws|}('$4')",
+            "String ${5:schema}(Request req, ${2:SchemaClass} body) {",
+            "   return 'My string';",
+            "}",
+        ]
+    },
+    "SchemaHandler": {
+        "prefix": "csh",
+        "description": "create a schema route handler method (SchemaHandler)",
+        "body": [
+            "@Route.${1|get,post,put,delete,any,ws|}('$2')",
+            "String ${3:textr}(Request req, ${4:SchemaClass} body) {",
+            "   return 'My string';",
+            "}",
+        ]
+    },
+}

@@ -1,0 +1,40 @@
+{
+    "import cruky": {
+        "prefix": "cim",
+        "description": "import cruky package",
+        "body": "import 'package:cruky/cruky.dart';"
+    },
+    "InApp": {
+        "prefix": "cinapp",
+        "description": "create a new InApp class with prefix getter",
+        "body": [
+            "class ${1:MyInApp} extends InApp {",
+            "   @override",
+            "   String get prefix => '/$2';",
+            "",
+            "   @Route.${3|get,post,put,delete,any,ws|}('$4')",
+            "   String ${5:main}(Request req) {",
+            "       return 'My string';",
+            "   }",
+            "}"
+        ]
+    },
+    "AppMaterial": {
+        "prefix": "cappmaterial",
+        "description": "create a new AppMaterial class with prefix getter",
+        "body": [
+            "class ${1:App} extends AppMaterial {",
+            "   @override",
+            "   String get prefix => '/$2';",
+            "",
+            "   @override",
+            "   List get routes => [${5:main},];",
+            "",
+            "   @Route.${3|get,post,put,delete,any,ws|}('$4')",
+            "   String ${5:main}(Request req) {",
+            "       return 'My string';",
+            "   }",
+            "}"
+        ]
+    }
+}
