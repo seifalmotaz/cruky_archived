@@ -3,12 +3,28 @@
     "displayName": "cruky_snippets",
     "description": "A code snippets helper for cruky microframework developers",
     "version": "0.0.1",
-    "repository": "0.0.1",
+    "license": "MIT",
+    "publisher": "SeifAlmotaz",
+    "homepage": "https://seifalmotaz.github.io/cruky/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/seifalmotaz/cruky/tree/snippets"
+    },
     "engines": {
         "vscode": "^1.67.0"
     },
     "categories": [
         "Snippets"
+    ],
+    "author": {
+        "name": "SeifAlmotaz"
+    },
+    "bugs": {
+        "url": "https://github.com/seifalmotaz/cruky/issues"
+    },
+    "keywords": [
+        "cruky",
+        "dart"
     ],
     "contributes": {
         "snippets": [
