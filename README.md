@@ -44,6 +44,15 @@ $ cruky create project_name
 > - try to run `cruky.bat create appName`
 > - if it did not work add `C:\Users\{{Your name}}\AppData\Local\Pub\Cache\bin` to your enviroment variables
 
+## Features
+
+- [x] Simple code to start serving you api
+- [x] Fast performance, this package is built with Dart lang and it's supporting multi isolates
+- [x] Code editor helper __cruky team__ had made a vscode extention [cruky_snippets](https://marketplace.visualstudio.com/items?itemName=SeifAlmotaz.cruky-snippets) to help you to code faster
+- [x] Static files handler
+- [x] Web socket support
+- [x] HTTPS support
+
 ## First lines
 
 First we must define our main app or the server entry point that have all the routes we use in the app

@@ -10,25 +10,29 @@ tags:
 # ServerApp
 
 `ServerApp` is the main app that the server will get the routes and all things from it like (port, host, routes, middlewares, plugins).
-This class extends __AppMaterial__ and have the same getters.
+This class extends __AppMaterial__ and has the same getters.
 
 ## Getters
 
 It has the same __AppMaterial__ getter plus:
 
-| Name    | Type   | Description                                                           |
-| ------- | ------ | --------------------------------------------------------------------- |
-| port    | String | you can define a custom port to use here the default is __5000__      |
-| address | String | you can define a custom host to use here the default is __127.0.0.1__ |
-| plugins | List   | you can add plugins to the app                                        |
+| Name    | Type     | Description                                                                                           |
+| ------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| name    | String   | app unique name for multi apps serve                                                                  |
+| init    | Function | a method that will call on every isolate to run the server with the returned data from __ServerBind__ |
+| plugins | List     | you can add plugins to the app                                                                        |
 
 ## Usage
 
 ```dart
 class MyApp extends ServerApp {
+  String get name => 'MyApp';
 
-  int get port => 80;
-  String get address => '0.0.0.0';
+  ServerBind init() => ServerBind(
+    address: '127.0.0.1',
+    port: 5000,
+    listeners: 2, // number of HttpServer listeners
+  );
 
   @override
   List get routes => [
@@ -36,3 +40,7 @@ class MyApp extends ServerApp {
   ];
 }
 ```
+
+### Https
+
+You can use the HTTPS listener if you define a securityContext field in __ServerBind__ 

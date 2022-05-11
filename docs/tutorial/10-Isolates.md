@@ -31,10 +31,14 @@ For more on [HttpServer class](https://api.dart.dev/stable/2.16.2/dart-io/HttpSe
 void main() => runApp(
       MyApp(),
       isolates: 2, // run in two isolate
-      listeners: 3, // start 2 listeners
     );
 
 class MyApp extends ServerApp {
+  ServerBind init() => ServerBind(
+    address: '127.0.0.1',
+    port: 5000,
+    listeners: 2, // start 2 listeners for this app
+  );
   @override
   List get routes => [
         example,

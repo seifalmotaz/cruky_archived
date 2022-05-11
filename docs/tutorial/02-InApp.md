@@ -30,5 +30,3 @@ class ExampleApp extends InApp {
 | -------- | ------ | ------------------------------------------------------------------------------------- |
 | prefix   | String | this is a route path prefix that will be added as a prefix to all routes children.    |
 | pipeline | List   | here you can add all your middleware to the app and it will be added to all children. |
-
-

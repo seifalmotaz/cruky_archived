@@ -60,9 +60,13 @@ abstract class ServerApp extends AppMaterial {
   @Deprecated('not used for now')
   Map get globals => {};
 
-  /// this is a method that will call on every
+  /// a method that will call on every
   /// isolate to run the server with the returned data from __ServerBind__
-  ServerBind init() => ServerBind();
+  ServerBind init() => ServerBind(
+        address: '127.0.0.1',
+        port: 5000,
+        listeners: 2,
+      );
 }
 
 /// an app to add it to the main app as plugin

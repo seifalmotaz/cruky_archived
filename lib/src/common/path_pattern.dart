@@ -160,7 +160,12 @@ class PathPattern {
 
       fSegmants.addAll({RegExp(regex): params});
     }
-    var last = list.last;
+    String last;
+    try {
+      last = list.last;
+    } catch (e) {
+      last = '';
+    }
     if (last == '.*' || last == '.+' || last == '(.+)' || last == '(.*)') {
       return PathPattern(fSegmants, true);
     } else {
