@@ -2,6 +2,14 @@
 
 This page has every realese notes for any release.
 
+## 1.1.0
+
+- static files handler
+- vscode snippets extention [cruky_snippets](https://marketplace.visualstudio.com/items?itemName=SeifAlmotaz.cruky-snippets)
+- better path handlers
+- adding init method to __ServerApp__
+- https support
+
 ## 1.0.0
 
 - First stable release
