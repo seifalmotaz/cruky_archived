@@ -19,6 +19,9 @@ __If you have any idea tell me in discussion section on github <a href="https://
 
 > Inspired by server-side frameworks like (Django, Flask, FastAPI)
 
+!!! danger
+    This library is not ready for production use until now but you can follow all the realeses in [GitHub repo](https://github.com/seifalmotaz/cruky)
+
 ---
 
 **Pub**: <a href="https://pub.dev/packages/cruky" target="_blank">https://pub.dev/packages/cruky</a>
@@ -30,6 +33,7 @@ __If you have any idea tell me in discussion section on github <a href="https://
 **Issues**: <a href="https://github.com/seifalmotaz/cruky/issues" target="_blank">https://github.com/seifalmotaz/cruky/issues</a>
 
 ---
+
 
 
 ## Requirements

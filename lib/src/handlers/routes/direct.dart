@@ -8,8 +8,7 @@ import 'abstract.dart';
 
 class DirectHandler extends RouteHandler {
   final Function(Request) handler;
-  DirectHandler(mock, accepted, this.handler)
-      : super(mock, acceptedContentType: accepted);
+  DirectHandler(super.mock, super.acceptedContentType, this.handler);
 
   @override
   Future handle(Request req) async => await handler(req);

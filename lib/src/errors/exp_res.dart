@@ -32,10 +32,10 @@ class ERes {
 
   static Json e406([Object? msg]) {
     return Json({
-      "status code": 4046,
+      "status code": 406,
       "name": "Not acceptable",
       if (msg != null) "details": msg,
-    }, 4046);
+    }, 406);
   }
 
   static Json e415([Object? msg]) {

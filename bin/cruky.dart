@@ -19,7 +19,7 @@ Future<void> main(List<String> args) async {
         command.arguments.isEmpty ? './bin/main.dart' : command.arguments.first;
     Process process = await Process.start('dart', [
       'run',
-      '--enable-vm-service',
+      '--enable-vm-service=8876',
       '--disable-service-auth-codes',
       dir,
     ]);

@@ -14,11 +14,42 @@ abstract class RouteHandler {
   final List<Middleware> pre;
   final List<Middleware> post;
   final List<String> acceptedContentType;
-  RouteHandler(PipelineMock mock, {this.acceptedContentType = const []})
+  RouteHandler(PipelineMock mock, this.acceptedContentType)
       : pre = List.of(mock.pre, growable: false),
         post = List.of(mock.post, growable: false);
 
   Future handle(Request req);
+  Future<Map?> openapi(List<ParamInfo> params) async {
+    Map doc = {
+      "parameters": [],
+      "description": "",
+      "responses": {},
+    };
+    for (var param in params) {
+      Map data = {
+        "required": true,
+        "name": param.name,
+        "in": "path",
+        "schema": {"title": param.name}
+      };
+      switch (param.type) {
+        case int:
+          data['schema']!['type'] = 'integer';
+          break;
+        case double:
+          data['schema']!['type'] = 'number';
+          data['schema']!['format'] = 'double';
+          break;
+        case num:
+          data['schema']!['type'] = 'number';
+          break;
+        default:
+          data['schema']!['type'] = 'string';
+      }
+      doc['parameters']!.add(data);
+    }
+    return doc;
+  }
 
   @nonVirtual
   Future call(

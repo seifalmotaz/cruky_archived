@@ -1,0 +1,40 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Cruky - API docs",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "basic"
+                ],
+                "description": "",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "string"
+                        },
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "user",
+                            "type": "string"
+                        },
+                        "name": "user",
+                        "in": "json"
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        }
+    }
+}

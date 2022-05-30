@@ -98,10 +98,7 @@ Future<PipelineMock> getPipelineMock(List pipelineList) async {
 }
 
 Future<List<RouteMock>> getRoutes(
-  List appRoutes,
-  PipelineMock pipeline,
-  List<String> prefix,
-) async {
+    List appRoutes, PipelineMock pipeline, List<String> prefix) async {
   MethodParser methodParser = MethodParser([]);
   for (var i in appRoutes) {
     if (i is Function) {
@@ -114,10 +111,7 @@ Future<List<RouteMock>> getRoutes(
         ..pre.addAll(line.pre)
         ..post.addAll(line.post);
       methodParser.list.addAll(await getRoutes(
-        i.routes,
-        _pipeline,
-        prefix + i.prefix.getUrlSegmants(),
-      ));
+          i.routes, _pipeline, prefix + i.prefix.getUrlSegmants()));
       continue;
     }
     if (i is InApp) {
@@ -132,10 +126,7 @@ Future<List<RouteMock>> getRoutes(
         ..pre.addAll(line.pre)
         ..post.addAll(line.post);
       methodParser.list.addAll(await getRoutes(
-        routes,
-        _pipeline,
-        prefix + i.prefix.getUrlSegmants(),
-      ));
+          routes, _pipeline, prefix + i.prefix.getUrlSegmants()));
     }
   }
   return methodParser.list;

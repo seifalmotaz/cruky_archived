@@ -5,3 +5,4 @@
 # Conventional directory for build output.
 benchmarks/
 site/
+api/

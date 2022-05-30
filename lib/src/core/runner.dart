@@ -104,7 +104,7 @@ Future<void> watchDir(
   ServerApp app,
   ServerBind serverBind,
 ) async {
-  VmService serviceClient = await vmServiceConnectUri('ws://localhost:8181');
+  VmService serviceClient = await vmServiceConnectUri('ws://localhost:8876');
   var vm = await serviceClient.getVM();
 
   Future<void> watchDir(String dir) async {

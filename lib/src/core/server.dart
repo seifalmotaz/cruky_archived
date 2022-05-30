@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/errors/exp_res.dart';
+import 'package:cruky/src/gen/gen.dart';
 import 'package:cruky/src/interfaces.dart';
 
 import 'path_handler.dart';
@@ -13,7 +14,9 @@ class CrukyServer {
   final SecurityContext? securityContext;
   final List<PathHandler> routes;
 
-  CrukyServer(this.routes, [this.securityContext]);
+  CrukyServer(this.routes, [this.securityContext]) {
+    genOpenApi(routes);
+  }
 
   /// Internal http server
   List<HttpServer> _servers = <HttpServer>[];

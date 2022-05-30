@@ -5,5 +5,5 @@ void main() => runApp(MyApp());
 
 class MyApp extends ServerApp {
   @override
-  List get routes => [static('./docs', 'docs')];
+  List get routes => [static('./api', 'api')];
 }

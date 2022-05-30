@@ -172,4 +172,70 @@ class PathPattern {
       return PathPattern(fSegmants, false);
     }
   }
+
+  static Set openapi(
+    String path, {
+    bool startWith = true,
+    bool endWith = true,
+  }) {
+    List<String> list = path.split('/')..removeWhere((e) => e.isEmpty);
+
+    final Map<RegExp, List<ParamInfo>> fSegmants = {}; // the final segmants
+
+    /// path arguments regex
+    final RegExp parmRegExp = RegExp(r":[a-zA-Z]+\(?([^)]+)?\)?:?");
+
+    for (var i = 0; i < list.length; i++) {
+      String seg = list[i];
+      int paramIndex = 0;
+
+      // params has list of ParamInfo
+      final List<ParamInfo> params = [];
+
+      ///
+      String regex = seg.replaceAllMapped(parmRegExp, (Match match) {
+        late Type paramType;
+        String _regex = '';
+
+        String param = match[0]!; // the parameter
+        String? type = match[1]; // the parameter type
+
+        String name = param.substring(
+          1,
+          type == null ? param.length - 1 : param.indexOf('('),
+        );
+        // check parameter type and add the regex
+        if (type == null || type == 'string') {
+          paramType = String;
+          _regex += name;
+        } else {
+          if (type == 'int') {
+            paramType = int;
+            _regex += "{$name}";
+          }
+          if (type == 'double') {
+            paramType = double;
+            _regex += "{$name}";
+          }
+          if (type == 'num') {
+            paramType = num;
+            _regex += "{$name}";
+          }
+        }
+
+        paramIndex++;
+        params.add(ParamInfo(name, paramType, i, paramIndex));
+        return _regex;
+      });
+
+      fSegmants.addAll({RegExp(regex): params});
+    }
+    return {
+      fSegmants.keys.map((e) => e.pattern).join('/'),
+      fSegmants.values.fold<List<ParamInfo>>([], (previousValue, element) {
+        previousValue.addAll(element);
+        return previousValue;
+      })
+    };
+  }
 }

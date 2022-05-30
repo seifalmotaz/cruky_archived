@@ -1,5 +1,8 @@
 import 'package:cruky/cruky.dart';
+import 'package:cruky/static.dart';
 
+/// my data is here
+/// for sec token
 void main() => runApp(MyApp(), isolates: 2);
 
 class MyApp extends ServerApp {
@@ -7,10 +10,16 @@ class MyApp extends ServerApp {
   List get routes => [
         example,
         ExampleApp(),
+        static('./api', 'api'),
       ];
+
+  @override
+  ServerBind init() {
+    return ServerBind(port: 8828);
+  }
 }
 
-@Route.get('/:id(int)', pipeline: [middlewareExample])
+@Route.get('/:id(double)', pipeline: [middlewareExample])
 example(Request req) {
   return req.path['id'].toString();
 }
@@ -18,7 +27,7 @@ example(Request req) {
 @UsePre()
 middlewareExample(Request req) {
   if (req.headerValue('Authorization') == null) {
-    throw Text('Not Auth', 401);
+    throw ExpRes(Text('Not Auth', 401));
   } else {
     req.parser[#token] = req.headerValue('Authorization')!;
   }

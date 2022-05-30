@@ -14,7 +14,7 @@ class SchemaHandler extends RouteHandler {
     required this.handler,
     required this.schema,
     List<String> accepted = const [],
-  }) : super(mock, acceptedContentType: accepted);
+  }) : super(mock, accepted);
 
   @override
   Future handle(Request req) async {

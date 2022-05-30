@@ -2,6 +2,14 @@
 
 This page has every realese notes for any release.
 
+## 0.12.1
+
+I think we hastened to launch the first version of the project, and after delving into some other projects, such as Starlette, I realized that the project still needs to be developed further and add other features until the project is ready to be relied on, so I decided to go back to the version 0.12.0
+
+A big salute to the effort made by every project owner, especially (FastAPI team, ROR team, Django Team, Express team)
+
+By cruky team.
+
 ## 1.1.0
 
 - static files handler

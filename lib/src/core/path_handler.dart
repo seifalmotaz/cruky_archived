@@ -7,6 +7,7 @@ import 'package:cruky/src/handlers/routes/abstract.dart';
 class PathHandler {
   /// native splited path
   final String path;
+  String get correctPath => "/$path/";
 
   /// regex path for matching requests
   final PathPattern pattern;

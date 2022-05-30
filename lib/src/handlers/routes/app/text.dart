@@ -8,8 +8,7 @@ import '../abstract.dart';
 
 class TextHandler extends RouteHandler {
   final Function(String) handler;
-  TextHandler(mock, accepted, this.handler)
-      : super(mock, acceptedContentType: accepted);
+  TextHandler(super.mock, super.acceptedContentType, this.handler);
 
   @override
   Future handle(Request req) async {

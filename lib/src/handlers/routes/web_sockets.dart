@@ -12,8 +12,7 @@ import 'abstract.dart';
 
 class WebSocketHandler extends RouteHandler {
   final Function(WebSocket) handler;
-  WebSocketHandler(mock, accepted, this.handler)
-      : super(mock, acceptedContentType: accepted);
+  WebSocketHandler(super.mock, super.acceptedContentType, this.handler);
 
   @override
   Future handle(Request req) async {

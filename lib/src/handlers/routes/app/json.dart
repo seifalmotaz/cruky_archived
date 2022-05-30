@@ -8,8 +8,7 @@ import '../abstract.dart';
 
 class JsonHandler extends RouteHandler {
   final Function handler;
-  JsonHandler(mock, accepted, this.handler)
-      : super(mock, acceptedContentType: accepted);
+  JsonHandler(super.mock, super.acceptedContentType, this.handler);
 
   @override
   Future handle(Request req) async {
