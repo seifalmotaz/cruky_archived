@@ -5,9 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cruky/cruky.dart';
-import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/common/string_converter.dart';
-import 'package:cruky/src/errors/exp_res.dart';
 import 'package:mime/mime.dart';
 
 import 'common/query.dart';
@@ -16,9 +14,6 @@ import 'common/query.dart';
 class Request {
   /// native [HttpRequest] class from the stream listener
   final HttpRequest native;
-
-  final PathPattern _pathPattern;
-  RegExpMatch get regex => _pathPattern.regex(uri.pathSegments);
 
   /// request query
   final QueryParameters query;
@@ -58,8 +53,7 @@ class Request {
     required this.path,
     required this.query,
     required this.native,
-    required PathPattern pattern,
-  }) : _pathPattern = pattern;
+  });
 
   /// data that passed from the pipeline/middleware
   final Map<Symbol, Object> parser = {};
@@ -101,10 +95,10 @@ class Request {
     stream = ctrl.stream;
 
     if (contentType == null) {
-      throw ExceptionResponse(ExpRes.e415());
+      throw ExpRes.e415().exp();
     }
     if (contentType!.parameters['boundary'] == null) {
-      throw ExceptionResponse(ExpRes.e400("`boundary` not found in headers"));
+      throw ExpRes.e400("`boundary` not found in headers").exp();
     }
 
     late Stream<MimeMultipart> parts;
@@ -112,7 +106,7 @@ class Request {
       parts = MimeMultipartTransformer(contentType!.parameters['boundary']!)
           .bind(stream);
     } catch (e) {
-      throw ExceptionResponse(ExpRes.e400(e.toString()));
+      throw ExpRes.e400(e.toString()).exp();
     }
 
     await for (MimeMultipart part in parts) {
@@ -128,15 +122,15 @@ class Request {
       /// check if the field name exist
       {
         if (fieldNameMatch == null) {
-          throw ExceptionResponse(ExpRes.e400(
+          throw ExpRes.e400(
             "Cannot find the header name field for the request",
-          ));
+          ).exp();
         }
 
         if (fieldNameMatch[1] == null) {
-          throw ExceptionResponse(
-              ExpRes.e400("the form field name is empty please "
-                  "try to put a name for the field"));
+          throw ExpRes.e400("the form field name is empty please "
+                  "try to put a name for the field")
+              .exp();
         }
       }
 
@@ -161,14 +155,14 @@ class Request {
       /// check if the file name exist
       {
         if (fileNameMatch == null) {
-          throw ExceptionResponse(
-              ExpRes.e400("Cannot find the header name field for the request"));
+          throw ExpRes.e400("Cannot find the header name field for the request")
+              .exp();
         }
 
         if (fileNameMatch[1] == null) {
-          throw ExceptionResponse(
-              ExpRes.e400("the form field name is empty please "
-                  "try to put a name for the field"));
+          throw ExpRes.e400("the form field name is empty please "
+                  "try to put a name for the field")
+              .exp();
         }
       }
 

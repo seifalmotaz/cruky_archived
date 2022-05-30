@@ -3,13 +3,13 @@ library cruky.scanner;
 import 'dart:mirrors';
 
 import 'package:cruky/src/annotation/annotation.dart';
-import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/common/string_converter.dart';
-import 'package:cruky/src/core/path_handler.dart';
+import 'package:cruky/src/path/handler.dart';
 import 'package:cruky/src/errors/liberrors.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:cruky/src/handlers/routes/abstract.dart';
 import 'package:cruky/src/interfaces.dart';
+import 'package:cruky/src/path/pattern.dart';
 import 'package:cruky/src/scanner/method.dart';
 
 import 'middleware.dart';

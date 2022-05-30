@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:cruky/src/common/path_pattern.dart';
 import 'package:cruky/src/core/res.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/handlers/routes/abstract.dart';
+import 'package:cruky/src/path/pattern.dart';
 
 class PathHandler {
   /// native splited path
@@ -21,7 +21,7 @@ class PathHandler {
     required this.pattern,
   });
 
-  bool match(List<String> p) => pattern.match(p);
+  bool match(String p) => pattern.match(p);
 
   Future<void> call(HttpRequest req) async {
     try {
@@ -74,5 +74,29 @@ class PathHandler {
       ExpRes.e500('Could not write a response').write(req);
     }
     return;
+  }
+}
+
+class StaticHandler extends PathHandler {
+  final String dir;
+  StaticHandler({
+    required this.dir,
+    required super.methods,
+    required super.path,
+    required super.pattern,
+  });
+
+  @override
+  Future<void> call(HttpRequest req) async {
+    try {} catch (e, s) {
+      if (e is ExceptionResponse) {
+        writExpResponse(e.res, req);
+        return;
+      }
+      print('');
+      print(e);
+      if (s.toString().isNotEmpty) print(s);
+      ExpRes.e500().write(req);
+    }
   }
 }

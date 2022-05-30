@@ -133,10 +133,10 @@ class SchemaType {
             break;
         }
         if (data == null && !param.isNullable) {
-          throw ExceptionResponse(ExpRes.e422({
+          throw ExpRes.e422({
             "validator": "field.required",
             "msg": "field `${param.name}` is required"
-          }));
+          }).exp();
         }
       }
       if (param.isNamed) {
@@ -156,10 +156,10 @@ class SchemaType {
       late dynamic data;
       data = switchType(param, form);
       if (data == null && !param.isNullable) {
-        throw ExceptionResponse(ExpRes.e422({
+        throw ExpRes.e422({
           "validator": "field.required",
           "msg": "field `${param.name}` is required"
-        }));
+        }).exp();
       }
       if (param.isNamed) {
         parameters.addAll({Symbol(param.name): data});
@@ -202,10 +202,10 @@ class SchemaType {
         break;
     }
     if (data == null) {
-      throw ExceptionResponse(ExpRes.e422({
+      throw ExpRes.e422({
         "validator": "field.type_error",
         "msg": "field `${param.name}` is not subtype of ${param.type}"
-      }));
+      }).exp();
     }
   }
 
@@ -216,10 +216,10 @@ class SchemaType {
     for (var param in params) {
       var data = body[param.name];
       if (data == null && !param.isNullable) {
-        throw ExceptionResponse(ExpRes.e422({
+        throw ExpRes.e422({
           "validator": "field.required",
           "msg": "field `${param.name}` is required"
-        }));
+        }).exp();
       }
       if (param.isNamed) {
         parameters.addAll({Symbol(param.name): data});

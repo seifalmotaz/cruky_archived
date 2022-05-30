@@ -3,7 +3,7 @@ library cruky.handlers;
 import 'dart:io';
 
 import 'package:cruky/cruky.dart';
-import 'package:cruky/src/common/path_pattern.dart';
+import 'package:cruky/src/path/pattern.dart';
 import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:cruky/src/scanner/scanner.dart';
@@ -18,7 +18,7 @@ abstract class RouteHandler {
         post = List.of(mock.post, growable: false);
 
   Future handle(Request req);
-  Future<Map?> openapi(List<ParamInfo> params) async {
+  Future<Map?> openapi(List<ParameterInfo> params) async {
     Map doc = {
       "parameters": [],
       "description": "",
@@ -62,8 +62,7 @@ abstract class RouteHandler {
 
     Request reqCTX = Request(
       native: req,
-      pattern: pattern,
-      path: pattern.parseParams(req.uri.path),
+      path: pattern.parse(req.uri.path),
       query: QueryParameters(req.uri),
     );
 

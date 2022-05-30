@@ -13,16 +13,15 @@ class _StaticFilesApp extends InApp {
   @override
   String get prefix => path;
 
-  @Route.any('/(.+)')
+  @Route.any('/:path(path)')
   handler(Request req) {
-    RegExpMatch regex = req.regex;
-    String filePath = regex.group(1)!;
+    String filePath = req.path['path'];
     var split = filePath.split(RegExp(r'/|\\'));
     split.removeWhere((e) => e.isEmpty);
     filePath = split.join('/');
     Iterable<String> uri = filesURIs.where((e) => e.endsWith(filePath));
     if (uri.isEmpty) return ExpRes.e404();
-    return FileRes(parentDir + '/' + filePath);
+    return FileStream(parentDir + '/' + filePath);
   }
 }
 

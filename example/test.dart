@@ -1,11 +1,5 @@
-import 'dart:mirrors';
+//
 
-void main(List<String> args) {
-  InstanceMirror mirror =
-      currentMirrorSystem().isolate.rootLibrary.getField(#myfunc);
-  ClosureMirror mm = mirror as ClosureMirror;
-  print(mm.function.metadata);
-}
 
 // import 'dart:io';
 
@@ -31,10 +25,16 @@ void main(List<String> args) {
 //   }
 // }
 
+// void main(List<String> args) {
+//   InstanceMirror mirror =
+//       currentMirrorSystem().isolate.rootLibrary.getField(#myfunc);
+//   ClosureMirror mm = mirror as ClosureMirror;
+//   print(mm.function.metadata);
+// }
 // /// this is a doc comment
-@ClassName()
-myfunc() {}
+// @ClassName()
+// myfunc() {}
 
-class ClassName {
-  const ClassName();
-}
+// class ClassName {
+//   const ClassName();
+// }

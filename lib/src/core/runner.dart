@@ -6,7 +6,7 @@ import 'dart:isolate';
 
 import 'package:cruky/cruky.dart';
 import 'package:cruky/src/common/ansicolor.dart';
-import 'package:cruky/src/core/path_handler.dart';
+import 'package:cruky/src/path/handler.dart';
 import 'package:cruky/src/errors/liberrors.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 import 'package:vm_service/vm_service.dart' hide Isolate;
