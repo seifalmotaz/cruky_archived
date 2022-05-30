@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:cruky/cruky.dart';
 import 'package:cruky/src/common/path_pattern.dart';
-import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:cruky/src/scanner/scanner.dart';
@@ -58,7 +57,7 @@ abstract class RouteHandler {
   ) async {
     if (!acceptedContentType.contains(req.headers.contentType?.mimeType) &&
         acceptedContentType.isNotEmpty) {
-      return ERes.e415();
+      return ExpRes.e415();
     }
 
     Request reqCTX = Request(

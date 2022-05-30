@@ -29,7 +29,7 @@ class WebSocketHandler extends RouteHandler {
   ) async {
     if (!acceptedContentType.contains(req.headers.contentType?.mimeType) &&
         acceptedContentType.isNotEmpty) {
-      return ERes.e415();
+      return ExpRes.e415();
     }
 
     Request reqCTX = Request(

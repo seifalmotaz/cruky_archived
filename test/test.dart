@@ -27,7 +27,7 @@ example(Request req) {
 @UsePre()
 middlewareExample(Request req) {
   if (req.headerValue('Authorization') == null) {
-    throw ExpRes(Text('Not Auth', 401));
+    throw Text('Not Auth', 401).exp();
   } else {
     req.parser[#token] = req.headerValue('Authorization')!;
   }

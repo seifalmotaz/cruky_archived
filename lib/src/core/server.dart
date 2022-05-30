@@ -95,10 +95,10 @@ class CrukyServer {
       if (matched != null) {
         matched(request);
       } else {
-        ERes.e404().write(request);
+        ExpRes.e404().write(request);
       }
     } catch (e, s) {
-      ERes.e500().write(request);
+      ExpRes.e500().write(request);
       print(e);
       print(s);
     }

@@ -28,24 +28,24 @@ class PathHandler {
       req.response.headers.contentType = null;
       RouteHandler? handler = methods[req.method] ?? methods['ANY'];
       if (handler == null) {
-        ERes.e405().write(req);
+        ExpRes.e405().write(req);
         return;
       }
       Object? result = await handler(req, pattern);
-      if (result != null) writeResponse(result, req);
+      if (result != null) writExpResponse(result, req);
     } catch (e, s) {
-      if (e is ExpRes) {
-        writeResponse(e.res, req);
+      if (e is ExceptionResponse) {
+        writExpResponse(e.res, req);
         return;
       }
       print('');
       print(e);
       if (s.toString().isNotEmpty) print(s);
-      ERes.e500().write(req);
+      ExpRes.e500().write(req);
     }
   }
 
-  void writeResponse(Object result, HttpRequest req) async {
+  void writExpResponse(Object result, HttpRequest req) async {
     try {
       if (result is String) {
         await Text(result).write(req);
@@ -71,7 +71,7 @@ class PathHandler {
     } catch (e, s) {
       print(e);
       print(s);
-      ERes.e500('Could not write a response').write(req);
+      ExpRes.e500('Could not write a response').write(req);
     }
     return;
   }

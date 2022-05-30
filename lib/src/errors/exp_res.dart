@@ -1,11 +1,11 @@
 import 'package:cruky/src/core/res.dart';
 
-class ExpRes {
+class ExceptionResponse {
   final Object res;
-  const ExpRes(this.res);
+  const ExceptionResponse(this.res);
 }
 
-class ERes {
+class ExpRes {
   static Json e400([Object? msg]) {
     return Json({
       "status code": 400,

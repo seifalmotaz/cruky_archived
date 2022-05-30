@@ -101,10 +101,10 @@ class Request {
     stream = ctrl.stream;
 
     if (contentType == null) {
-      throw ExpRes(ERes.e415());
+      throw ExceptionResponse(ExpRes.e415());
     }
     if (contentType!.parameters['boundary'] == null) {
-      throw ExpRes(ERes.e400("`boundary` not found in headers"));
+      throw ExceptionResponse(ExpRes.e400("`boundary` not found in headers"));
     }
 
     late Stream<MimeMultipart> parts;
@@ -112,7 +112,7 @@ class Request {
       parts = MimeMultipartTransformer(contentType!.parameters['boundary']!)
           .bind(stream);
     } catch (e) {
-      throw ExpRes(ERes.e400(e.toString()));
+      throw ExceptionResponse(ExpRes.e400(e.toString()));
     }
 
     await for (MimeMultipart part in parts) {
@@ -128,13 +128,15 @@ class Request {
       /// check if the field name exist
       {
         if (fieldNameMatch == null) {
-          throw ExpRes(
-              ERes.e400("Cannot find the header name field for the request"));
+          throw ExceptionResponse(ExpRes.e400(
+            "Cannot find the header name field for the request",
+          ));
         }
 
         if (fieldNameMatch[1] == null) {
-          throw ExpRes(ERes.e400("the form field name is empty please "
-              "try to put a name for the field"));
+          throw ExceptionResponse(
+              ExpRes.e400("the form field name is empty please "
+                  "try to put a name for the field"));
         }
       }
 
@@ -159,13 +161,14 @@ class Request {
       /// check if the file name exist
       {
         if (fileNameMatch == null) {
-          throw ExpRes(
-              ERes.e400("Cannot find the header name field for the request"));
+          throw ExceptionResponse(
+              ExpRes.e400("Cannot find the header name field for the request"));
         }
 
         if (fileNameMatch[1] == null) {
-          throw ExpRes(ERes.e400("the form field name is empty please "
-              "try to put a name for the field"));
+          throw ExceptionResponse(
+              ExpRes.e400("the form field name is empty please "
+                  "try to put a name for the field"));
         }
       }
 

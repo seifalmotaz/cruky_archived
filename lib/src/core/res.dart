@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cruky/src/common/ansicolor.dart';
 import 'package:cruky/src/common/mimetypes.dart';
+import 'package:cruky/src/errors/exp_res.dart';
 
 abstract class Response {
   const Response();
@@ -11,6 +12,8 @@ abstract class Response {
     print("${info('INFO:')} HTTP/${req.protocolVersion} "
         "${req.method} ${ok(req.uri.path)} ${req.response.statusCode}");
   }
+
+  ExceptionResponse exp() => ExceptionResponse(this);
 }
 
 class Text extends Response {

@@ -3,7 +3,6 @@ library static.static;
 import 'dart:io';
 
 import 'package:cruky/cruky.dart';
-import 'package:cruky/src/errors/exp_res.dart';
 
 class _StaticFilesApp extends InApp {
   final String path;
@@ -22,7 +21,7 @@ class _StaticFilesApp extends InApp {
     split.removeWhere((e) => e.isEmpty);
     filePath = split.join('/');
     Iterable<String> uri = filesURIs.where((e) => e.endsWith(filePath));
-    if (uri.isEmpty) return ERes.e404();
+    if (uri.isEmpty) return ExpRes.e404();
     return FileRes(parentDir + '/' + filePath);
   }
 }

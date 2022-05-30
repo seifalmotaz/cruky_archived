@@ -1,7 +1,6 @@
 import 'dart:mirrors';
 
 import 'package:cruky/cruky.dart';
-import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 
 import '../abstract.dart';
@@ -16,7 +15,7 @@ class JsonHandler extends RouteHandler {
     try {
       return await handler(other);
     } on TypeError {
-      return ERes.e406();
+      return ExpRes.e406();
     }
   }
 
