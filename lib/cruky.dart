@@ -1,7 +1,7 @@
 library cruky;
 
 /// core
-export './src/core/runner.dart' show runApp, multiRun;
+export './src/core/runner.dart' show runApp;
 
 /// main things
 export './src/common.dart';

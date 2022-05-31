@@ -1,10 +1,7 @@
 library cruky.handlers;
 
-import 'dart:io';
-
 import 'package:cruky/cruky.dart';
 import 'package:cruky/src/path/pattern.dart';
-import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/handlers/middleware/main.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 import 'package:meta/meta.dart';

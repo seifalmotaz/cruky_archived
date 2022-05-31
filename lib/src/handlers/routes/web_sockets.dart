@@ -4,7 +4,6 @@ import 'dart:mirrors';
 
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/path/pattern.dart';
-import 'package:cruky/src/request/common/query.dart';
 import 'package:cruky/src/request/req.dart';
 import 'package:cruky/src/scanner/scanner.dart';
 

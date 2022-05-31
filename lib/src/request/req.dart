@@ -36,8 +36,8 @@ class Request {
   /// request session
   HttpSession get session => native.session;
 
-  /// method to get value fro request headers
-  String? headerValue(String i) => native.headers.value(i);
+  /// request client info
+  HttpConnectionInfo? get client => native.connectionInfo;
 
   /// [HttpRequest] headers
   HttpHeaders get headers => native.headers;
@@ -82,10 +82,6 @@ class Request {
 
   /// covert request body to multipart form data
   Future<iFormData> iForm() async {
-    /// get the fields from multi form fields
-    RegExp _matchName = RegExp('name=["|\'](.+)["|\']');
-    RegExp _matchFileName = RegExp('filename=["|\'](.+)["|\']');
-
     final Map<String, List<String>> formFields = {};
     final Map<String, List<FilePart>> formFiles = {};
 
@@ -107,35 +103,24 @@ class Request {
     }
 
     await for (MimeMultipart part in parts) {
-      String headers = part.headers['content-disposition']!;
-
-      /// split headers fields
-      List<String> headersFields = headers.split(';');
-
-      /// get the name of form field
-      String field = headersFields.firstWhere((e) => _matchName.hasMatch(e));
-      RegExpMatch? fieldNameMatch = _matchName.firstMatch(field);
-
-      /// check if the field name exist
+      Map<String, String?> parameters;
       {
-        if (fieldNameMatch == null) {
-          throw ExpRes.e400(
-            "Cannot find the header name field for the request",
-          ).exp();
-        }
-
-        if (fieldNameMatch[1] == null) {
-          throw ExpRes.e400("the form field name is empty please "
-                  "try to put a name for the field")
-              .exp();
-        }
+        final String contentDisposition = part.headers['content-disposition']!;
+        parameters = ContentType.parse(contentDisposition).parameters;
       }
 
-      String name = fieldNameMatch[1]!;
+      /// get the name of form field
+      String? name = parameters['name'];
+
+      /// check if the field name exist
+      if (name == null) {
+        throw ExpRes.e400(
+          "Cannot find the header name field for the request content",
+        ).exp();
+      }
 
       /// check if this part is field or file
-      if (!headers.contains('filename=')) {
-        /// handle if if it's a field
+      if (!parameters.containsKey('filename')) {
         if (formFields.containsKey(name)) {
           formFields[name]!.add(await utf8.decodeStream(part));
         } else {
@@ -144,26 +129,12 @@ class Request {
         continue;
       }
 
-      /// handle if it's file
-      /// get file name from headers
-      field = headersFields.firstWhere((e) => _matchFileName.hasMatch(e));
-      RegExpMatch? fileNameMatch = _matchFileName.firstMatch(headers);
-
-      /// check if the file name exist
-      {
-        if (fileNameMatch == null) {
-          throw ExpRes.e400("Cannot find the header name field for the request")
-              .exp();
-        }
-
-        if (fileNameMatch[1] == null) {
-          throw ExpRes.e400("the form field name is empty please "
-                  "try to put a name for the field")
-              .exp();
-        }
+      /// ================ handle if it's file =====================
+      String? filename = parameters['filename'];
+      if (filename == null) {
+        throw ExpRes.e400("Cannot find the header name field for the request")
+            .exp();
       }
-
-      String filename = fileNameMatch[1]!;
 
       /// add the file to formFiles as stream
       Stream<List<int>> streamBytes = part.asBroadcastStream();
@@ -174,41 +145,5 @@ class Request {
       }
     }
     return iFormData(formFields, formFiles);
-  }
-}
-
-/// Map helper to help you conver String values to other types
-class MapConverter<T extends Map> {
-  final T data;
-  MapConverter(this.data);
-
-  /// get the value as string
-  String? get(String i) => data[i];
-
-  /// get the value as it is
-  dynamic getAny(String i) => data[i];
-
-  /// get value as int
-  int? getInt(String i) {
-    final _data = data[i];
-    if (_data == null) return null;
-    return int.tryParse(_data);
-  }
-
-  /// get value as double
-  double? getDouble(String i) {
-    final _data = data[i];
-    if (_data == null) return null;
-    return double.tryParse(_data);
-  }
-
-  /// get value as bool
-  bool? getBool(String i) {
-    final _data = data[i];
-    if (_data == null) return null;
-    String ii = _data.toLowerCase();
-    if (ii.contains('true')) return true;
-    if (ii.contains('false')) return false;
-    return null;
   }
 }

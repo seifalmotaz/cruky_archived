@@ -17,7 +17,7 @@ class MyApp extends ServerApp {
 
   @override
   ServerBind init() {
-    return ServerBind(port: 8828);
+    return ServerBind(port: 8080);
   }
 }
 
@@ -28,16 +28,16 @@ example(Request req) {
 
 @Route.post('/form')
 exampleForm(Request req) async {
-  var form = await req.form();
+  var form = await req.iForm();
   return form['data'];
 }
 
 @UsePre()
 middlewareExample(Request req) {
-  if (req.headerValue('Authorization') == null) {
+  if (req.headers.value('Authorization') == null) {
     throw Text('Not Auth', 401).exp();
   } else {
-    req.parser[#token] = req.headerValue('Authorization')!;
+    req.parser[#token] = req.headers.value('Authorization')!;
   }
 }
 

@@ -22,10 +22,10 @@ String example(Request req) {
 
 @UsePre()
 middlewareExample(Request req) {
-  if (req.headerValue('Authorization') == null) {
+  if (req.headers.value('Authorization') == null) {
     return Text('Not Auth', 401);
   } else {
-    req.parser[#token] = req.headerValue('Authorization')!;
+    req.parser[#token] = req.headers.value('Authorization')!;
   }
 }
 

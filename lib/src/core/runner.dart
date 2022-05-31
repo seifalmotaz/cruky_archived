@@ -15,8 +15,6 @@ import 'package:watcher/watcher.dart';
 
 import 'server.dart';
 
-part './multi_run.dart';
-
 /// ServerApp binded data
 class _App {
   final String name;
@@ -34,7 +32,17 @@ class _App {
   });
 }
 
-void runApp(ServerApp app, {int isolates = 2, bool debug = true}) async {
+void runApp(ServerApp app, {int isolates = 2}) async {
+  bool debug;
+  {
+    var serverUri = (await Service.getInfo()).serverUri;
+    if (serverUri == null) {
+      debug = false;
+    } else {
+      debug = true;
+    }
+  }
+
   final List<PathHandler> routesTree;
   try {
     routesTree = await scan(app);
@@ -104,7 +112,14 @@ Future<void> watchDir(
   ServerApp app,
   ServerBind serverBind,
 ) async {
-  VmService serviceClient = await vmServiceConnectUri('ws://localhost:8876');
+  String debugSocketURL = "ws://";
+  {
+    Uri uri = (await Service.getInfo()).serverUri!;
+    debugSocketURL += "${uri.host}:";
+    debugSocketURL += uri.port.toString();
+    debugSocketURL += uri.path;
+  }
+  VmService serviceClient = await vmServiceConnectUri(debugSocketURL);
   var vm = await serviceClient.getVM();
 
   Future<void> watchDir(String dir) async {

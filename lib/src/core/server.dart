@@ -4,9 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cruky/cruky.dart';
-import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/gen/gen.dart';
-import 'package:cruky/src/interfaces.dart';
 
 import '../path/handler.dart';
 
