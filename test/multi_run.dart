@@ -26,7 +26,7 @@ class My2App extends ServerApp {
 
 @Route.get('/:id(int)')
 example(Request req) {
-  return req.path['id'].toString();
+  return req.pathParams['id'].toString();
 }
 
 class ExampleApp extends InApp {

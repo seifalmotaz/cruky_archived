@@ -3,6 +3,7 @@ import 'package:cruky/src/core/res.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/handlers/routes/abstract.dart';
 import 'package:cruky/src/path/pattern.dart';
+import 'package:cruky/src/request/req.dart';
 import 'package:path/path.dart' as p;
 
 class PathHandler {
@@ -29,24 +30,28 @@ class PathHandler {
       req.response.headers.contentType = null;
       RouteHandler? handler = methods[req.method] ?? methods['ANY'];
       if (handler == null) {
-        ExpRes.e405().write(req);
+        ExpRes.e405().write(Request.pass(req));
         return;
       }
-      Object? result = await handler(req, pattern);
-      if (result != null) writeResponse(result, req);
+      Request reqCTX = Request(
+        native: req,
+        pathParams: pattern.parse(req.uri.path),
+      );
+      Object? result = await handler(reqCTX, pattern);
+      if (result != null) writeResponse(result, reqCTX);
     } catch (e, s) {
       if (e is ExceptionResponse) {
-        writeResponse(e.res, req);
+        writeResponse(e.res, Request.pass(req));
         return;
       }
       print('');
       print(e);
       if (s.toString().isNotEmpty) print(s);
-      ExpRes.e500().write(req);
+      ExpRes.e500().write(Request.pass(req));
     }
   }
 
-  void writeResponse(Object result, HttpRequest req) async {
+  void writeResponse(Object result, Request req) async {
     // try {
     if (result is String) {
       await Text(result).write(req);
@@ -100,16 +105,16 @@ class StaticHandler extends PathHandler {
             .join('/');
       }
       Iterable<String> uri = filesURIs.where((e) => e.endsWith(path));
-      if (uri.isEmpty) return writeResponse(ExpRes.e404(), req);
-      writeResponse(FileStream(p.join(parentDir, path)), req);
+      if (uri.isEmpty) return writeResponse(ExpRes.e404(), Request.pass(req));
+      writeResponse(FileStream(p.join(parentDir, path)), Request.pass(req));
     } catch (e, s) {
       if (e is ExceptionResponse) {
-        return writeResponse(e.res, req);
+        return writeResponse(e.res, Request.pass(req));
       }
       print('');
       print(e);
       if (s.toString().isNotEmpty) print(s);
-      return ExpRes.e500().write(req);
+      return ExpRes.e500().write(Request.pass(req));
     }
   }
 }

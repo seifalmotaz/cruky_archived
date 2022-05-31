@@ -19,7 +19,7 @@ class Request {
   final QueryParameters query;
 
   /// request path parameters
-  final Map<String, dynamic> path;
+  final Map<String, dynamic> pathParams;
 
   /// native [HttpResponse] class from [HttpRequest]
   HttpResponse get res => native.response;
@@ -39,24 +39,32 @@ class Request {
   /// method to get value fro request headers
   String? headerValue(String i) => native.headers.value(i);
 
-  /// get headers values as map
-  Map<String, List<String>> get headers {
-    Map<String, List<String>> data = {};
-    native.headers.forEach((name, values) {
-      data.addAll({name: values});
-    });
-    return data;
-  }
+  /// [HttpRequest] headers
+  HttpHeaders get headers => native.headers;
 
   /// request manipulating helper
   Request({
-    required this.path,
-    required this.query,
+    required this.pathParams,
     required this.native,
-  });
+  }) : query = QueryParameters(native.uri);
+
+  /// just parsing the [HttpRequest]
+  Request.pass(this.native)
+      : pathParams = {},
+        query = QueryParameters(native.uri);
 
   /// data that passed from the pipeline/middleware
   final Map<Symbol, Object> parser = {};
+
+  Future<Uint8List> body() async {
+    BytesBuilder bytesBuilder = await native.fold<BytesBuilder>(
+        BytesBuilder(copy: false), (a, b) => a..add(b));
+    return bytesBuilder.takeBytes();
+  }
+
+  Stream<Uint8List> bodyStream() {
+    return native.asBroadcastStream();
+  }
 
   /// covert request body to json/map it can return map or list
   Future json() async {
@@ -65,17 +73,11 @@ class Request {
     return body;
   }
 
-  Future<Uint8List> _getBytes(HttpRequest request) {
-    return request
-        .fold<BytesBuilder>(BytesBuilder(copy: false), (a, b) => a..add(b))
-        .then((b) => b.takeBytes());
-  }
-
   /// covert request body to form data
   Future<FormData> form() async {
-    var bytes = await _getBytes(native);
-    Map<String, List<String>> body = String.fromCharCodes(bytes).splitQuery();
-    return FormData(body);
+    var bytes = await body();
+    Map<String, List<String>> value = String.fromCharCodes(bytes).splitQuery();
+    return FormData(value);
   }
 
   /// covert request body to multipart form data
@@ -86,13 +88,8 @@ class Request {
 
     final Map<String, List<String>> formFields = {};
     final Map<String, List<FilePart>> formFiles = {};
-    Stream<Uint8List> stream;
 
-    var bytes = await _getBytes(native);
-    var ctrl = StreamController<Uint8List>()
-      ..add(bytes)
-      ..close();
-    stream = ctrl.stream;
+    Stream<Uint8List> stream = bodyStream();
 
     if (contentType == null) {
       throw ExpRes.e415().exp();

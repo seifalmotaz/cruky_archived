@@ -1,3 +1,82 @@
+import 'package:cruky/cruky.dart' hide ServerApp;
+import 'package:cruky/src/app.dart';
+
+void main(List<String> args) {
+  ServerApp app = ServerApp();
+  app.route(example);
+  app.route(ExampleApp);
+  app.static('./static', '/api/static');
+  app.use(middlewareExample);
+  app.on(() {
+    /// this runs before the [HttpServer] runs in the isolate
+    print("new isolate start");
+  });
+
+  app.run();
+}
+
+@Route.get('/:id(string)')
+String example(Request req) {
+  return req.pathParams['id'];
+}
+
+@UsePre()
+middlewareExample(Request req) {
+  if (req.headerValue('Authorization') == null) {
+    return Text('Not Auth', 401);
+  } else {
+    req.parser[#token] = req.headerValue('Authorization')!;
+  }
+}
+
+class ExampleApp extends AppMaterial {
+  @override
+  String get prefix => '/example';
+
+  @override
+  List get routes => [
+        getExample,
+      ];
+
+  @Route.get('/get')
+  getExample(Request req) {
+    return Text('Nested apps');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 
 

@@ -3,6 +3,7 @@ library cruky.server;
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cruky/cruky.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/gen/gen.dart';
 import 'package:cruky/src/interfaces.dart';
@@ -95,10 +96,10 @@ class CrukyServer {
       if (matched != null) {
         matched(request);
       } else {
-        ExpRes.e404().write(request);
+        ExpRes.e404().write(Request.pass(request));
       }
     } catch (e, s) {
-      ExpRes.e500().write(request);
+      ExpRes.e500().write(Request.pass(request));
       print(e);
       print(s);
     }

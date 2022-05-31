@@ -45,7 +45,12 @@ class QueryParameters {
     return ii.toBool();
   }
 
-  /// get value as bool
+  /// get value as num
+  List<String>? listString(String i) {
+    return map[i];
+  }
+
+  /// get value as list of bool
   ///
   /// if [required] argument is true then all the list is not null
   List<bool?>? listBool(String i, [bool required = false]) {
@@ -62,7 +67,7 @@ class QueryParameters {
     }).toList();
   }
 
-  /// get value as int
+  /// get value as list of int
   ///
   /// if [required] argument is true then all the list is not null
   List<int?>? listInt(String i, [bool required = false]) {
@@ -79,7 +84,7 @@ class QueryParameters {
     }).toList();
   }
 
-  /// get value as double
+  /// get value as list of double
   ///
   /// if [required] argument is true then all the list is not null
   List<double?>? listDouble(String i, [bool required = false]) {
@@ -96,7 +101,7 @@ class QueryParameters {
     }).toList();
   }
 
-  /// get value as num
+  /// get value as list of num
   ///
   /// if [required] argument is true then all the list is not null
   List<num?>? listNum(String i, [bool required = false]) {

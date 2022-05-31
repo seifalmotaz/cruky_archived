@@ -11,6 +11,7 @@ class MyApp extends ServerApp {
   @override
   List get routes => [
         example,
+        exampleForm,
         ExampleApp(),
       ];
 
@@ -22,7 +23,13 @@ class MyApp extends ServerApp {
 
 @Route.get('/:id(double)', pipeline: [middlewareExample])
 example(Request req) {
-  return req.path['id'].toString();
+  return req.pathParams['id'].toString();
+}
+
+@Route.post('/form')
+exampleForm(Request req) async {
+  var form = await req.form();
+  return form['data'];
 }
 
 @UsePre()

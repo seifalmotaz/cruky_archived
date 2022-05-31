@@ -52,7 +52,7 @@ abstract class RouteHandler {
 
   @nonVirtual
   Future call(
-    HttpRequest req,
+    Request req,
     PathPattern pattern,
   ) async {
     if (!acceptedContentType.contains(req.headers.contentType?.mimeType) &&
@@ -60,23 +60,17 @@ abstract class RouteHandler {
       return ExpRes.e415();
     }
 
-    Request reqCTX = Request(
-      native: req,
-      path: pattern.parse(req.uri.path),
-      query: QueryParameters(req.uri),
-    );
-
     for (var item in pre) {
-      final _result = await item.handle(reqCTX);
+      final _result = await item.handle(req);
       if (_result != null) {
         return _result;
       }
     }
 
-    final result = await handle(reqCTX);
+    final result = await handle(req);
 
     for (var item in post) {
-      final _result = await item.handle(reqCTX);
+      final _result = await item.handle(req);
       if (_result != null) {
         return _result;
       }

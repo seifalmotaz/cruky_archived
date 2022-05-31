@@ -4,14 +4,15 @@ import 'dart:io';
 import 'package:cruky/src/common/ansicolor.dart';
 import 'package:cruky/src/common/mimetypes.dart';
 import 'package:cruky/src/errors/exp_res.dart';
+import 'package:cruky/src/request/req.dart';
 
 abstract class Response {
   final int status;
   const Response(this.status);
-  Future<void> write(HttpRequest req) async {
-    req.response.close();
-    print("${info('INFO:')} HTTP/${req.protocolVersion} "
-        "${req.method} ${ok(req.uri.path)} ${req.response.statusCode}");
+  Future<void> write(Request req) async {
+    req.res.close();
+    print("${info('INFO:')} HTTP/${req.native.protocolVersion} "
+        "${req.method} ${ok(req.uri.path)} ${req.res.statusCode}");
   }
 
   ExceptionResponse exp() => ExceptionResponse(this);
@@ -22,10 +23,10 @@ class Text extends Response {
   const Text(this.text, [super.status = 200]);
 
   @override
-  Future<void> write(HttpRequest req) async {
-    req.response.statusCode = status;
-    req.response.headers.contentType = ContentType.text;
-    req.response.write(text);
+  Future<void> write(Request req) async {
+    req.res.statusCode = status;
+    req.res.headers.contentType = ContentType.text;
+    req.res.write(text);
     await super.write(req);
   }
 }
@@ -37,10 +38,10 @@ class Json extends Response {
       : assert(body is Map || body is List);
 
   @override
-  Future<void> write(HttpRequest req) async {
-    req.response.statusCode = status;
-    req.response.headers.contentType = ContentType.json;
-    req.response.write(jsonEncode(body));
+  Future<void> write(Request req) async {
+    req.res.statusCode = status;
+    req.res.headers.contentType = ContentType.json;
+    req.res.write(jsonEncode(body));
     await super.write(req);
   }
 }
@@ -50,16 +51,16 @@ class FileStream extends Response {
   const FileStream(this.uri) : super(200);
 
   @override
-  Future<void> write(HttpRequest req) async {
+  Future<void> write(Request req) async {
     File file = File(uri);
     String? mimetype = MimeTypes.ofFile(file);
     if (mimetype != null) {
       List list = mimetype.split('/');
-      req.response.headers.contentType = ContentType(list.first, list.last);
+      req.res.headers.contentType = ContentType(list.first, list.last);
     } else {
-      req.response.headers.contentType = ContentType.binary;
+      req.res.headers.contentType = ContentType.binary;
     }
-    await req.response
+    await req.res
         .addStream(file.openRead())
         .then((value) async => await super.write(req))
         .onError((error, stackTrace) {

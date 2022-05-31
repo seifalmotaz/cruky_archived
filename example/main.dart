@@ -12,7 +12,7 @@ class MyApp extends ServerApp {
 
 @Route.get('/:id(string)', pipeline: [middlewareExample])
 String example(Request req) {
-  return req.path['id'];
+  return req.pathParams['id'];
 }
 
 @UsePre()
