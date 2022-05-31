@@ -17,7 +17,7 @@ class iFormData extends FormData {
 
   @override
   List? operator [](String i) => formFields[i] ?? formFiles[i];
-  FilePart? getFile(String i) => formFiles[i]?.first;
+  FilePart? file(String i) => formFiles[i]?.first;
 
   iFormData(formFields, this.formFiles) : super(formFields);
 }

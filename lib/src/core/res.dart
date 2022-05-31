@@ -9,7 +9,6 @@ abstract class Response {
   final int status;
   const Response(this.status);
   Future<void> write(HttpRequest req) async {
-    req.response.statusCode = status;
     req.response.close();
     print("${info('INFO:')} HTTP/${req.protocolVersion} "
         "${req.method} ${ok(req.uri.path)} ${req.response.statusCode}");
@@ -20,14 +19,14 @@ abstract class Response {
 
 class Text extends Response {
   final String text;
-
   const Text(this.text, [super.status = 200]);
 
   @override
   Future<void> write(HttpRequest req) async {
+    req.response.statusCode = status;
     req.response.headers.contentType = ContentType.text;
     req.response.write(text);
-    super.write(req);
+    await super.write(req);
   }
 }
 
@@ -39,15 +38,16 @@ class Json extends Response {
 
   @override
   Future<void> write(HttpRequest req) async {
+    req.response.statusCode = status;
     req.response.headers.contentType = ContentType.json;
     req.response.write(jsonEncode(body));
-    super.write(req);
+    await super.write(req);
   }
 }
 
 class FileStream extends Response {
   final String uri;
-  const FileStream(this.uri, [super.status = 200]);
+  const FileStream(this.uri) : super(200);
 
   @override
   Future<void> write(HttpRequest req) async {
@@ -61,7 +61,7 @@ class FileStream extends Response {
     }
     await req.response
         .addStream(file.openRead())
-        .then((value) => super.write(req))
+        .then((value) async => await super.write(req))
         .onError((error, stackTrace) {
       Text("Error when sending file data", 500).write(req);
     });

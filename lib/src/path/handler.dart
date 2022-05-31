@@ -3,6 +3,7 @@ import 'package:cruky/src/core/res.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/handlers/routes/abstract.dart';
 import 'package:cruky/src/path/pattern.dart';
+import 'package:path/path.dart' as p;
 
 class PathHandler {
   /// native splited path
@@ -32,10 +33,10 @@ class PathHandler {
         return;
       }
       Object? result = await handler(req, pattern);
-      if (result != null) writExpResponse(result, req);
+      if (result != null) writeResponse(result, req);
     } catch (e, s) {
       if (e is ExceptionResponse) {
-        writExpResponse(e.res, req);
+        writeResponse(e.res, req);
         return;
       }
       print('');
@@ -45,42 +46,44 @@ class PathHandler {
     }
   }
 
-  void writExpResponse(Object result, HttpRequest req) async {
-    try {
-      if (result is String) {
-        await Text(result).write(req);
-        return;
-      }
-      if (result is List) {
-        await Json(result).write(req);
-        return;
-      }
-      if (result is Map) {
-        if (result.containsKey(#status)) {
-          result.removeWhere((key, value) => key is Symbol);
-          await Json(result, result[#status]).write(req);
-          return;
-        }
-        await Json(result).write(req);
-        return;
-      }
-      if (result is Response) {
-        await result.write(req);
-        return;
-      }
-    } catch (e, s) {
-      print(e);
-      print(s);
-      ExpRes.e500('Could not write a response').write(req);
+  void writeResponse(Object result, HttpRequest req) async {
+    // try {
+    if (result is String) {
+      await Text(result).write(req);
+      return;
     }
+    if (result is List) {
+      await Json(result).write(req);
+      return;
+    }
+    if (result is Map) {
+      if (result.containsKey(#status)) {
+        result.removeWhere((key, value) => key is Symbol);
+        await Json(result, result[#status]).write(req);
+        return;
+      }
+      await Json(result).write(req);
+      return;
+    }
+    if (result is Response) {
+      await result.write(req);
+      return;
+    }
+    // } catch (e, s) {
+    //   print(e);
+    //   print(s);
+    //   ExpRes.e500('Could not write a response').write(req);
+    // }
     return;
   }
 }
 
 class StaticHandler extends PathHandler {
-  final String dir;
+  final String parentDir;
+  final List<String> filesURIs;
   StaticHandler({
-    required this.dir,
+    required this.parentDir,
+    required this.filesURIs,
     required super.methods,
     required super.path,
     required super.pattern,
@@ -88,15 +91,25 @@ class StaticHandler extends PathHandler {
 
   @override
   Future<void> call(HttpRequest req) async {
-    try {} catch (e, s) {
+    try {
+      String path;
+      {
+        Map<String, dynamic> parameters = pattern.parse(req.uri.path);
+        path = parameters['path'];
+        path = (path.split(RegExp(r"\/|\\"))..removeWhere((e) => e.isEmpty))
+            .join('/');
+      }
+      Iterable<String> uri = filesURIs.where((e) => e.endsWith(path));
+      if (uri.isEmpty) return writeResponse(ExpRes.e404(), req);
+      writeResponse(FileStream(p.join(parentDir, path)), req);
+    } catch (e, s) {
       if (e is ExceptionResponse) {
-        writExpResponse(e.res, req);
-        return;
+        return writeResponse(e.res, req);
       }
       print('');
       print(e);
       if (s.toString().isNotEmpty) print(s);
-      ExpRes.e500().write(req);
+      return ExpRes.e500().write(req);
     }
   }
 }

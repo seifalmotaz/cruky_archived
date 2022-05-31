@@ -1,5 +1,4 @@
 import 'package:cruky/cruky.dart';
-import 'package:cruky/static.dart';
 
 /// my data is here
 /// for sec token
@@ -7,10 +6,12 @@ void main() => runApp(MyApp(), isolates: 2);
 
 class MyApp extends ServerApp {
   @override
+  Map<String, String> get statics => {"./docs": "/docs"};
+
+  @override
   List get routes => [
         example,
         ExampleApp(),
-        static('./api', 'api'),
       ];
 
   @override

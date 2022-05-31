@@ -1,5 +1,6 @@
 library cruky.scanner;
 
+import 'dart:io';
 import 'dart:mirrors';
 
 import 'package:cruky/src/annotation/annotation.dart';
@@ -79,6 +80,49 @@ Future<List<PathHandler>> scan<T extends ServerApp>(T app) async {
       methods: methods,
       path: path,
       pattern: PathPattern.parse(path),
+    ));
+  }
+
+  for (var static in app.statics.entries) {
+    final String parentDir = static.key;
+    String exposePath = (static.value.split(RegExp(r'\/|\\'))
+          ..removeWhere((e) => e.isEmpty))
+        .join('/');
+    exposePath = '/$exposePath/:path(path)/';
+
+    List<String> filesPaths = [];
+    {
+      List<FileSystemEntity> list;
+      try {
+        list = Directory(parentDir).listSync(recursive: true);
+      } on FileSystemException {
+        throw FileSystemException(
+            "Did not find the directory"
+            "\n- Try to add `./` before the folder name if it's the command line working directory."
+            "\n- Or add the full path directory.",
+            parentDir);
+      }
+      for (var entity in list) {
+        FileSystemEntityType type = FileSystemEntity.typeSync(entity.path);
+        if (type == FileSystemEntityType.file) {
+          var split = entity.path.split(RegExp(r'/|\\'));
+          split.removeWhere((element) => element.isEmpty);
+          {
+            var s = parentDir.split(RegExp(r'/|\\'));
+            split.removeWhere((element) => s.contains(element));
+          }
+          String p = split.join('/');
+          filesPaths.add(p);
+        }
+      }
+    }
+
+    routesTree.add(StaticHandler(
+      parentDir: parentDir,
+      filesURIs: filesPaths,
+      methods: {},
+      pattern: PathPattern.parse(exposePath),
+      path: exposePath,
     ));
   }
   return routesTree;

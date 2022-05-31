@@ -21,6 +21,7 @@ class PathPattern {
 
   /// map the parameters from request uri.path
   Map<String, dynamic> parse(String reqPath) {
+    reqPath = reqPath.replaceAll(r'\', "/");
     final RegExpMatch expMatch = regExp.firstMatch(reqPath)!;
     final Map<String, dynamic> data = {};
     for (ParameterInfo parameter in parameters) {

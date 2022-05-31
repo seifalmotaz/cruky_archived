@@ -57,6 +57,8 @@ abstract class ServerApp extends AppMaterial {
   /// this is a list of used plugins in your app
   List<PluginApp> get plugins => [];
 
+  Map<String, String> get statics => {};
+
   @Deprecated('not used for now')
   Map get globals => {};
 

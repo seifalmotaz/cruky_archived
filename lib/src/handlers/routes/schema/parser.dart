@@ -126,7 +126,7 @@ class SchemaType {
       if (data == null) {
         switch (param.type) {
           case FilePart:
-            data = form.getFile(param.name);
+            data = form.file(param.name);
             break;
           case List<FilePart>:
             data = form.formFiles[param.name];
