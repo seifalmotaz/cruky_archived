@@ -1,12 +1,15 @@
 library cruky.server;
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:cruky/cruky.dart';
 import 'package:cruky/src/gen/gen.dart';
 
 import '../path/handler.dart';
+import 'constants.dart';
 
 class CrukyServer {
   final SecurityContext? securityContext;
@@ -49,9 +52,15 @@ class CrukyServer {
         });
         _servers.add(server);
       }
+      try {
+        ProcessSignal.sigint.watch().listen(onCommandClose);
+        ProcessSignal.sigquit.watch().listen(onCommandClose);
+      } catch (e) {
+        // something not supported
+      }
     } catch (e) {
       try {
-        close();
+        await close();
       } catch (e) {
         // ignore error
       }
@@ -104,11 +113,11 @@ class CrukyServer {
   }
 
   /// Closes the servers
-  void close() {
+  Future<void> close() async {
     dynamic err;
     for (HttpServer server in _servers) {
       try {
-        server.close(force: true);
+        await server.close(force: true);
       } catch (e) {
         err ??= e;
       }
@@ -117,5 +126,12 @@ class CrukyServer {
       throw err;
     }
     _servers = [];
+  }
+
+  void onCommandClose(ProcessSignal signal) async {
+    print(
+        "[${Service.getIsolateID(Isolate.current)}] Closing HttpServer(s)...");
+    await close();
+    exit(1);
   }
 }

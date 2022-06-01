@@ -4,6 +4,7 @@ import 'handlers/routes/schema/parser.dart';
 
 /// globl variable that hlps you to know the server debug mode
 late final bool kIsDebug;
+late final bool printLogs;
 
 final Map<Type, SchemaType> schemaTypes = {};
 

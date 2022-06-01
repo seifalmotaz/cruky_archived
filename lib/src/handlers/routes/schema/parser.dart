@@ -117,7 +117,7 @@ class SchemaType {
   }
 
   Future<dynamic> _iform(Request req) async {
-    iFormData form = await req.iForm();
+    FormData form = await req.form();
     final List arguments = [];
     final Map<Symbol, dynamic> parameters = {};
     for (var param in params) {

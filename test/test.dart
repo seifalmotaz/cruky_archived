@@ -28,7 +28,7 @@ example(Request req) {
 
 @Route.post('/form')
 exampleForm(Request req) async {
-  var form = await req.iForm();
+  var form = await req.form();
   return form['data'];
 }
 

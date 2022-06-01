@@ -3,26 +3,23 @@ import 'package:cruky/src/core/res.dart';
 
 import 'common/file_part.dart';
 
-/// form data
+/// `multipart/form-data` and `application/x-www-form-urlencoded`  content data
 class FormData {
+  /// form fields as a list of string value for multiple value field
   final Map<String, List<String>> formFields;
-  List? operator [](String i) => formFields[i];
-  FormData(this.formFields);
-}
 
-/// multipart form data
-// ignore: camel_case_types
-class iFormData extends FormData {
+  /// form fields as a list of [FilePart] value for multiple value field
   final Map<String, List<FilePart>> formFiles;
 
-  @override
+  /// get data from [formFields] or [formFiles] variables with the field name [i]
   List? operator [](String i) => formFields[i] ?? formFiles[i];
+
+  /// get single value from [formFiles] with the field name [i]
   FilePart? file(String i) => formFiles[i]?.first;
 
-  iFormData(formFields, this.formFiles) : super(formFields);
-}
+  /// init new content
+  FormData(this.formFields, this.formFiles);
 
-extension GetData on FormData {
   /// get value of field as [int]
   String? getString(String name) => formFields[name]?.first;
 

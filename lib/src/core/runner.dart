@@ -19,6 +19,7 @@ import 'server.dart';
 class _App {
   final String name;
   final bool debugMode;
+  final bool printlogs;
   final ServerBind Function() init;
   final List<Future<void> Function()> onInit;
   final List<PathHandler> routesTree;
@@ -28,11 +29,12 @@ class _App {
     required this.name,
     required this.onInit,
     required this.debugMode,
+    required this.printlogs,
     required this.routesTree,
   });
 }
 
-void runApp(ServerApp app, {int isolates = 2}) async {
+void runApp(ServerApp app, {int isolates = 2, bool printlogs = true}) async {
   bool debug;
   {
     var serverUri = (await Service.getInfo()).serverUri;
@@ -63,6 +65,7 @@ void runApp(ServerApp app, {int isolates = 2}) async {
     name: app.name,
     onInit: inits,
     debugMode: debug,
+    printlogs: printlogs,
     routesTree: routesTree,
   );
   if (debug) return runAppInDebug(bindedApp, app);
@@ -75,6 +78,7 @@ void runApp(ServerApp app, {int isolates = 2}) async {
 /// for running the app in isolates in production mode
 void runIsolatedApp(_App bindedApp) async {
   kIsDebug = bindedApp.debugMode;
+  printLogs = bindedApp.printlogs;
   for (var item in bindedApp.onInit) {
     await item();
   }
@@ -84,13 +88,14 @@ void runIsolatedApp(_App bindedApp) async {
   server.serve(serverBind);
 
   var isolateID = Service.getIsolateID(Isolate.current);
-  print('Listening on http://${serverBind.address}:${serverBind.port} '
-      'served by isolate `$isolateID`');
+  print('[$isolateID] Listening on '
+      'http://${serverBind.address}:${serverBind.port}');
 }
 
 /// for running app in debug mode
 void runAppInDebug(_App bindedApp, ServerApp app) async {
   kIsDebug = bindedApp.debugMode;
+  printLogs = bindedApp.printlogs;
 
   var server = CrukyServer(bindedApp.routesTree);
   ServerBind serverBind = bindedApp.init();

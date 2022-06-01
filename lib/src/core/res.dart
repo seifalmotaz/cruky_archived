@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cruky/src/common/ansicolor.dart';
 import 'package:cruky/src/common/mimetypes.dart';
+import 'package:cruky/src/constants.dart';
 import 'package:cruky/src/errors/exp_res.dart';
 import 'package:cruky/src/request/req.dart';
 
@@ -11,8 +12,11 @@ abstract class Response {
   const Response(this.status);
   Future<void> write(Request req) async {
     req.res.close();
-    print("${info('INFO:')} HTTP/${req.native.protocolVersion} "
-        "${req.method} ${ok(req.uri.path)} ${req.res.statusCode}");
+    if (printLogs) {
+      print("${info('INFO:')} [${DateTime.now().toIso8601String()}] "
+          "HTTP/${req.native.protocolVersion} "
+          "${req.method} ${ok(req.uri.path)} ${req.res.statusCode}");
+    }
   }
 
   ExceptionResponse exp() => ExceptionResponse(this);

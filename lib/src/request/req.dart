@@ -73,15 +73,34 @@ class Request {
     return body;
   }
 
+  /// covert the form data to [FormData] class that contains the fields and the files if exist
+  Future<FormData> form([Function()? onContentTypeError]) async {
+    if (contentType?.mimeType == MimeTypes.urlEncodedForm) {
+      return await _form();
+    } else if (contentType?.mimeType == MimeTypes.multipartForm) {
+      return await _multipartForm();
+    }
+    if (onContentTypeError != null) {
+      onContentTypeError();
+      return FormData({}, {});
+    }
+    throw {
+      #status: 415,
+      "msg": "cannot decode the body of the request",
+      "details": "${contentType?.mimeType} is not "
+          "subtype of form or multipart/form"
+    };
+  }
+
   /// covert request body to form data
-  Future<FormData> form() async {
+  Future<FormData> _form() async {
     var bytes = await body();
     Map<String, List<String>> value = String.fromCharCodes(bytes).splitQuery();
-    return FormData(value);
+    return FormData(value, {});
   }
 
   /// covert request body to multipart form data
-  Future<iFormData> iForm() async {
+  Future<FormData> _multipartForm() async {
     final Map<String, List<String>> formFields = {};
     final Map<String, List<FilePart>> formFiles = {};
 
@@ -144,6 +163,6 @@ class Request {
         formFiles[name] = [FilePart(name, filename, streamBytes)];
       }
     }
-    return iFormData(formFields, formFiles);
+    return FormData(formFields, formFiles);
   }
 }
